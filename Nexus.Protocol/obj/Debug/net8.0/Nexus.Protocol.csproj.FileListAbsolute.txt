@@ -1,0 +1,15 @@
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\bin\Debug\net8.0\Nexus.Protocol.deps.json
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\bin\Debug\net8.0\Nexus.Protocol.dll
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\bin\Debug\net8.0\Nexus.Protocol.pdb
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\bin\Debug\net8.0\Nexus.Core.dll
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\bin\Debug\net8.0\Nexus.Core.pdb
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\obj\Debug\net8.0\Nexus.Protocol.csproj.AssemblyReference.cache
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\obj\Debug\net8.0\Nexus.Protocol.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\obj\Debug\net8.0\Nexus.Protocol.AssemblyInfoInputs.cache
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\obj\Debug\net8.0\Nexus.Protocol.AssemblyInfo.cs
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\obj\Debug\net8.0\Nexus.Protocol.csproj.CoreCompileInputs.cache
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\obj\Debug\net8.0\Nexus.Pr.49153667.Up2Date
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\obj\Debug\net8.0\Nexus.Protocol.dll
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\obj\Debug\net8.0\refint\Nexus.Protocol.dll
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\obj\Debug\net8.0\Nexus.Protocol.pdb
+C:\Users\mcdor\Downloads\Nexus\Nexus.Protocol\obj\Debug\net8.0\ref\Nexus.Protocol.dll

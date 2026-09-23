@@ -1,0 +1,15 @@
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\bin\Debug\net8.0\Nexus.State.deps.json
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\bin\Debug\net8.0\Nexus.State.dll
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\bin\Debug\net8.0\Nexus.State.pdb
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\bin\Debug\net8.0\Nexus.Core.dll
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\bin\Debug\net8.0\Nexus.Core.pdb
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\obj\Debug\net8.0\Nexus.State.csproj.AssemblyReference.cache
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\obj\Debug\net8.0\Nexus.State.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\obj\Debug\net8.0\Nexus.State.AssemblyInfoInputs.cache
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\obj\Debug\net8.0\Nexus.State.AssemblyInfo.cs
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\obj\Debug\net8.0\Nexus.State.csproj.CoreCompileInputs.cache
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\obj\Debug\net8.0\Nexus.St.1E4CC007.Up2Date
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\obj\Debug\net8.0\Nexus.State.dll
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\obj\Debug\net8.0\refint\Nexus.State.dll
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\obj\Debug\net8.0\Nexus.State.pdb
+C:\Users\mcdor\Downloads\Nexus\Nexus.State\obj\Debug\net8.0\ref\Nexus.State.dll
