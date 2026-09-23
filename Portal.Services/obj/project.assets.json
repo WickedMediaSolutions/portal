@@ -1,0 +1,142 @@
+{
+  "version": 4,
+  "targets": {
+    "net8.0": {
+      "Portal.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Portal.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Portal.Core.dll": {}
+        }
+      },
+      "Portal.Networking/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Portal.Core": "1.0.0",
+          "Portal.Protocol": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Portal.Networking.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Portal.Networking.dll": {}
+        }
+      },
+      "Portal.Protocol/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Portal.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Portal.Protocol.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Portal.Protocol.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Portal.Core/1.0.0": {
+      "type": "project",
+      "path": "../Portal.Core/Portal.Core.csproj",
+      "msbuildProject": "../Portal.Core/Portal.Core.csproj"
+    },
+    "Portal.Networking/1.0.0": {
+      "type": "project",
+      "path": "../Portal.Networking/Portal.Networking.csproj",
+      "msbuildProject": "../Portal.Networking/Portal.Networking.csproj"
+    },
+    "Portal.Protocol/1.0.0": {
+      "type": "project",
+      "path": "../Portal.Protocol/Portal.Protocol.csproj",
+      "msbuildProject": "../Portal.Protocol/Portal.Protocol.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "Portal.Core >= 1.0.0",
+      "Portal.Networking >= 1.0.0",
+      "Portal.Protocol >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\mcdor\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\mcdor\\portal\\Portal.Services\\Portal.Services.csproj",
+      "projectName": "Portal.Services",
+      "projectPath": "C:\\Users\\mcdor\\portal\\Portal.Services\\Portal.Services.csproj",
+      "packagesPath": "C:\\Users\\mcdor\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mcdor\\portal\\Portal.Services\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\mcdor\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "framework": "net8.0",
+          "targetAlias": "net8.0",
+          "projectReferences": {
+            "C:\\Users\\mcdor\\portal\\Portal.Core\\Portal.Core.csproj": {
+              "projectPath": "C:\\Users\\mcdor\\portal\\Portal.Core\\Portal.Core.csproj"
+            },
+            "C:\\Users\\mcdor\\portal\\Portal.Networking\\Portal.Networking.csproj": {
+              "projectPath": "C:\\Users\\mcdor\\portal\\Portal.Networking\\Portal.Networking.csproj"
+            },
+            "C:\\Users\\mcdor\\portal\\Portal.Protocol\\Portal.Protocol.csproj": {
+              "projectPath": "C:\\Users\\mcdor\\portal\\Portal.Protocol\\Portal.Protocol.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "10.0.400"
+    },
+    "frameworks": {
+      "net8.0": {
+        "framework": "net8.0",
+        "targetAlias": "net8.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

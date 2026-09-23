@@ -1,0 +1,16 @@
+C:\Users\mcdor\Portal\Portal.Data\bin\Debug\net8.0\Portal.Data.deps.json
+C:\Users\mcdor\portal\Portal.Data\bin\Debug\net8.0\Portal.Data.dll
+C:\Users\mcdor\portal\Portal.Data\bin\Debug\net8.0\Portal.Data.pdb
+C:\Users\mcdor\portal\Portal.Data\bin\Debug\net8.0\Portal.Core.dll
+C:\Users\mcdor\portal\Portal.Data\bin\Debug\net8.0\Portal.Core.pdb
+C:\Users\mcdor\portal\Portal.Data\obj\Debug\net8.0\Portal.Data.csproj.AssemblyReference.cache
+C:\Users\mcdor\portal\Portal.Data\obj\Debug\net8.0\Portal.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mcdor\portal\Portal.Data\obj\Debug\net8.0\Portal.Data.AssemblyInfoInputs.cache
+C:\Users\mcdor\portal\Portal.Data\obj\Debug\net8.0\Portal.Data.AssemblyInfo.cs
+C:\Users\mcdor\portal\Portal.Data\obj\Debug\net8.0\Portal.Data.csproj.CoreCompileInputs.cache
+C:\Users\mcdor\portal\Portal.Data\obj\Debug\net8.0\Portal.Data.sourcelink.json
+C:\Users\mcdor\Portal\Portal.Data\obj\Debug\net8.0\Portal.D.6E96CFDE.Up2Date
+C:\Users\mcdor\portal\Portal.Data\obj\Debug\net8.0\Portal.Data.dll
+C:\Users\mcdor\portal\Portal.Data\obj\Debug\net8.0\refint\Portal.Data.dll
+C:\Users\mcdor\portal\Portal.Data\obj\Debug\net8.0\Portal.Data.pdb
+C:\Users\mcdor\Portal\Portal.Data\obj\Debug\net8.0\ref\Portal.Data.dll

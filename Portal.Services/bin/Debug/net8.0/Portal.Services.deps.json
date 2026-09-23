@@ -1,0 +1,74 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Portal.Services/1.0.0": {
+        "dependencies": {
+          "Portal.Core": "1.0.0",
+          "Portal.Networking": "1.0.0",
+          "Portal.Protocol": "1.0.0"
+        },
+        "runtime": {
+          "Portal.Services.dll": {}
+        }
+      },
+      "Portal.Core/1.0.0": {
+        "runtime": {
+          "Portal.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Portal.Networking/1.0.0": {
+        "dependencies": {
+          "Portal.Core": "1.0.0",
+          "Portal.Protocol": "1.0.0"
+        },
+        "runtime": {
+          "Portal.Networking.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Portal.Protocol/1.0.0": {
+        "dependencies": {
+          "Portal.Core": "1.0.0"
+        },
+        "runtime": {
+          "Portal.Protocol.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Portal.Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Portal.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Portal.Networking/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Portal.Protocol/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

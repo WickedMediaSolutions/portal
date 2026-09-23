@@ -1,0 +1,16 @@
+C:\Users\mcdor\portal\Portal.State\bin\Debug\net8.0\Portal.State.deps.json
+C:\Users\mcdor\portal\Portal.State\bin\Debug\net8.0\Portal.State.dll
+C:\Users\mcdor\portal\Portal.State\bin\Debug\net8.0\Portal.State.pdb
+C:\Users\mcdor\portal\Portal.State\bin\Debug\net8.0\Portal.Core.dll
+C:\Users\mcdor\portal\Portal.State\bin\Debug\net8.0\Portal.Core.pdb
+C:\Users\mcdor\portal\Portal.State\obj\Debug\net8.0\Portal.State.csproj.AssemblyReference.cache
+C:\Users\mcdor\portal\Portal.State\obj\Debug\net8.0\Portal.State.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mcdor\portal\Portal.State\obj\Debug\net8.0\Portal.State.AssemblyInfoInputs.cache
+C:\Users\mcdor\portal\Portal.State\obj\Debug\net8.0\Portal.State.AssemblyInfo.cs
+C:\Users\mcdor\portal\Portal.State\obj\Debug\net8.0\Portal.State.csproj.CoreCompileInputs.cache
+C:\Users\mcdor\portal\Portal.State\obj\Debug\net8.0\Portal.State.sourcelink.json
+C:\Users\mcdor\portal\Portal.State\obj\Debug\net8.0\Portal.S.846B0D5C.Up2Date
+C:\Users\mcdor\portal\Portal.State\obj\Debug\net8.0\Portal.State.dll
+C:\Users\mcdor\portal\Portal.State\obj\Debug\net8.0\refint\Portal.State.dll
+C:\Users\mcdor\portal\Portal.State\obj\Debug\net8.0\Portal.State.pdb
+C:\Users\mcdor\portal\Portal.State\obj\Debug\net8.0\ref\Portal.State.dll

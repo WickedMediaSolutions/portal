@@ -1,0 +1,16 @@
+C:\Users\mcdor\portal\Portal.Automation\bin\Debug\net8.0\Portal.Automation.deps.json
+C:\Users\mcdor\portal\Portal.Automation\bin\Debug\net8.0\Portal.Automation.dll
+C:\Users\mcdor\portal\Portal.Automation\bin\Debug\net8.0\Portal.Automation.pdb
+C:\Users\mcdor\portal\Portal.Automation\bin\Debug\net8.0\Portal.Core.dll
+C:\Users\mcdor\portal\Portal.Automation\bin\Debug\net8.0\Portal.Core.pdb
+C:\Users\mcdor\portal\Portal.Automation\obj\Debug\net8.0\Portal.Automation.csproj.AssemblyReference.cache
+C:\Users\mcdor\portal\Portal.Automation\obj\Debug\net8.0\Portal.Automation.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mcdor\portal\Portal.Automation\obj\Debug\net8.0\Portal.Automation.AssemblyInfoInputs.cache
+C:\Users\mcdor\portal\Portal.Automation\obj\Debug\net8.0\Portal.Automation.AssemblyInfo.cs
+C:\Users\mcdor\portal\Portal.Automation\obj\Debug\net8.0\Portal.Automation.csproj.CoreCompileInputs.cache
+C:\Users\mcdor\portal\Portal.Automation\obj\Debug\net8.0\Portal.Automation.sourcelink.json
+C:\Users\mcdor\portal\Portal.Automation\obj\Debug\net8.0\Portal.A.57754DE4.Up2Date
+C:\Users\mcdor\portal\Portal.Automation\obj\Debug\net8.0\Portal.Automation.dll
+C:\Users\mcdor\portal\Portal.Automation\obj\Debug\net8.0\refint\Portal.Automation.dll
+C:\Users\mcdor\portal\Portal.Automation\obj\Debug\net8.0\Portal.Automation.pdb
+C:\Users\mcdor\portal\Portal.Automation\obj\Debug\net8.0\ref\Portal.Automation.dll

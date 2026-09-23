@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Portal.Core\Portal.Core.csproj" />
+    <ProjectReference Include="..\Portal.Protocol\Portal.Protocol.csproj" />
+    <ProjectReference Include="..\Portal.State\Portal.State.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <!-- Linked image assets from repo root -->
+  <ItemGroup>
+    <Resource Include="..\RaceImages\*.jpg" Link="Assets\RaceImages\%(Filename)%(Extension)" />
+    <Resource Include="..\charpanelimages\*.png" Link="Assets\charpanelimages\%(Filename)%(Extension)" />
+    <Resource Include="..\monsterimages\*.png" Link="Assets\monsterimages\%(Filename)%(Extension)" />
+    <Resource Include="..\compassimages\*.png" Link="Assets\compassimages\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>
