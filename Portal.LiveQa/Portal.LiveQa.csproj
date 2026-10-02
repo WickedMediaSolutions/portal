@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Live QA harness.
+
+    NOT a unit test and NOT part of the shipped client: this project drives a
+    REAL WebSocket connection to a running Keystone instance and applies the
+    live payloads through Portal's real Portal.Protocol deserializer and real
+    Portal.State map model.
+
+    It is excluded from the normal solution test run and only executed on
+    demand during live localhost QA, because it needs a live Keystone on
+    ws://localhost:4013 and real credentials.
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>Portal.LiveQa</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Portal.Protocol\Portal.Protocol.csproj" />
+    <ProjectReference Include="..\Portal.State\Portal.State.csproj" />
+    <ProjectReference Include="..\Portal.Networking\Portal.Networking.csproj" />
+    <ProjectReference Include="..\Portal.Services\Portal.Services.csproj" />
+    <ProjectReference Include="..\Portal.Core\Portal.Core.csproj" />
+  </ItemGroup>
+
+</Project>

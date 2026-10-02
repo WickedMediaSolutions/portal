@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZLq57NSLFPM=",
+  "dgSpecHash": "IhgL7G0jpu0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\mcdor\\portal\\Portal.Protocol.Tests\\Portal.Protocol.Tests.csproj",
+  "projectFilePath": "C:\\Users\\mcdor\\Portal\\Portal.Protocol.Tests\\Portal.Protocol.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mcdor\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
     "C:\\Users\\mcdor\\.nuget\\packages\\microsoft.codecoverage\\17.9.0\\microsoft.codecoverage.17.9.0.nupkg.sha512",

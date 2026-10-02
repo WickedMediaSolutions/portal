@@ -1,0 +1,9 @@
+C:\Users\mcdor\Portal\release\RitesOfPassage-ThePortal-beta\Portal.UI.exe
+C:\Users\mcdor\Portal\release\RitesOfPassage-ThePortal-beta\Portal.UI.dll
+C:\Users\mcdor\Portal\release\RitesOfPassage-ThePortal-beta\Portal.UI.deps.json
+C:\Users\mcdor\Portal\release\RitesOfPassage-ThePortal-beta\Portal.UI.runtimeconfig.json
+C:\Users\mcdor\Portal\release\RitesOfPassage-ThePortal-beta\Portal.Core.dll
+C:\Users\mcdor\Portal\release\RitesOfPassage-ThePortal-beta\Portal.Networking.dll
+C:\Users\mcdor\Portal\release\RitesOfPassage-ThePortal-beta\Portal.Protocol.dll
+C:\Users\mcdor\Portal\release\RitesOfPassage-ThePortal-beta\Portal.Services.dll
+C:\Users\mcdor\Portal\release\RitesOfPassage-ThePortal-beta\Portal.State.dll

@@ -1,0 +1,12 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Portal.Core -> C:\Users\mcdor\Portal\Portal.Core\bin\Debug\net8.0\Portal.Core.dll
+  Portal.Protocol -> C:\Users\mcdor\Portal\Portal.Protocol\bin\Debug\net8.0\Portal.Protocol.dll
+  Portal.State -> C:\Users\mcdor\Portal\Portal.State\bin\Debug\net8.0\Portal.State.dll
+  Portal.Networking -> C:\Users\mcdor\Portal\Portal.Networking\bin\Debug\net8.0\Portal.Networking.dll
+  Portal.Services -> C:\Users\mcdor\Portal\Portal.Services\bin\Debug\net8.0\Portal.Services.dll
+  Portal.Networking.Tests -> C:\Users\mcdor\Portal\Portal.Networking.Tests\bin\Debug\net8.0\Portal.Networking.Tests.dll
+Test run for C:\Users\mcdor\Portal\Portal.Networking.Tests\bin\Debug\net8.0\Portal.Networking.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    37, Skipped:     0, Total:    37, Duration: 40 s - Portal.Networking.Tests.dll (net8.0)

@@ -1,0 +1,25 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Portal.Core -> C:\Users\mcdor\Portal\Portal.Core\bin\Release\net8.0\Portal.Core.dll
+  Portal.Protocol -> C:\Users\mcdor\Portal\Portal.Protocol\bin\Release\net8.0\Portal.Protocol.dll
+  Portal.Networking -> C:\Users\mcdor\Portal\Portal.Networking\bin\Release\net8.0\Portal.Networking.dll
+  Portal.State -> C:\Users\mcdor\Portal\Portal.State\bin\Release\net8.0\Portal.State.dll
+  Portal.Services -> C:\Users\mcdor\Portal\Portal.Services\bin\Release\net8.0\Portal.Services.dll
+  Portal.Protocol.Tests -> C:\Users\mcdor\Portal\Portal.Protocol.Tests\bin\Release\net8.0\Portal.Protocol.Tests.dll
+  Portal.Map.Tests -> C:\Users\mcdor\Portal\Portal.Map.Tests\bin\Release\net8.0\Portal.Map.Tests.dll
+Test run for C:\Users\mcdor\Portal\Portal.Map.Tests\bin\Release\net8.0\Portal.Map.Tests.dll (.NETCoreApp,Version=v8.0)
+Test run for C:\Users\mcdor\Portal\Portal.Protocol.Tests\bin\Release\net8.0\Portal.Protocol.Tests.dll (.NETCoreApp,Version=v8.0)
+  Portal.Networking.Tests -> C:\Users\mcdor\Portal\Portal.Networking.Tests\bin\Release\net8.0\Portal.Networking.Tests.dll
+Test run for C:\Users\mcdor\Portal\Portal.Networking.Tests\bin\Release\net8.0\Portal.Networking.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+Results File: C:\Users\mcdor\Portal\Portal.Protocol.Tests\TestResults\rel_tests.trx
+
+Passed!  - Failed:     0, Passed:    93, Skipped:     0, Total:    93, Duration: 446 ms - Portal.Protocol.Tests.dll (net8.0)
+Results File: C:\Users\mcdor\Portal\Portal.Map.Tests\TestResults\rel_tests.trx
+
+Passed!  - Failed:     0, Passed:    80, Skipped:     0, Total:    80, Duration: 450 ms - Portal.Map.Tests.dll (net8.0)
+Results File: C:\Users\mcdor\Portal\Portal.Networking.Tests\TestResults\rel_tests.trx
+
+Passed!  - Failed:     0, Passed:    37, Skipped:     0, Total:    37, Duration: 40 s - Portal.Networking.Tests.dll (net8.0)

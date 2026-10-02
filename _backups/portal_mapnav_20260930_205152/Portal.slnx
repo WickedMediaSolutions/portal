@@ -1,0 +1,12 @@
+<Solution>
+  <Project Path="Portal.Core/Portal.Core.csproj" />
+  <Project Path="Portal.Protocol.Tests/Portal.Protocol.Tests.csproj" />
+  <Project Path="Portal.Protocol/Portal.Protocol.csproj" />
+  <Project Path="Portal.Networking/Portal.Networking.csproj" />
+  <Project Path="Portal.Networking.Tests/Portal.Networking.Tests.csproj" />
+  <Project Path="Portal.State/Portal.State.csproj" />
+  <Project Path="Portal.Data/Portal.Data.csproj" />
+  <Project Path="Portal.UI/Portal.UI.csproj" />
+  <Project Path="Portal.Services/Portal.Services.csproj" />
+  <Project Path="Portal.Automation/Portal.Automation.csproj" />
+</Solution>

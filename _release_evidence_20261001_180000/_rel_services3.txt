@@ -1,0 +1,353 @@
+
+==========================================================================
+SECTION 1 - CONNECTION (Portal 'Use Local Development Server' = ON)
+==========================================================================
+         toggle_local_development           True
+         resolved_target                    Local Development
+         resolved_endpoint                  ws://localhost:4013/
+         plaintext_transport                True
+         account                            testuser
+
+==========================================================================
+SECTION 2 - INVALID LOGIN (authoritative rejection, no crash)
+==========================================================================
+         websocket                          ws://localhost:4013/ state=Open
+  [PASS] handshake accepted :: accepted=true
+  [PASS] auth.request is rejected :: AUTH_REJECTED: Username and/or password is incorrect.
+  [PASS] invalid password is refused and the socket closes cleanly
+
+==========================================================================
+SECTION 3 - LOGIN / BOOTSTRAP
+==========================================================================
+         websocket                          ws://localhost:4013/ state=Open
+  [PASS] handshake accepted :: accepted=true
+  [PASS] auth.request succeeds :: session=4a3edc31f3c44c10ab80d2389f819f1f character=__testchar__ id=1123
+  [bootstrap] 12 events received
+     auth.response x1
+     character.points.snapshot x1
+     character.skills.snapshot x1
+     character.snapshot x1
+     character.status.snapshot x1
+     equipment.snapshot x1
+     handshake.response x1
+     inventory.snapshot x1
+     map.snapshot x1
+     quest.snapshot x1
+     room.entity.snapshot x1
+     room.state x1
+  [PASS] bootstrap contains character.snapshot
+  [PASS] bootstrap contains character.status.snapshot
+  [PASS] bootstrap contains inventory.snapshot
+  [PASS] bootstrap contains equipment.snapshot
+  [PASS] bootstrap contains character.skills.snapshot
+  [PASS] bootstrap contains character.points.snapshot
+  [PASS] bootstrap contains room.state
+  [PASS] bootstrap contains room.entity.snapshot
+  [PASS] bootstrap contains map.snapshot
+  [PASS] resources: carried copper in inventory.snapshot :: 475c
+  [PASS] resources: HP/mana/stamina snapshot present
+  [PASS] skills/spells snapshot present
+  [PASS] character points snapshot present
+  [PASS] map.position / current room present :: val_cw_muster_gallery
+  [PASS] every inbound payload parsed by Portal's own deserializer :: 0 failure(s)
+  [PASS] every inbound payload accepted by Portal's own models :: 0 rejected: 
+
+==========================================================================
+SECTION 4 - AUTHORITATIVE ROOM STATE
+==========================================================================
+         room.state worldRoomId             val_cw_muster_gallery
+         room.name                          The Watch Muster Gallery
+         room.description (first 150)       Gutters, iron grilles and freshly whitewashed stone give the Crown Ward its particular smell of cold ash and standing water. A narrow hall hung with t...
+         description length                 691
+         exits                              east, southeast
+         doors                              (none in this room)
+         services.shopIds                   
+         services.bank                      False
+         services.healingRoom               False
+         map currentRoomId                  val_cw_muster_gallery
+         map rooms discovered               45
+         room entities                      0
+  [PASS] room name present
+  [PASS] room description present
+  [PASS] map current room and room.state agree on world room :: map=val_cw_muster_gallery room.state=val_cw_muster_gallery
+  [PASS] door rows are a subset of real exits :: 0 doors / 2 exits
+
+==========================================================================
+SECTION 5 - WHO (Players Online control)
+==========================================================================
+  [PASS] who.request returns who.snapshot :: 1 row(s)
+         summary: 1 character is online.
+         Name                    Lv  Race           Profession       Faction    Guild      Sect
+         __testchar__             5  Atomie         Alchemist        -          -          -
+  [PASS] WhoViewModel count matches visible rows :: 1 / 1
+  [PASS] QA character appears in who.snapshot :: __testchar__ L5 Atomie/Alchemist
+  [PASS] every row publishes a real level
+  [PASS] who.snapshot carries no fabricated title column
+
+==========================================================================
+SECTION 6 - REAL GENERATED SHOP (walked to normally)
+==========================================================================
+         target area                        valroian_capital
+         target world_room_id               val_lm_crownprov_floor
+         target room                        Crownprovision Store Floor
+         route                              southeast -> south -> east -> northwest -> north -> east -> up -> north -> east -> northeast -> up
+  [PASS] walk to shop: 11 hops, room.state re-pushed on every move :: room.state events=11 (>= hops; extra events are door refreshes), now in [val_lm_crownprov_floor]
+  [PASS] Portal is standing in the intended Keystone shop room :: val_lm_crownprov_floor
+  [PASS] Portal exposes a Shop action/context for this room :: valroian_capital_general_shop
+  [PASS] shop.snapshot.request returns shop.snapshot (shop list)
+  [PASS] shop list is populated :: 1 shop(s)
+         shop id=valroian_capital_general_shop name='Crownprovision Store (Capital)'
+         RAW shop.snapshot: {"available": true, "message": "", "shop": null, "shops": [{"name": "Crownprovision Store (Capital)", "shopId": "valroian_capital_general_shop"}]}
+  [PASS] shop.snapshot for one shop returns its wares
+  [PASS] Portal displays the real shop name :: Crownprovision Store (Capital)
+  [PASS] Portal displays real wares :: 12 line(s)
+  [PASS] Portal displays carried copper in the shop panel :: 475c
+         item_id                    name                          buy   sell   stock  canBuy/canSell
+         adamantite_chest           adamantite chest              250    125     inf  True/True
+         alder_chest                alder chest                   250    125     inf  True/True
+         ancient_bone_chest         ancient bone chest            250    125     inf  True/True
+         bane_dart                  Bane Dart                      50     25     inf  True/True
+         belt_of_might              belt of might                 150     75     inf  True/True
+         brass_lamp                 Brass Lamp                    100     50     inf  True/True
+         health_potion              Health Potion                 500    250     inf  True/True
+         mana_potion                Mana Potion                   500    250     inf  True/True
+         salca_dart                 Salca Dart                     50     25     inf  True/True
+         stamina_potion             Stamina Potion                500    250     inf  True/True
+         torch                      Torch                         100     50     inf  True/True
+         wooden_plank               Wooden Plank                   50     25     inf  True/True
+  [PASS] server published real buy prices
+  [PASS] server published real sell prices
+
+==========================================================================
+SECTION 7 - SHOP: SUCCESSFUL BUY
+==========================================================================
+         item                               bane_dart 'Bane Dart' buy=50c sell=25c stock=infinite
+         BEFORE copper                      475
+         BEFORE quantity                    0
+         BEFORE stock                       infinite
+  [PASS] shop.buy.request returns shop.result
+  [PASS] Keystone accepted the buy :: Bought 1x bane_dart for 50c.
+         shop.result message                Bought 1x bane_dart for 50c.
+         shop.result totalCost              50
+         AFTER copper                       425
+         AFTER quantity                     1
+  [PASS] item added to inventory without reconnect :: 0 -> 1
+  [PASS] correct price deducted :: 475 - 50 = 425 (actual 425)
+  [PASS] Portal shows the authoritative result :: OK: Bought 1x bane_dart for 50c.
+  [SKIP] finite stock decrement :: this ware has unlimited stock
+
+==========================================================================
+SECTION 8 - SHOP: SUCCESSFUL SELL
+==========================================================================
+  [PASS] shop.sell.request returns shop.result
+  [PASS] Keystone accepted the sell :: Sold 1x bane_dart for 25c.
+         shop.result message                Sold 1x bane_dart for 25c.
+  [PASS] server credited the published sell price :: 25c (published 25c)
+         AFTER sell copper                  450
+         AFTER sell quantity                0
+  [PASS] sold item removed/decremented from inventory :: 1 -> 0
+  [PASS] correct sell value credited :: 425 + 25 (actual 450)
+
+==========================================================================
+SECTION 9 - SHOP: AUTHORITATIVE FAILURE CASES
+==========================================================================
+  [PASS] insufficient-funds / over-quantity buy refused (health_potion) :: Failed: Insufficient funds: need 49500c, have 450c.
+  [PASS] refused buy changed neither copper nor inventory :: copper 450->450, qty 19->19
+  [PASS] invalid item id refused with a server message :: Failed: Unknown item: 'definitely_not_a_real_item'.
+  [PASS] shop not linked to the current room is refused :: Failed: That shop is not available here: 'valroian_town_1_general_shop'.
+  [PASS] wares for a foreign shop are never displayed :: 0 wares
+
+==========================================================================
+SECTION 10 - BANK (walked to normally)
+==========================================================================
+         target area                        valroian_capital
+         target world_room_id               val_vq_counting_house / val_vq_counting_floor
+         target room                        The Counting House / The Counting Floor
+         route                              down -> southwest -> west -> south -> southwest -> west -> west -> west -> southwest -> northwest -> west -> west -> north -> up
+  [PASS] walk to bank: 14 hops, room.state re-pushed on every move :: room.state events=14 (>= hops; extra events are door refreshes), now in [val_vq_counting_floor]
+  [PASS] Portal is standing in the intended Keystone bank room :: val_vq_counting_floor
+  [PASS] Portal exposes a Bank context for this room :: bank=True
+  [PASS] bank.snapshot.request returns bank.snapshot
+  [PASS] bank.snapshot reports the service available
+         BEFORE carried copper              450
+         BEFORE bank_currency               0
+         inventory currency                 450
+
+==========================================================================
+SECTION 11 - BANK: DEPOSIT
+==========================================================================
+  [PASS] bank.deposit.request returns bank.result
+  [PASS] Keystone accepted the deposit :: You deposit 25c.
+         bank.result message                You deposit 25c.
+         bank.result newBankCurrency        (null)
+         AFTER carried copper               425
+         AFTER bank_currency                25
+         AFTER inventory currency           425
+  [PASS] banked copper increases by the deposit :: 0 -> 25
+  [PASS] carried copper decreases by the deposit :: 450 -> 425
+  [PASS] inventory.snapshot reflects the new carried total :: 425c
+
+==========================================================================
+SECTION 12 - BANK: WITHDRAW
+==========================================================================
+  [PASS] bank.withdraw.request returns bank.result
+  [PASS] Keystone accepted the withdrawal :: You withdraw 25c.
+         AFTER withdraw carried             450
+         AFTER withdraw banked              0
+  [PASS] banked copper decreases by the withdrawal :: 25 -> 0
+  [PASS] carried copper increases by the withdrawal :: 425 -> 450
+
+==========================================================================
+SECTION 13 - BANK: AUTHORITATIVE FAILURE CASES
+==========================================================================
+  [PASS] withdraw above balance refused :: Failed: Insufficient bank funds: need 999999c, have 0c.
+  [PASS] zero-amount deposit refused :: Failed: Amount must be a positive whole number.
+  [PASS] negative-amount deposit refused :: Failed: Amount must be a positive whole number.
+  [PASS] deposit above carried balance refused :: Failed: Insufficient funds: need 999999c, have 450c.
+
+==========================================================================
+SECTION 14 - HEALING ROOM (informational context, passive regeneration)
+==========================================================================
+         target area                        valroian_capital
+         target world_room_id               val_vq_dispensary
+         target room                        The Brightwater Dispensary
+  [PASS] walk to healing room: 8 hops, room.state re-pushed on every move :: room.state events=8 (>= hops; extra events are door refreshes), now in [val_vq_dispensary]
+  [PASS] Portal is standing in the intended Keystone healing room :: val_vq_dispensary
+  [PASS] Portal shows healing-room context (informational) :: The Brightwater Dispensary
+  [PASS] healing room offers no shop and no bank :: shops=0 bank=False
+  [PASS] no healer.* message type exists (healing rooms are passive, not a service)
+
+==========================================================================
+SECTION 15 - DOORS (real generated keyed door)
+==========================================================================
+         door room                          val_cw_almscellar -> val_cw_coal_store (west)
+         door definition                    shared val_coal_door, canonical key brass_key, starts LOCKED
+  [PASS] walk back to bank floor: 8 hops, room.state re-pushed on every move :: room.state events=8 (>= hops; extra events are door refreshes), now in [val_vq_counting_floor]
+  [PASS] walk to the door room: 6 hops, room.state re-pushed on every move :: room.state events=6 (>= hops; extra events are door refreshes), now in [val_cw_almscellar]
+         standing in                        Almshouse Cellar [val_cw_almscellar]
+  [PASS] room.state exposes the real west door :: west 'west door' isDoor=True open=False locked=True hasLock=True
+  [PASS] button enablement mirrors server state for a locked door :: open=False locked=True canOpen=False canClose=False canLock=False canUnlock=True
+
+==========================================================================
+SECTION 16 - DOOR FOG SECURITY
+==========================================================================
+  [PASS] destination is undiscovered before legitimate traversal
+  [PASS] blocked traversal revealed no new room :: 45 -> 45
+  [PASS] hidden destination id never leaked into the map
+  [PASS] door row carries no destination name
+  [PASS] character did not move through the locked door :: val_cw_almscellar
+
+==========================================================================
+SECTION 17 - DOOR AUTHORITATIVE FAILURE CASES
+==========================================================================
+  [PASS] opening a LOCKED door is refused :: Failed: The west door is locked.
+  [PASS] unlocking WITHOUT the key is refused :: Failed: You do not have the required key.
+  [PASS] locking WITHOUT the key is refused :: Failed: The west door is already locked.
+  [PASS] acting on a non-existent direction is refused :: Failed: There is no exit 'nowhere' here.
+  [PASS] an unknown door action is refused :: Failed: Unknown door action: 'detonate'.
+  [SKIP] door LOCK SUCCESS path :: needs a canonical key in legitimate inventory; no generated shop or mob drop in this beta realm supplies brass_key and frozen door definitions must not change
+
+==========================================================================
+SECTION 18 - SERVICE / AREA TRANSITION (no stale UI)
+==========================================================================
+  [PASS] door controls reflect only doors in the CURRENT room :: 1 door(s): west
+  [PASS] no shop wares displayed outside a shop room
+  [PASS] bank context absent outside the bank room :: bank=False
+
+==========================================================================
+SECTION 19 - EQUIPMENT / INVENTORY REGRESSION
+==========================================================================
+         equipped                           (nothing equipped)
+         inventory                          cloth_vestx1, health_potionx19, mana_potionx8, torchx8
+         slots on carried items             chest
+  [SKIP] equip / unequip round trip :: QA character carries nothing equipped
+
+==========================================================================
+SECTION 20 - CHARACTER POINTS / SKILLS
+==========================================================================
+         available points                   32
+         allocatable: str 'Strength' = 0 (cap 100)
+         allocatable: int 'Intelligence' = 0 (cap 100)
+         allocatable: wis 'Wisdom' = 0 (cap 100)
+         allocatable: dex 'Dexterity' = 0 (cap 100)
+         allocatable: con 'Constitution' = 0 (cap 100)
+         skills snapshot present            True
+
+==========================================================================
+SECTION 21 - RECONNECT (full state rehydration)
+==========================================================================
+         websocket                          ws://localhost:4013/ state=Open
+  [PASS] handshake accepted :: accepted=true
+  [PASS] auth.request succeeds :: session=fd0ddb770cc54b139df7413554aefb84 character=__testchar__ id=1123
+  [PASS] room name restored :: Almshouse Cellar
+  [PASS] room description restored
+  [PASS] exits restored :: 2
+  [PASS] dynamic door context restored :: 1 door(s)
+  [PASS] service context restored :: shops=0 bank=False healing=False
+  [PASS] currency restored :: 450c
+  [PASS] inventory restored :: 4 item line(s)
+  [PASS] equipment restored :: 0 equipped
+  [PASS] map discovery restored :: 45 room(s)
+  [PASS] map current room restored :: val_cw_almscellar
+  [PASS] floor/area restored :: valroian_capital
+  [PASS] resources, points and skills restored on reconnect
+  [PASS] reconnect payloads all parsed by Portal :: 0 problem(s)
+  [PASS] WHO still works after reconnect :: 1 row(s)
+  [PASS] bank currency restored on reconnect :: 0c -> 0c
+
+==========================================================================
+SECTION 22 - PROTOCOL TRACE (whole session)
+==========================================================================
+  Portal -> Keystone (requests actually sent):
+     auth.request x2
+     bank.deposit.request x4
+     bank.snapshot.request x3
+     bank.withdraw.request x2
+     door.action.request x5
+     handshake.request x2
+     movement.direction.request x48
+     shop.buy.request x4
+     shop.sell.request x1
+     shop.snapshot.request x5
+     who.request x2
+  Keystone -> Portal (events actually received):
+     auth.response x2
+     bank.result x6
+     bank.snapshot x5
+     character.points.snapshot x2
+     character.skills.snapshot x2
+     character.snapshot x2
+     character.status.snapshot x2
+     door.result x5
+     equipment.snapshot x55
+     handshake.response x2
+     inventory.snapshot x61
+     map.position x47
+     map.snapshot x2
+     movement.failed x1
+     quest.snapshot x2
+     room.entity.snapshot x49
+     room.state x55
+     shop.result x5
+     shop.snapshot x9
+     who.snapshot x2
+  [PASS] protocol path occurred: room.state
+  [PASS] protocol path occurred: shop.snapshot
+  [PASS] protocol path occurred: shop.buy.request
+  [PASS] protocol path occurred: shop.sell.request
+  [PASS] protocol path occurred: shop.result
+  [PASS] protocol path occurred: bank.snapshot
+  [PASS] protocol path occurred: bank.deposit.request
+  [PASS] protocol path occurred: bank.withdraw.request
+  [PASS] protocol path occurred: bank.result
+  [PASS] protocol path occurred: door.action.request
+  [PASS] protocol path occurred: door.result
+  [PASS] protocol path occurred: who.request
+  [PASS] protocol path occurred: who.snapshot
+
+==========================================================================
+SUMMARY
+==========================================================================
+  PASS = 126
+  FAIL = 0
+  SKIP = 3

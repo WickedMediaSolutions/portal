@@ -23,6 +23,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Portal.Protocol\Portal.Protocol.csproj" />
+    <ProjectReference Include="..\Portal.State\Portal.State.csproj" />
+  </ItemGroup>
+
+  <!-- The quest wire-contract tests consume envelopes captured from the REAL
+       Keystone bridge by _quest_audit/quest_e2e.py. Linking the file here
+       means the Portal suite validates genuine server output rather than
+       hand-written fixtures. The tests fail loudly if it is absent, so a
+       missing capture can never make them pass vacuously. -->
+  <ItemGroup>
+    <None Include="..\..\keystone\_quest_audit\quest_envelopes.json"
+          Link="quest_envelopes.json"
+          CopyToOutputDirectory="PreserveNewest"
+          Condition="Exists('..\..\keystone\_quest_audit\quest_envelopes.json')" />
   </ItemGroup>
 
 </Project>

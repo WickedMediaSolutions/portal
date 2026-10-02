@@ -1,0 +1,218 @@
+=== Portal live localhost QA ===
+toggle_local_development = True
+resolved_target          = Local Development
+resolved_endpoint        = ws://localhost:4013/
+plaintext_transport      = True
+user                     = testuser
+
+[OK] websocket established to ws://localhost:4013/ (state=Open)
+
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"handshake.request","correlationId":"e362bf955b02471ebb9c530cb3e56be3","sequenceNumber":null,"payload":{"clientName":"Portal","clientVersion":"1.0.0","protocolVersion":{"major":1,"minor":0},"capabilities":[{"feature":"combat.skill","version":"1.0"},{"feature":"combat.attack","version":"1.0"},{"feature":"target.select","version":"1.0"},{"feature":"character.skills.snapshot","version":"1.0"},{"feature":"movement.direction","version":"1.0"},{"feature":"movement.failed","version":"1.0"}]}}
+[OK] handshake.response received
+     payload: {"accepted": true, "capabilities": [{"feature": "authentication", "version": "1.0"}, {"feature": "character.snapshot", "version": "1.0"}, {"feature": "character.skills.snapshot", "version": "1.0"}, {"feature": "inventory.snapshot", "version...
+
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"auth.request","correlationId":"39c89ea81cff4ada86f575b7869577a7","sequenceNumber":null,"payload":{"username":"testuser","password":"qaportal2026"}}
+[OK] auth.response success
+     session  = dd8c6975354f4b2680ee4857fb287b61
+     character= __testchar__ (id=1123)
+
+[bootstrap] received 10 events
+     character.points.snapshot x1
+     character.skills.snapshot x1
+     character.snapshot x1
+     character.status.snapshot x1
+     equipment.snapshot x1
+     inventory.snapshot x1
+     map.snapshot x1
+     quest.snapshot x1
+     room.entity.snapshot x1
+     room.state x1
+
+--- map state [initial] ---
+     rooms=36 edges=74 discoveredCount=36
+     currentRoom=val_cr_mail_yard currentArea=valroian_capital currentZ=0
+     areas=[valroian_capital] floors=[-1, 0, 1]
+     marker room: id=val_cr_mail_yard name=The Mail Yard pos=2,10,0
+     frontier stubs=70
+
+=== locked-door fog security (live socket) ===
+     at room                 : val_cr_mail_yard
+     rooms before attempt    : 36
+     edges before attempt    : 74
+     frontier stubs before   : 3
+     attempting northeast (a real generated passage)
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"c51535fa334b4573badca59cd9e66cfa","sequenceNumber":null,"payload":{"direction":"northeast"}}
+     movement.failed events  : 0
+     map.room.discovered     : 1
+     map.snapshot            : 0
+     rooms after attempt     : 37
+     edges after attempt     : 78
+     still at val_cr_mail_yard        : False
+     frontier stubs after    : 2
+     northeast stub survives        : False state=--
+     room set unchanged      : False
+
+=== movement / discovery sweep (live socket) ===
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"e4676b9e780d40cfb981c3e52031da1a","sequenceNumber":null,"payload":{"direction":"north"}}
+  north: val_cr_waystation_yard -> val_cr_waystation_stables z=0   evts= 7 frontier=69->70 new=[val_cr_waystation_stables]
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"3b7ca30ee7f0473e8b669caac7a3394a","sequenceNumber":null,"payload":{"direction":"south"}}
+  south: val_cr_waystation_stables -> val_cr_waystation_yard z=0   evts= 5 frontier=70->70 new=[]
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"aada11717dda4c399f4ffa9bc66205ec","sequenceNumber":null,"payload":{"direction":"east"}}
+  east : val_cr_waystation_yard -> val_cr_waystation_yard z=0   evts= 1 frontier=70->70 new=[] MOVEMENT_FAILED
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"0459b4bb8919441491a3bea6a81f2105","sequenceNumber":null,"payload":{"direction":"west"}}
+  west : val_cr_waystation_yard -> val_cr_waystation      z=0   evts= 5 frontier=70->70 new=[]
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"fa3c9576d833401bb3580c508d52a0bc","sequenceNumber":null,"payload":{"direction":"up"}}
+  up   : val_cr_waystation      -> val_cr_waystation      z=0   evts= 1 frontier=70->70 new=[] MOVEMENT_FAILED
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"3dcbf23990034edeadbc8a1f2f8197da","sequenceNumber":null,"payload":{"direction":"down"}}
+  down : val_cr_waystation      -> val_cr_waystation      z=0   evts= 1 frontier=70->70 new=[] MOVEMENT_FAILED
+
+--- map state [after-movement] ---
+     rooms=38 edges=80 discoveredCount=38
+     currentRoom=val_cr_waystation currentArea=valroian_capital currentZ=0
+     areas=[valroian_capital] floors=[-1, 0, 1]
+     marker room: id=val_cr_waystation name=The Waystation pos=0,11,0
+     frontier stubs=70
+
+=== adjacent Go directions (real Keystone edges) ===
+     outgoing edges from val_cr_waystation: 3
+     east     -> val_cr_waystation_yard       go=East
+     south    -> val_cr_mail_yard             go=South
+     southwest -> val_cr_toll_road             go=SouthWest
+     frontier stubs at val_cr_waystation: 3
+     frontier: northeast state=unexplored (no destination field)
+     frontier: northwest state=unexplored (no destination field)
+     frontier: southeast state=unexplored (no destination field)
+
+=== area / floor selectors (Keystone data only) ===
+     areas                : [valroian_capital]
+     floors               : [-1, 0, 1]
+     area filter follows  : True
+     selected area        : valroian_capital
+     effective floor      : 0
+     visible rooms        : 31
+
+=== map viewport interaction on live data ===
+     zoom in x2 : 1.00 -> 1.56
+     zoom out   : 1.25
+     centre on player (val_cr_waystation @ 0,11) -> origin 450.0,767.5
+     fit all    : zoom 0.99
+     centre-on-player + follow-me: AutoFollow=True
+
+=== vertical + adjacent Go (live socket) ===
+     real edges from val_cr_waystation: 3
+       east     -> val_cr_waystation_yard        go=East
+       south    -> val_cr_mail_yard              go=South
+       southwest -> val_cr_toll_road              go=SouthWest
+       frontier northeast is NOT navigable (no destination id exists)
+       frontier northwest is NOT navigable (no destination id exists)
+       frontier southeast is NOT navigable (no destination id exists)
+
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"6f95f11d501a4baa992d857b23fc05b3","sequenceNumber":null,"payload":{"direction":"down"}}
+  down : z 0 -> 0  room=val_cr_waystation  newRooms=0  discoveredEvents=0  failed=1  floors=[-1,0,1]
+       movement.failed: {"direction": "down", "message": "You cannot go that way."}
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"2b496ccaff2b4177aafcb17cef860e43","sequenceNumber":null,"payload":{"direction":"up"}}
+  up   : z 0 -> 0  room=val_cr_waystation  newRooms=0  discoveredEvents=0  failed=1  floors=[-1,0,1]
+       movement.failed: {"direction": "up", "message": "You cannot go that way."}
+     floor  -1: 4 discovered rooms shown
+     floor   0: 31 discovered rooms shown
+     floor   1: 3 discovered rooms shown
+
+=== incremental discovery delta (live socket, no reconnect) ===
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"00c92608fadf450eaa6e3f0f2e179c23","sequenceNumber":null,"payload":{"direction":"northeast"}}
+  step 1: dir=northeast val_cr_waystation -> val_cr_old_forge "The Old Forge" z=0
+     edges in delta       : 4
+       val_cr_old_forge         -east     -> val_cr_waystation_stables
+       val_cr_old_forge         -southwest-> val_cr_waystation       
+       val_cr_waystation        -northeast-> val_cr_old_forge        
+       val_cr_waystation_stables -west     -> val_cr_old_forge        
+     [OK] edges 80 -> 84 immediately
+     frontier_remove      : 4 (previously present: 2) [val_cr_waystation|northeast] [val_cr_waystation_stables|west]
+     [OK] resolved stubs gone immediately
+     frontier_add         : 4
+       val_cr_old_forge         -down     -> (no destination) state=unexplored
+       val_cr_old_forge         -northeast-> (no destination) state=unexplored
+       val_cr_old_forge         -south    -> (no destination) state=unexplored
+       val_cr_old_forge         -southeast-> (no destination) state=unexplored
+     [OK] new room's stubs visible immediately
+     [OK] adjacent Go val_cr_old_forge -East-> val_cr_waystation_stables works now
+     [OK] adjacent Go val_cr_old_forge -SouthWest-> val_cr_waystation works now
+     [OK] adjacent Go val_cr_waystation -NorthEast-> val_cr_old_forge works now
+     [OK] adjacent Go val_cr_waystation_stables -West-> val_cr_old_forge works now
+     duplicate edges=0 rooms 38 -> 39
+
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"65c05bbd8c574d4d8c4d0b162f8067d9","sequenceNumber":null,"payload":{"direction":"down"}}
+  step 2: dir=down  val_cr_old_forge -> val_cr_wheel_store "The Wheel Store" z=-1
+     edges in delta       : 2
+       val_cr_old_forge         -down     -> val_cr_wheel_store      
+       val_cr_wheel_store       -up       -> val_cr_old_forge        
+     [OK] edges 84 -> 86 immediately
+     frontier_remove      : 2 (previously present: 1) [val_cr_old_forge|down]
+     [OK] resolved stubs gone immediately
+     [OK] adjacent Go val_cr_old_forge -Down-> val_cr_wheel_store works now
+     [OK] adjacent Go val_cr_wheel_store -Up-> val_cr_old_forge works now
+     duplicate edges=0 rooms 39 -> 40
+
+     discoveries with a real edge delta : 2 (need >= 2)
+     edge appeared immediately           : 2
+     frontier removal applied            : 2
+     frontier addition applied           : 1
+     adjacent Go resolved immediately    : 6
+     map.snapshot during movement        : 0   (must be 0)
+     consecutive new rooms, no reconnect : 2
+
+=== locked-door fog security (live socket) ===
+     at room                 : val_cr_wheel_store
+     rooms before attempt    : 40
+     edges before attempt    : 86
+     frontier stubs before   : 0
+     attempting west (a real generated passage)
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"eb3b044c290747308a848a7bec05c789","sequenceNumber":null,"payload":{"direction":"west"}}
+     movement.failed events  : 1
+       {"direction": "west", "message": "You cannot go that way."}
+     map.room.discovered     : 0
+     map.snapshot            : 0
+     rooms after attempt     : 40
+     edges after attempt     : 86
+     still at val_cr_wheel_store      : True
+     frontier stubs after    : 0
+     west stub survives        : False state=--
+     room set unchanged      : True
+     [OK] refused traversal disclosed nothing
+       no discovery event    : True
+       no new edges          : True
+       stub intact           : False
+       room set identical    : True
+       no map.snapshot       : True
+
+=== reconnect ===
+     disconnected; map cleared (had 40 rooms, 86 edges)
+     empty after clear: rooms=0 hasSnapshot=False
+[OK] websocket re-established
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"handshake.request","correlationId":"857d63d4f17c468d9f98a2432ba74342","sequenceNumber":null,"payload":{"clientName":"Portal","clientVersion":"1.0.0","protocolVersion":{"major":1,"minor":0},"capabilities":[{"feature":"combat.skill","version":"1.0"},{"feature":"combat.attack","version":"1.0"},{"feature":"target.select","version":"1.0"},{"feature":"character.skills.snapshot","version":"1.0"},{"feature":"movement.direction","version":"1.0"},{"feature":"movement.failed","version":"1.0"}]}}
+[OK] re-handshake: ok
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"auth.request","correlationId":"9c43d14ab6014e7fba1b3d7aa6f74ee3","sequenceNumber":null,"payload":{"username":"testuser","password":"qaportal2026"}}
+[OK] re-authenticated: success=True
+     bootstrap events after reconnect: 10
+--- map state [after-reconnect] ---
+     rooms=40 edges=86 discoveredCount=40
+     currentRoom=val_cr_wheel_store currentArea=valroian_capital currentZ=-1
+     areas=[valroian_capital] floors=[-1, 0, 1]
+     marker room: id=val_cr_wheel_store name=The Wheel Store pos=2,13,-1
+     frontier stubs=71
+
+     rooms   before/after : 40 / 40
+     edges   before/after : 86 / 86
+     current room  before/after : val_cr_wheel_store / val_cr_wheel_store
+     current area  before/after : valroian_capital / valroian_capital
+     floors      before/after : -1,0,1 / -1,0,1
+     duplicate rooms : 0
+     duplicate edges : 0
+     frontier stubs : 71
+
+=== fog security audit (live payloads only) ===
+     frontier records examined : 71
+     frontier record has a destination field : False  (must be False)
+     frontier records with known direction     : 71
+     discovered rooms reported by Keystone     : 40
+     total generated rooms in realm (server)   : 0
+     full realm map loaded client-side?          : False  (must be False)

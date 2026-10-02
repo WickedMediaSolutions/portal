@@ -1,0 +1,16 @@
+C:\Users\mcdor\portal\Portal.Protocol\bin\Debug\net8.0\Portal.Protocol.deps.json
+C:\Users\mcdor\portal\Portal.Protocol\bin\Debug\net8.0\Portal.Protocol.dll
+C:\Users\mcdor\portal\Portal.Protocol\bin\Debug\net8.0\Portal.Protocol.pdb
+C:\Users\mcdor\portal\Portal.Protocol\bin\Debug\net8.0\Portal.Core.dll
+C:\Users\mcdor\portal\Portal.Protocol\bin\Debug\net8.0\Portal.Core.pdb
+C:\Users\mcdor\portal\Portal.Protocol\obj\Debug\net8.0\Portal.Protocol.csproj.AssemblyReference.cache
+C:\Users\mcdor\portal\Portal.Protocol\obj\Debug\net8.0\Portal.Protocol.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mcdor\portal\Portal.Protocol\obj\Debug\net8.0\Portal.Protocol.AssemblyInfoInputs.cache
+C:\Users\mcdor\portal\Portal.Protocol\obj\Debug\net8.0\Portal.Protocol.AssemblyInfo.cs
+C:\Users\mcdor\portal\Portal.Protocol\obj\Debug\net8.0\Portal.Protocol.csproj.CoreCompileInputs.cache
+C:\Users\mcdor\portal\Portal.Protocol\obj\Debug\net8.0\Portal.Protocol.sourcelink.json
+C:\Users\mcdor\portal\Portal.Protocol\obj\Debug\net8.0\Portal.P.B193DA79.Up2Date
+C:\Users\mcdor\portal\Portal.Protocol\obj\Debug\net8.0\Portal.Protocol.dll
+C:\Users\mcdor\portal\Portal.Protocol\obj\Debug\net8.0\refint\Portal.Protocol.dll
+C:\Users\mcdor\portal\Portal.Protocol\obj\Debug\net8.0\Portal.Protocol.pdb
+C:\Users\mcdor\portal\Portal.Protocol\obj\Debug\net8.0\ref\Portal.Protocol.dll

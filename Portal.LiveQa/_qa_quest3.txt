@@ -1,0 +1,148 @@
+
+==========================================================================
+SECTION Q1 - CONNECTION (Portal 'Use Local Development Server' = ON)
+==========================================================================
+         toggle_local_development           True
+         resolved_target                    Local Development
+         resolved_endpoint                  ws://localhost:4013/
+         plaintext_transport                True
+         account                            testuser
+
+==========================================================================
+SECTION Q2 - LOGIN / QUEST BOOTSTRAP (no manual refresh first)
+==========================================================================
+         websocket                          ws://localhost:4013/ state=Open
+  [PASS] handshake accepted :: accepted=true
+  [PASS] auth.request succeeds :: session=92debc8c5f1a4eeea9b49066d709af96 character=__testchar__ id=1123
+  [PASS] quest.snapshot arrives automatically on login (no manual refresh first) :: quest.snapshot x1
+  [PASS] every inbound envelope parsed by Portal's own deserializer :: 0 failure(s)
+  [PASS] every quest payload accepted by Portal's own QuestState model :: 0 rejected: 
+         active                             bone_collector
+         available                          potion_collector, rat_slayer, spider_hunt
+         completed                          
+         quest bone_collector               bone_collector[active] ready=False acc=False ab=True cp=False :: Skeleton Warrior 0 / 2  |  Health Potion 0 / 1
+  [PASS] bone_collector publishes objectives :: 2 objective(s)
+  [PASS] bone_collector publishes rewards :: 150 XP  •  1x Health Potion  •  1x Leather Cap
+         quest potion_collector             potion_collector[available] ready=False acc=True ab=False cp=False :: Health Potion 0 / 5
+  [PASS] potion_collector publishes objectives :: 1 objective(s)
+  [PASS] potion_collector publishes rewards :: 30 XP  •  2x Health Potion
+         quest rat_slayer                   rat_slayer[available] ready=False acc=True ab=False cp=False :: Giant Rat 0 / 3
+  [PASS] rat_slayer publishes objectives :: 1 objective(s)
+  [PASS] rat_slayer publishes rewards :: 50 XP  •  2x Health Potion
+         quest spider_hunt                  spider_hunt[available] ready=False acc=True ab=False cp=False :: Forest Spider 0 / 2
+  [PASS] spider_hunt publishes objectives :: 1 objective(s)
+  [PASS] spider_hunt publishes rewards :: 100 XP  •  3x Health Potion
+  [PASS] no royal_guard reference survives in the runtime quest payload
+
+==========================================================================
+SECTION Q3 - GUARDIAN_TRIAL RUNTIME RESOLUTION
+==========================================================================
+  [SKIP] guardian_trial payload :: server withheld it for this character (not currently offerable) - runtime registry/spawn/payload resolution covered by the content audit
+
+==========================================================================
+SECTION Q4 - RESET (abandon any prior bone_collector)
+==========================================================================
+  [PASS] abandon stale bone_collector :: Quest abandoned: 'Bone Collector'.
+
+==========================================================================
+SECTION Q5 - REAL ACCEPT (bone_collector)
+==========================================================================
+  [PASS] quest.accept.request produced a quest.result
+         result.action                      accept
+         result.success                     True
+         result.state                       active
+         result.message                     Quest accepted: 'Bone Collector'.
+  [PASS] bone_collector accepted by the real Keystone handler
+  [PASS] quest state becomes ACTIVE :: active
+  [PASS] bone_collector shows as active in Portal's model
+  [PASS] abandon button reflects server flags
+  [PASS] accept button disabled once active
+  [PASS] complete button disabled before ready
+         after accept                       bone_collector[active] ready=False acc=False ab=True cp=False :: Skeleton Warrior 0 / 2  |  Health Potion 0 / 1
+  [PASS] objectives show 0/current after accept :: Skeleton Warrior 0 / 2  |  Health Potion 0 / 1
+
+==========================================================================
+SECTION Q6 - WALK TO A LIVE QUEST TARGET (real movement)
+==========================================================================
+         already standing at val_cr_outside_gate; route skipped
+
+==========================================================================
+SECTION Q7 - REAL COMBAT PROGRESS (rat_slayer vs a live giant_rat)
+==========================================================================
+         live target                        Giant Rat (targetId=34883)
+  [PASS] accept rat_slayer :: Quest accepted: 'Rat Slayer'.
+  [FAIL] quest kill objective incremented from real combat :: 0 increment(s) observed
+  [FAIL] quest.progress event crossed the WebSocket :: quest.progress x0
+         rat_slayer after combat            rat_slayer[active] ready=False acc=False ab=True cp=False :: Giant Rat 0 / 3
+
+==========================================================================
+SECTION Q8 - READY / COMPLETE
+==========================================================================
+         state before completion            rat_slayer[active] ready=False acc=False ab=True cp=False :: Giant Rat 0 / 3
+  [PASS] quest.complete.request produced a quest.result
+         quest                              rat_slayer
+         result.success                     False
+         result.state                       active
+         result.message                     Objective 1: kill 'giant_rat' — 0/3 completed.
+         result.rewards                     No rewards
+  [PASS] server validates readiness exactly as it published it :: ready=False success=False
+  [PASS] no rewards granted by a refused completion
+         state after completion             rat_slayer[active] ready=False acc=False ab=True cp=False :: Giant Rat 0 / 3
+  [SKIP] completion + duplicate-refusal :: quest was not ready yet
+
+==========================================================================
+SECTION Q9 - ABANDON / REACCEPT (second safe quest)
+==========================================================================
+  [PASS] accept spider_hunt :: Quest accepted: 'Spider Hunt'.
+  [PASS] spider_hunt active after accept
+  [PASS] abandon spider_hunt :: Quest abandoned: 'Spider Hunt'.
+         spider_hunt after abandon          spider_hunt[available] ready=False acc=True ab=False cp=False :: Forest Spider 0 / 2
+  [PASS] quest disappears/resets on abandon
+  [PASS] re-accept spider_hunt :: Quest accepted: 'Spider Hunt'.
+         spider_hunt after re-accept        spider_hunt[active] ready=False acc=False ab=True cp=False :: Forest Spider 0 / 2
+  [PASS] spider_hunt active again after re-accept
+  [PASS] objective counts restart at zero after re-accept :: Forest Spider 0 / 2
+
+==========================================================================
+SECTION Q10 - RECONNECT (quest state restored from the server)
+==========================================================================
+         quests before disconnect           
+         websocket                          ws://localhost:4013/ state=Open
+  [PASS] handshake accepted :: accepted=true
+  [PASS] auth.request succeeds :: session=cf7ee30a96494aa780eb48beeb1d44c4 character=__testchar__ id=1123
+  [PASS] quest.snapshot arrives automatically on reconnect :: quest.snapshot x1
+  [PASS] reconnect payloads deserialize cleanly in Portal's own models
+  [PASS] completed state restored with no duplicates :: 0 completed before/after
+  [PASS] active progress restored :: 2 active
+         restored bone_collector            bone_collector[active] ready=False acc=False ab=True cp=False :: Skeleton Warrior 0 / 2  |  Health Potion 0 / 1
+         restored rat_slayer                rat_slayer[active] ready=False acc=False ab=True cp=False :: Giant Rat 0 / 3
+         restored potion_collector          potion_collector[available] ready=False acc=True ab=False cp=False :: Health Potion 0 / 5
+         restored spider_hunt               spider_hunt[available] ready=False acc=True ab=False cp=False :: Forest Spider 0 / 2
+  [PASS] bone_collector appears exactly once after reconnect
+  [PASS] rat_slayer appears exactly once after reconnect
+  [PASS] potion_collector appears exactly once after reconnect
+  [PASS] spider_hunt appears exactly once after reconnect
+
+==========================================================================
+SECTION Q11 - SESSION EVENT SUMMARY
+==========================================================================
+     auth.response x2
+     character.points.snapshot x2
+     character.skills.snapshot x2
+     character.snapshot x2
+     character.status.snapshot x2
+     equipment.snapshot x2
+     handshake.response x2
+     inventory.snapshot x2
+     map.snapshot x2
+     quest.result x8
+     quest.snapshot x10
+     room.entity.snapshot x2
+     room.state x2
+
+==========================================================================
+LIVE QUEST QA SUMMARY
+==========================================================================
+  PASS = 44
+  FAIL = 2
+  SKIP = 2

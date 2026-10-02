@@ -1,0 +1,9 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Portal.Core -> C:\Users\mcdor\Portal\Portal.Core\bin\Release\net8.0\Portal.Core.dll
+  Portal.Protocol -> C:\Users\mcdor\Portal\Portal.Protocol\bin\Release\net8.0\Portal.Protocol.dll
+  Portal.Networking -> C:\Users\mcdor\Portal\Portal.Networking\bin\Release\net8.0\Portal.Networking.dll
+  Portal.State -> C:\Users\mcdor\Portal\Portal.State\bin\Release\net8.0\Portal.State.dll
+  Portal.Services -> C:\Users\mcdor\Portal\Portal.Services\bin\Release\net8.0\Portal.Services.dll
+  Portal.UI -> C:\Users\mcdor\Portal\Portal.UI\bin\Release\net8.0-windows\Portal.UI.dll
+  Portal.UI -> C:\Users\mcdor\Portal\release\RitesOfPassage-ThePortal-beta\

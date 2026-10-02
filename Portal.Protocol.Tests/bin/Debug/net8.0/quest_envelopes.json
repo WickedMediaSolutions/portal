@@ -1,0 +1,2150 @@
+[
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.result",
+    "correlationId": null,
+    "sequenceNumber": 1,
+    "payload": {
+      "action": "accept",
+      "questId": "bone_collector",
+      "success": true,
+      "message": "Quest accepted: 'Bone Collector'.",
+      "state": "active",
+      "rewards": null
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.snapshot",
+    "correlationId": null,
+    "sequenceNumber": 2,
+    "payload": {
+      "quests": [
+        {
+          "questId": "bone_collector",
+          "name": "Bone Collector",
+          "description": "[PLACEHOLDER] Defeat 2 Skeleton Warriors and collect a health potion.",
+          "state": "active",
+          "levelRequired": 2,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "skeleton_warrior",
+              "targetName": "Skeleton Warrior",
+              "current": 0,
+              "required": 2,
+              "met": false
+            },
+            {
+              "index": 1,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 0,
+              "required": 1,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 150,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 1
+              },
+              {
+                "itemId": "leather_cap",
+                "name": "Leather Cap",
+                "quantity": 1
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": false,
+          "canAbandon": true,
+          "canComplete": false,
+          "acceptBlockedReason": "Quest 'bone_collector' is already active.",
+          "abandonBlockedReason": null,
+          "completeBlockedReason": "Objective 1: kill 'skeleton_warrior' \u2014 0/2 completed.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "potion_collector",
+          "name": "Potion Collector",
+          "description": "[PLACEHOLDER] Gather 5 health potions.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 0,
+              "required": 5,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 30,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'potion_collector' is not active.",
+          "completeBlockedReason": "Quest 'potion_collector' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "rat_slayer",
+          "name": "Rat Slayer",
+          "description": "[PLACEHOLDER] Kill 3 Giant Rats infesting the cellar.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "giant_rat",
+              "targetName": "Giant Rat",
+              "current": 0,
+              "required": 3,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 50,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'rat_slayer' is not active.",
+          "completeBlockedReason": "Quest 'rat_slayer' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "spider_hunt",
+          "name": "Spider Hunt",
+          "description": "[PLACEHOLDER] Hunt down 2 Forest Spiders.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "forest_spider",
+              "targetName": "Forest Spider",
+              "current": 0,
+              "required": 2,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 100,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 3
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'spider_hunt' is not active.",
+          "completeBlockedReason": "Quest 'spider_hunt' is not active.",
+          "giverName": null,
+          "turnInName": null
+        }
+      ]
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.result",
+    "correlationId": null,
+    "sequenceNumber": 3,
+    "payload": {
+      "action": "complete",
+      "questId": "bone_collector",
+      "success": false,
+      "message": "Objective 1: kill 'skeleton_warrior' \u2014 0/2 completed.",
+      "state": "active",
+      "rewards": null
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.snapshot",
+    "correlationId": null,
+    "sequenceNumber": 4,
+    "payload": {
+      "quests": [
+        {
+          "questId": "bone_collector",
+          "name": "Bone Collector",
+          "description": "[PLACEHOLDER] Defeat 2 Skeleton Warriors and collect a health potion.",
+          "state": "active",
+          "levelRequired": 2,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "skeleton_warrior",
+              "targetName": "Skeleton Warrior",
+              "current": 0,
+              "required": 2,
+              "met": false
+            },
+            {
+              "index": 1,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 0,
+              "required": 1,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 150,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 1
+              },
+              {
+                "itemId": "leather_cap",
+                "name": "Leather Cap",
+                "quantity": 1
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": false,
+          "canAbandon": true,
+          "canComplete": false,
+          "acceptBlockedReason": "Quest 'bone_collector' is already active.",
+          "abandonBlockedReason": null,
+          "completeBlockedReason": "Objective 1: kill 'skeleton_warrior' \u2014 0/2 completed.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "potion_collector",
+          "name": "Potion Collector",
+          "description": "[PLACEHOLDER] Gather 5 health potions.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 0,
+              "required": 5,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 30,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'potion_collector' is not active.",
+          "completeBlockedReason": "Quest 'potion_collector' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "rat_slayer",
+          "name": "Rat Slayer",
+          "description": "[PLACEHOLDER] Kill 3 Giant Rats infesting the cellar.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "giant_rat",
+              "targetName": "Giant Rat",
+              "current": 0,
+              "required": 3,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 50,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'rat_slayer' is not active.",
+          "completeBlockedReason": "Quest 'rat_slayer' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "spider_hunt",
+          "name": "Spider Hunt",
+          "description": "[PLACEHOLDER] Hunt down 2 Forest Spiders.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "forest_spider",
+              "targetName": "Forest Spider",
+              "current": 0,
+              "required": 2,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 100,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 3
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'spider_hunt' is not active.",
+          "completeBlockedReason": "Quest 'spider_hunt' is not active.",
+          "giverName": null,
+          "turnInName": null
+        }
+      ]
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.progress",
+    "correlationId": null,
+    "sequenceNumber": 5,
+    "payload": {
+      "quests": [
+        {
+          "questId": "bone_collector",
+          "name": "Bone Collector",
+          "state": "active",
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "skeleton_warrior",
+              "targetName": "Skeleton Warrior",
+              "current": 1,
+              "required": 2,
+              "met": false
+            },
+            {
+              "index": 1,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 1,
+              "required": 1,
+              "met": true
+            }
+          ],
+          "readyToComplete": false,
+          "canAbandon": true,
+          "canComplete": false
+        }
+      ]
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.progress",
+    "correlationId": null,
+    "sequenceNumber": 6,
+    "payload": {
+      "quests": [
+        {
+          "questId": "bone_collector",
+          "name": "Bone Collector",
+          "state": "active",
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "skeleton_warrior",
+              "targetName": "Skeleton Warrior",
+              "current": 1,
+              "required": 2,
+              "met": false
+            },
+            {
+              "index": 1,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 1,
+              "required": 1,
+              "met": true
+            }
+          ],
+          "readyToComplete": false,
+          "canAbandon": true,
+          "canComplete": false
+        }
+      ]
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.progress",
+    "correlationId": null,
+    "sequenceNumber": 7,
+    "payload": {
+      "quests": [
+        {
+          "questId": "bone_collector",
+          "name": "Bone Collector",
+          "state": "active",
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "skeleton_warrior",
+              "targetName": "Skeleton Warrior",
+              "current": 2,
+              "required": 2,
+              "met": true
+            },
+            {
+              "index": 1,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 1,
+              "required": 1,
+              "met": true
+            }
+          ],
+          "readyToComplete": true,
+          "canAbandon": true,
+          "canComplete": true
+        }
+      ]
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "character.snapshot",
+    "correlationId": null,
+    "sequenceNumber": 8,
+    "payload": {
+      "characterId": "90001",
+      "name": "QuestQA",
+      "raceId": "human",
+      "raceName": "Human",
+      "professionId": "warrior",
+      "professionName": "Warrior",
+      "hasMana": false,
+      "level": 2,
+      "xp": 270,
+      "xpForNextLevel": 300,
+      "hp": 100,
+      "maxHp": 100,
+      "mana": 100,
+      "maxMana": 100,
+      "stamina": 100,
+      "maxStamina": 100
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "character.points.snapshot",
+    "correlationId": null,
+    "sequenceNumber": 9,
+    "payload": {
+      "availablePoints": 0,
+      "pointsPerLevel": 8,
+      "stats": [
+        {
+          "statId": "str",
+          "name": "Strength",
+          "value": 24,
+          "cap": 100
+        },
+        {
+          "statId": "int",
+          "name": "Intelligence",
+          "value": 24,
+          "cap": 100
+        },
+        {
+          "statId": "wis",
+          "name": "Wisdom",
+          "value": 23,
+          "cap": 100
+        },
+        {
+          "statId": "dex",
+          "name": "Dexterity",
+          "value": 24,
+          "cap": 100
+        },
+        {
+          "statId": "con",
+          "name": "Constitution",
+          "value": 25,
+          "cap": 100
+        }
+      ]
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "character.status.snapshot",
+    "correlationId": null,
+    "sequenceNumber": 10,
+    "payload": {
+      "state": "standing",
+      "isAlive": true
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "inventory.snapshot",
+    "correlationId": null,
+    "sequenceNumber": 11,
+    "payload": {
+      "items": [
+        {
+          "itemId": "health_potion",
+          "name": "Health Potion",
+          "quantity": 4,
+          "category": "consumable"
+        },
+        {
+          "itemId": "leather_cap",
+          "name": "Leather Cap",
+          "quantity": 1,
+          "category": "armor",
+          "slot": "head",
+          "armorClass": 1
+        },
+        {
+          "itemId": "rusty_sword",
+          "name": "Rusty Sword",
+          "quantity": 1,
+          "category": "weapon",
+          "slot": "main_hand",
+          "damageType": "slashing",
+          "baseDamage": 5
+        },
+        {
+          "itemId": "torch",
+          "name": "Torch",
+          "quantity": 1,
+          "category": "misc",
+          "description": "Illu +100, Delete at Cleanup  Sold at arlysia, khazarad, lost city, neko store, newhaven, rhudaur, silvermere  Light Sources  80s Webite | Games | Music Store | Music Fan Clubs Copyright \u00a9 -- Metropolis Entertainment, Inc. | Privacy Policy Send questions or comments to MudCentral Webmaster",
+          "encumbrance": 40
+        }
+      ],
+      "currency": 0
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.result",
+    "correlationId": null,
+    "sequenceNumber": 12,
+    "payload": {
+      "action": "complete",
+      "questId": "bone_collector",
+      "success": true,
+      "message": "Quest completed: 'Bone Collector'! Awarded 150 XP. Items: 1x health_potion, 1x leather_cap.",
+      "state": "completed",
+      "rewards": {
+        "xp": 150,
+        "currency": 0,
+        "items": [
+          {
+            "itemId": "health_potion",
+            "name": "Health Potion",
+            "quantity": 1
+          },
+          {
+            "itemId": "leather_cap",
+            "name": "Leather Cap",
+            "quantity": 1
+          }
+        ],
+        "loot": null
+      }
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.snapshot",
+    "correlationId": null,
+    "sequenceNumber": 13,
+    "payload": {
+      "quests": [
+        {
+          "questId": "bone_collector",
+          "name": "Bone Collector",
+          "description": "[PLACEHOLDER] Defeat 2 Skeleton Warriors and collect a health potion.",
+          "state": "completed",
+          "levelRequired": 2,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "skeleton_warrior",
+              "targetName": "Skeleton Warrior",
+              "current": 2,
+              "required": 2,
+              "met": true
+            },
+            {
+              "index": 1,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 1,
+              "required": 1,
+              "met": true
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 150,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 1
+              },
+              {
+                "itemId": "leather_cap",
+                "name": "Leather Cap",
+                "quantity": 1
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": false,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "abandonBlockedReason": "Quest 'bone_collector' is already completed \u2014 cannot abandon.",
+          "completeBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "potion_collector",
+          "name": "Potion Collector",
+          "description": "[PLACEHOLDER] Gather 5 health potions.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 0,
+              "required": 5,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 30,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'potion_collector' is not active.",
+          "completeBlockedReason": "Quest 'potion_collector' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "rat_slayer",
+          "name": "Rat Slayer",
+          "description": "[PLACEHOLDER] Kill 3 Giant Rats infesting the cellar.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "giant_rat",
+              "targetName": "Giant Rat",
+              "current": 0,
+              "required": 3,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 50,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'rat_slayer' is not active.",
+          "completeBlockedReason": "Quest 'rat_slayer' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "spider_hunt",
+          "name": "Spider Hunt",
+          "description": "[PLACEHOLDER] Hunt down 2 Forest Spiders.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "forest_spider",
+              "targetName": "Forest Spider",
+              "current": 0,
+              "required": 2,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 100,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 3
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'spider_hunt' is not active.",
+          "completeBlockedReason": "Quest 'spider_hunt' is not active.",
+          "giverName": null,
+          "turnInName": null
+        }
+      ]
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.result",
+    "correlationId": null,
+    "sequenceNumber": 14,
+    "payload": {
+      "action": "complete",
+      "questId": "bone_collector",
+      "success": false,
+      "message": "Quest 'bone_collector' has already been completed.",
+      "state": "completed",
+      "rewards": null
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.snapshot",
+    "correlationId": null,
+    "sequenceNumber": 15,
+    "payload": {
+      "quests": [
+        {
+          "questId": "bone_collector",
+          "name": "Bone Collector",
+          "description": "[PLACEHOLDER] Defeat 2 Skeleton Warriors and collect a health potion.",
+          "state": "completed",
+          "levelRequired": 2,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "skeleton_warrior",
+              "targetName": "Skeleton Warrior",
+              "current": 2,
+              "required": 2,
+              "met": true
+            },
+            {
+              "index": 1,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 1,
+              "required": 1,
+              "met": true
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 150,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 1
+              },
+              {
+                "itemId": "leather_cap",
+                "name": "Leather Cap",
+                "quantity": 1
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": false,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "abandonBlockedReason": "Quest 'bone_collector' is already completed \u2014 cannot abandon.",
+          "completeBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "potion_collector",
+          "name": "Potion Collector",
+          "description": "[PLACEHOLDER] Gather 5 health potions.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 0,
+              "required": 5,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 30,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'potion_collector' is not active.",
+          "completeBlockedReason": "Quest 'potion_collector' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "rat_slayer",
+          "name": "Rat Slayer",
+          "description": "[PLACEHOLDER] Kill 3 Giant Rats infesting the cellar.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "giant_rat",
+              "targetName": "Giant Rat",
+              "current": 0,
+              "required": 3,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 50,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'rat_slayer' is not active.",
+          "completeBlockedReason": "Quest 'rat_slayer' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "spider_hunt",
+          "name": "Spider Hunt",
+          "description": "[PLACEHOLDER] Hunt down 2 Forest Spiders.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "forest_spider",
+              "targetName": "Forest Spider",
+              "current": 0,
+              "required": 2,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 100,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 3
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'spider_hunt' is not active.",
+          "completeBlockedReason": "Quest 'spider_hunt' is not active.",
+          "giverName": null,
+          "turnInName": null
+        }
+      ]
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.result",
+    "correlationId": null,
+    "sequenceNumber": 16,
+    "payload": {
+      "action": "accept",
+      "questId": "rat_slayer",
+      "success": true,
+      "message": "Quest accepted: 'Rat Slayer'.",
+      "state": "active",
+      "rewards": null
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.snapshot",
+    "correlationId": null,
+    "sequenceNumber": 17,
+    "payload": {
+      "quests": [
+        {
+          "questId": "bone_collector",
+          "name": "Bone Collector",
+          "description": "[PLACEHOLDER] Defeat 2 Skeleton Warriors and collect a health potion.",
+          "state": "completed",
+          "levelRequired": 2,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "skeleton_warrior",
+              "targetName": "Skeleton Warrior",
+              "current": 2,
+              "required": 2,
+              "met": true
+            },
+            {
+              "index": 1,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 1,
+              "required": 1,
+              "met": true
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 150,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 1
+              },
+              {
+                "itemId": "leather_cap",
+                "name": "Leather Cap",
+                "quantity": 1
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": false,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "abandonBlockedReason": "Quest 'bone_collector' is already completed \u2014 cannot abandon.",
+          "completeBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "potion_collector",
+          "name": "Potion Collector",
+          "description": "[PLACEHOLDER] Gather 5 health potions.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 0,
+              "required": 5,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 30,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'potion_collector' is not active.",
+          "completeBlockedReason": "Quest 'potion_collector' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "rat_slayer",
+          "name": "Rat Slayer",
+          "description": "[PLACEHOLDER] Kill 3 Giant Rats infesting the cellar.",
+          "state": "active",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "giant_rat",
+              "targetName": "Giant Rat",
+              "current": 0,
+              "required": 3,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 50,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": false,
+          "canAbandon": true,
+          "canComplete": false,
+          "acceptBlockedReason": "Quest 'rat_slayer' is already active.",
+          "abandonBlockedReason": null,
+          "completeBlockedReason": "Objective 1: kill 'giant_rat' \u2014 0/3 completed.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "spider_hunt",
+          "name": "Spider Hunt",
+          "description": "[PLACEHOLDER] Hunt down 2 Forest Spiders.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "forest_spider",
+              "targetName": "Forest Spider",
+              "current": 0,
+              "required": 2,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 100,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 3
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'spider_hunt' is not active.",
+          "completeBlockedReason": "Quest 'spider_hunt' is not active.",
+          "giverName": null,
+          "turnInName": null
+        }
+      ]
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.result",
+    "correlationId": null,
+    "sequenceNumber": 18,
+    "payload": {
+      "action": "abandon",
+      "questId": "rat_slayer",
+      "success": true,
+      "message": "Quest abandoned: 'Rat Slayer'.",
+      "state": null,
+      "rewards": null
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.snapshot",
+    "correlationId": null,
+    "sequenceNumber": 19,
+    "payload": {
+      "quests": [
+        {
+          "questId": "bone_collector",
+          "name": "Bone Collector",
+          "description": "[PLACEHOLDER] Defeat 2 Skeleton Warriors and collect a health potion.",
+          "state": "completed",
+          "levelRequired": 2,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "skeleton_warrior",
+              "targetName": "Skeleton Warrior",
+              "current": 2,
+              "required": 2,
+              "met": true
+            },
+            {
+              "index": 1,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 1,
+              "required": 1,
+              "met": true
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 150,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 1
+              },
+              {
+                "itemId": "leather_cap",
+                "name": "Leather Cap",
+                "quantity": 1
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": false,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "abandonBlockedReason": "Quest 'bone_collector' is already completed \u2014 cannot abandon.",
+          "completeBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "potion_collector",
+          "name": "Potion Collector",
+          "description": "[PLACEHOLDER] Gather 5 health potions.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 0,
+              "required": 5,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 30,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'potion_collector' is not active.",
+          "completeBlockedReason": "Quest 'potion_collector' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "rat_slayer",
+          "name": "Rat Slayer",
+          "description": "[PLACEHOLDER] Kill 3 Giant Rats infesting the cellar.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "giant_rat",
+              "targetName": "Giant Rat",
+              "current": 0,
+              "required": 3,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 50,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'rat_slayer' is not active.",
+          "completeBlockedReason": "Quest 'rat_slayer' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "spider_hunt",
+          "name": "Spider Hunt",
+          "description": "[PLACEHOLDER] Hunt down 2 Forest Spiders.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "forest_spider",
+              "targetName": "Forest Spider",
+              "current": 0,
+              "required": 2,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 100,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 3
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'spider_hunt' is not active.",
+          "completeBlockedReason": "Quest 'spider_hunt' is not active.",
+          "giverName": null,
+          "turnInName": null
+        }
+      ]
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.result",
+    "correlationId": null,
+    "sequenceNumber": 20,
+    "payload": {
+      "action": "accept",
+      "questId": "rat_slayer",
+      "success": true,
+      "message": "Quest accepted: 'Rat Slayer'.",
+      "state": "active",
+      "rewards": null
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.snapshot",
+    "correlationId": null,
+    "sequenceNumber": 21,
+    "payload": {
+      "quests": [
+        {
+          "questId": "bone_collector",
+          "name": "Bone Collector",
+          "description": "[PLACEHOLDER] Defeat 2 Skeleton Warriors and collect a health potion.",
+          "state": "completed",
+          "levelRequired": 2,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "skeleton_warrior",
+              "targetName": "Skeleton Warrior",
+              "current": 2,
+              "required": 2,
+              "met": true
+            },
+            {
+              "index": 1,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 1,
+              "required": 1,
+              "met": true
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 150,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 1
+              },
+              {
+                "itemId": "leather_cap",
+                "name": "Leather Cap",
+                "quantity": 1
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": false,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "abandonBlockedReason": "Quest 'bone_collector' is already completed \u2014 cannot abandon.",
+          "completeBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "potion_collector",
+          "name": "Potion Collector",
+          "description": "[PLACEHOLDER] Gather 5 health potions.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 0,
+              "required": 5,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 30,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'potion_collector' is not active.",
+          "completeBlockedReason": "Quest 'potion_collector' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "rat_slayer",
+          "name": "Rat Slayer",
+          "description": "[PLACEHOLDER] Kill 3 Giant Rats infesting the cellar.",
+          "state": "active",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "giant_rat",
+              "targetName": "Giant Rat",
+              "current": 0,
+              "required": 3,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 50,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": false,
+          "canAbandon": true,
+          "canComplete": false,
+          "acceptBlockedReason": "Quest 'rat_slayer' is already active.",
+          "abandonBlockedReason": null,
+          "completeBlockedReason": "Objective 1: kill 'giant_rat' \u2014 0/3 completed.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "spider_hunt",
+          "name": "Spider Hunt",
+          "description": "[PLACEHOLDER] Hunt down 2 Forest Spiders.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "forest_spider",
+              "targetName": "Forest Spider",
+              "current": 0,
+              "required": 2,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 100,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 3
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'spider_hunt' is not active.",
+          "completeBlockedReason": "Quest 'spider_hunt' is not active.",
+          "giverName": null,
+          "turnInName": null
+        }
+      ]
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.result",
+    "correlationId": null,
+    "sequenceNumber": 22,
+    "payload": {
+      "action": "abandon",
+      "questId": "bone_collector",
+      "success": false,
+      "message": "Quest 'bone_collector' is already completed \u2014 cannot abandon.",
+      "state": "completed",
+      "rewards": null
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.snapshot",
+    "correlationId": null,
+    "sequenceNumber": 23,
+    "payload": {
+      "quests": [
+        {
+          "questId": "bone_collector",
+          "name": "Bone Collector",
+          "description": "[PLACEHOLDER] Defeat 2 Skeleton Warriors and collect a health potion.",
+          "state": "completed",
+          "levelRequired": 2,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "skeleton_warrior",
+              "targetName": "Skeleton Warrior",
+              "current": 2,
+              "required": 2,
+              "met": true
+            },
+            {
+              "index": 1,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 1,
+              "required": 1,
+              "met": true
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 150,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 1
+              },
+              {
+                "itemId": "leather_cap",
+                "name": "Leather Cap",
+                "quantity": 1
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": false,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "abandonBlockedReason": "Quest 'bone_collector' is already completed \u2014 cannot abandon.",
+          "completeBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "potion_collector",
+          "name": "Potion Collector",
+          "description": "[PLACEHOLDER] Gather 5 health potions.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 0,
+              "required": 5,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 30,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'potion_collector' is not active.",
+          "completeBlockedReason": "Quest 'potion_collector' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "rat_slayer",
+          "name": "Rat Slayer",
+          "description": "[PLACEHOLDER] Kill 3 Giant Rats infesting the cellar.",
+          "state": "active",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "giant_rat",
+              "targetName": "Giant Rat",
+              "current": 0,
+              "required": 3,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 50,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": false,
+          "canAbandon": true,
+          "canComplete": false,
+          "acceptBlockedReason": "Quest 'rat_slayer' is already active.",
+          "abandonBlockedReason": null,
+          "completeBlockedReason": "Objective 1: kill 'giant_rat' \u2014 0/3 completed.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "spider_hunt",
+          "name": "Spider Hunt",
+          "description": "[PLACEHOLDER] Hunt down 2 Forest Spiders.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "forest_spider",
+              "targetName": "Forest Spider",
+              "current": 0,
+              "required": 2,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 100,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 3
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'spider_hunt' is not active.",
+          "completeBlockedReason": "Quest 'spider_hunt' is not active.",
+          "giverName": null,
+          "turnInName": null
+        }
+      ]
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.result",
+    "correlationId": null,
+    "sequenceNumber": 24,
+    "payload": {
+      "action": "accept",
+      "questId": "bone_collector",
+      "success": false,
+      "message": "Quest 'bone_collector' has already been completed.",
+      "state": "completed",
+      "rewards": null
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.snapshot",
+    "correlationId": null,
+    "sequenceNumber": 25,
+    "payload": {
+      "quests": [
+        {
+          "questId": "bone_collector",
+          "name": "Bone Collector",
+          "description": "[PLACEHOLDER] Defeat 2 Skeleton Warriors and collect a health potion.",
+          "state": "completed",
+          "levelRequired": 2,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "skeleton_warrior",
+              "targetName": "Skeleton Warrior",
+              "current": 2,
+              "required": 2,
+              "met": true
+            },
+            {
+              "index": 1,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 1,
+              "required": 1,
+              "met": true
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 150,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 1
+              },
+              {
+                "itemId": "leather_cap",
+                "name": "Leather Cap",
+                "quantity": 1
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": false,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "abandonBlockedReason": "Quest 'bone_collector' is already completed \u2014 cannot abandon.",
+          "completeBlockedReason": "Quest 'bone_collector' has already been completed.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "potion_collector",
+          "name": "Potion Collector",
+          "description": "[PLACEHOLDER] Gather 5 health potions.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "collect",
+              "targetId": "health_potion",
+              "targetName": "Health Potion",
+              "current": 0,
+              "required": 5,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 30,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'potion_collector' is not active.",
+          "completeBlockedReason": "Quest 'potion_collector' is not active.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "rat_slayer",
+          "name": "Rat Slayer",
+          "description": "[PLACEHOLDER] Kill 3 Giant Rats infesting the cellar.",
+          "state": "active",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "giant_rat",
+              "targetName": "Giant Rat",
+              "current": 0,
+              "required": 3,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 50,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 2
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": false,
+          "canAbandon": true,
+          "canComplete": false,
+          "acceptBlockedReason": "Quest 'rat_slayer' is already active.",
+          "abandonBlockedReason": null,
+          "completeBlockedReason": "Objective 1: kill 'giant_rat' \u2014 0/3 completed.",
+          "giverName": null,
+          "turnInName": null
+        },
+        {
+          "questId": "spider_hunt",
+          "name": "Spider Hunt",
+          "description": "[PLACEHOLDER] Hunt down 2 Forest Spiders.",
+          "state": "available",
+          "levelRequired": 1,
+          "prerequisites": [],
+          "objectives": [
+            {
+              "index": 0,
+              "type": "kill",
+              "targetId": "forest_spider",
+              "targetName": "Forest Spider",
+              "current": 0,
+              "required": 2,
+              "met": false
+            }
+          ],
+          "readyToComplete": false,
+          "rewards": {
+            "xp": 100,
+            "currency": 0,
+            "items": [
+              {
+                "itemId": "health_potion",
+                "name": "Health Potion",
+                "quantity": 3
+              }
+            ],
+            "loot": null
+          },
+          "canAccept": true,
+          "canAbandon": false,
+          "canComplete": false,
+          "acceptBlockedReason": null,
+          "abandonBlockedReason": "Quest 'spider_hunt' is not active.",
+          "completeBlockedReason": "Quest 'spider_hunt' is not active.",
+          "giverName": null,
+          "turnInName": null
+        }
+      ]
+    }
+  },
+  {
+    "version": {
+      "major": 1,
+      "minor": 0
+    },
+    "category": "event",
+    "messageType": "quest.result",
+    "correlationId": null,
+    "sequenceNumber": 26,
+    "payload": {
+      "action": "accept",
+      "questId": "no_such_quest",
+      "success": false,
+      "message": "Unknown quest: 'no_such_quest'.",
+      "state": null,
+      "rewards": null
+    }
+  }
+]

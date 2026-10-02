@@ -1,0 +1,18 @@
+
+==========================================================================
+REL-VERIFY (QA-only helper)
+==========================================================================
+         endpoint                           ws://localhost:4013/
+         websocket                          ws://localhost:4013/ state=Open
+  [PASS] handshake accepted :: accepted=true
+  [PASS] auth.request succeeds :: session=1772d5344d4746a8840bdc8cafaaee4d character=__testchar__ id=1123
+         start room                         val_cr_mail_yard ('The Mail Yard')
+  [PASS] walk west :: [val_cr_mail_yard] The Mail Yard -> [val_cr_first_verge] The First Verge
+  [PASS] walk southwest :: [val_cr_first_verge] The First Verge -> [val_cr_outside_gate] Outside the North Gate
+  [PASS] walk southwest :: [val_cr_outside_gate] Outside the North Gate -> [val_bw_north_gate] The North Gate
+  [PASS] walk southwest :: [val_bw_north_gate] The North Gate -> [val_bw_guardhouse_row] The Guardhouse Row
+  [PASS] walk north :: [val_bw_guardhouse_row] The Guardhouse Row -> [val_bw_wall_walk] The Wall Walk
+  [PASS] walk northwest :: [val_bw_wall_walk] The Wall Walk -> [val_cw_wall_stairs] The Wall Stairs
+  [PASS] walk west :: [val_cw_wall_stairs] The Wall Stairs -> [val_cw_muster_gallery] The Watch Muster Gallery
+         room after route                   val_cw_muster_gallery ('The Watch Muster Gallery')
+         who                                0

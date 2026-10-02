@@ -1,0 +1,20 @@
+
+==========================================================================
+REL-VERIFY (QA-only helper)
+==========================================================================
+         endpoint                           ws://localhost:4013/
+         websocket                          ws://localhost:4013/ state=Open
+  [PASS] handshake accepted :: accepted=true
+  [PASS] auth.request succeeds :: session=5caead861d5c4b71a7705e754d697361 character=__testchar__ id=1123
+         start room                         val_cr_mail_yard ('The Mail Yard')
+         room after route                   val_cr_mail_yard ('The Mail Yard')
+
+==========================================================================
+RESPAWN PATH
+==========================================================================
+         hp before                          0/25 lv=5
+  >> character.respawn.request correlation=f62b217a47fc4ee981ed42f3e64339c2
+  [PASS] character.respawn.result received :: {"hp": 12, "maxHp": 25, "message": "You awaken, alive again.", "success": true}
+         room after respawn                 val_cr_mail_yard ('The Mail Yard')
+         hp after                           0/25 lv=5
+         who                                0

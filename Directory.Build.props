@@ -1,0 +1,20 @@
+<Project>
+
+  <!--
+    Solution-wide Release conventions for the distributed beta client.
+
+    Debug configuration is deliberately untouched so local development and
+    test debugging keep working exactly as before.
+
+    DebugType/DebugSymbols are disabled for Release because the PE debug
+    directory embeds the absolute PDB path of the build machine
+    (e.g. C:\Users\<dev>\Portal\...).  Those paths are inert at runtime,
+    but they must not ship in a beta artifact, and no PDB is needed to run
+    the client.
+  -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+</Project>

@@ -1,4 +1,6 @@
-﻿using System.Text;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,6 +10,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using Portal.Networking;
+using Portal.Protocol;
+using Portal.Services;
+using Portal.State;
 
 namespace Portal.UI;
 
@@ -16,12 +23,43 @@ namespace Portal.UI;
 /// </summary>
 public partial class MainWindow : Window
 {
+    // Amount of the title bar that must remain inside the current virtual
+    // desktop for a saved window position to be considered usable.
+    private const double TitleBarProbeHeight = 30;
+    private const double MinimumTitleBarVisibleWidth = 120;
+
     private readonly MainViewModel _viewModel = new();
+
+    // Debounces autosave of the username convenience field so typing does not
+    // write the settings file on every keystroke.
+    private readonly DispatcherTimer _settingsSaveTimer = new()
+    {
+        Interval = TimeSpan.FromMilliseconds(500),
+    };
+
+    // ─── Networking / Service dependencies ────────────────────────────
+    private readonly IWebSocketConnection _connection;
+    private readonly AuthenticationServiceOptions _authOptions;
+    private readonly AuthenticationService _authService;
+    private readonly GameEventService _eventService;
+    private readonly CombatService _combatService;
+    private readonly MovementService _movementService;
+    private readonly EquipmentService _equipmentService;
+    private readonly CharacterPointsService _characterPointsService;
+    private readonly ServiceInteractionService _serviceService;
+    private readonly QuestService _questService;
+    private readonly ServiceContextSink _serviceSink;
+    private CancellationTokenSource? _sessionCts;
 
     public MainWindow()
     {
         DataContext = _viewModel;
         InitializeComponent();
+
+        // The room/shop/bank/door/who sink is created here, before the event
+        // service below, because the event service takes it as its final
+        // hand-off target exactly as it takes the map view-model.
+        _serviceSink = new ServiceContextSink(_viewModel);
 
         // Size the initial window to the usable desktop work area (which
         // excludes the taskbar) so the title bar and window controls are never
@@ -38,5 +76,1260 @@ public partial class MainWindow : Window
         // Clamp the initial size to fit within the work area.
         Width = Math.Min(Width, workArea.Width);
         Height = Math.Min(Height, workArea.Height);
+
+        // ─── Restore locally autosaved client preferences ─────────────────
+        // Window placement/state and the login bar's username convenience
+        // value are the only locally owned values Portal persists.
+        //
+        // This runs AFTER the networking services are wired below, because
+        // restoring the local-development selection calls
+        // ApplySelectedEndpoint(), which hands the resolved endpoint to
+        // _authOptions.  Running it before _authOptions exists dereferenced a
+        // null field and made the client crash on every startup.
+        // work-area clamping still applies: RestoreLocalSettings clamps the
+        // restored size itself, and MinWidth/MinHeight were already clamped
+        // above, so moving the call changes no window-placement behaviour.
+
+        // ─── Wire networking services ────────────────────────────────────
+
+        // The endpoint is never hardcoded here. It is resolved from the
+        // persisted local-development selection through the single
+        // authoritative resolver in PortalEndpoints, so production is what a
+        // default install talks to and localhost is reachable only by explicit
+        // opt-in.
+        var connectionOptions = new WebSocketConnectionOptions();
+        _connection = new WebSocketConnection(connectionOptions);
+
+        var authOptions = new AuthenticationServiceOptions(
+            PortalEndpoints.Resolve(CurrentEndpointTarget()),
+            "Portal",
+            "1.0.0",
+            new CapabilityInfo[]
+            {
+                new CapabilityInfo("combat.skill", "1.0"),
+                new("combat.attack", "1.0"),
+                new("target.select", "1.0"),
+                new("character.skills.snapshot", "1.0"),
+                new("movement.direction", "1.0"),
+                new("movement.failed", "1.0"),
+                // Room service context. Advertised so the handshake reflects
+                // exactly what this build can drive; every one of these is
+                // backed by a real Keystone handler, so no advertised
+                // capability is a stub.
+                new("room.state", "1.0"),
+                new("shop.snapshot.request", "1.0"),
+                new("shop.buy.request", "1.0"),
+                new("shop.sell.request", "1.0"),
+                new("bank.snapshot.request", "1.0"),
+                new("bank.deposit.request", "1.0"),
+                new("bank.withdraw.request", "1.0"),
+                new("door.action.request", "1.0"),
+                new("who.request", "1.0"),
+            });
+
+        _authOptions = authOptions;
+
+        _authService = new AuthenticationService(
+            _connection,
+            authOptions);
+
+        _eventService = new GameEventService(
+            _connection,
+            _viewModel.Character,
+            _viewModel.Target,
+            action =>
+                Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Normal,
+                    action),
+            entities =>
+                _viewModel.ReplaceRoomEntities(entities),
+            skills =>
+                _viewModel.ReplaceSkills(skills),
+            message =>
+            {
+                // movement.failed is the authoritative refusal text (e.g.
+                // "The iron gate is locked."). It is surfaced both in the
+                // dedicated movement banner and in the feedback line so a
+                // blocked door is never a silent no-op.
+                _viewModel.MovementMessage = message;
+                ShowFeedback(message);
+            },
+            (items, currency) =>
+                _viewModel.ReplaceInventory(items, currency),
+            equipped =>
+                _viewModel.ReplaceEquipment(equipped),
+            // The map view-model IS the sink: GameEventService deserializes and
+            // dispatches each map event to the UI thread, and the view-model
+            // applies it to its own state.
+            _viewModel.Map,
+            // The service-context sink is the equivalent hand-off point for
+            // the room/shop/bank/door/who events, so those follow exactly the
+            // same deserialization + Dispatcher conventions as every other
+            // event rather than introducing a second receive path.
+            _serviceSink);
+
+        _combatService = new CombatService(_connection);
+        _movementService = new MovementService(_connection);
+        _equipmentService = new EquipmentService(_connection);
+        _characterPointsService = new CharacterPointsService(_connection);
+        _serviceService = new ServiceInteractionService(_connection);
+        _questService = new QuestService(_connection);
+
+        _authService.StateChanged += OnAuthenticationStateChanged;
+
+        // ─── Restore locally autosaved client preferences ─────────────────
+        // Safe to call only now: the local-development selection is applied to
+        // _authOptions, which exists from this point on.
+        RestoreLocalSettings(workArea);
+
+        // ─── Local settings autosave wiring ──────────────────────────────
+
+        // There is no manual Save action anywhere in Portal: the username
+        // convenience field is autosaved shortly after it changes, and the
+        // window-related values are persisted when the window closes.
+        UsernameEntry.TextChanged += UsernameEntry_TextChanged;
+        LocalDevServerCheck.Checked += LocalDevServerCheck_Changed;
+        LocalDevServerCheck.Unchecked += LocalDevServerCheck_Changed;
+        _settingsSaveTimer.Tick += OnSettingsSaveTimerTick;
+        Closing += OnMainWindowClosing;
+        Closed += OnMainWindowClosed;
+    }
+
+    // ─── Connection endpoint selection (production / local dev) ──────────
+
+    /// <summary>
+    /// The endpoint target implied by the persisted local-development setting.
+    ///
+    /// OFF — the default — is Production. ON is Local Development. This is the
+    /// only place the client decides which server it will talk to, and there is
+    /// no automatic fallback in either direction: if the selected endpoint is
+    /// unreachable the connect fails and the failure is surfaced, never
+    /// silently retried against the other server.
+    /// </summary>
+    private static PortalEndpointTarget CurrentEndpointTarget() =>
+        PortalEndpoints.FromToggle(PortalSettings.Current.UseLocalDevelopmentServer);
+
+    /// <summary>
+    /// Applies the current toggle selection to the live connection, the
+    /// connection-target indicator, and the persisted settings.
+    ///
+    /// Called whenever the toggle changes and again immediately before every
+    /// connect attempt, so a reconnect after a dropped session re-resolves
+    /// through <see cref="PortalEndpoints.Resolve"/> from the current selection
+    /// rather than replaying an endpoint captured at construction time.
+    /// </summary>
+    private void ApplySelectedEndpoint()
+    {
+        var useLocalDev = LocalDevServerCheck.IsChecked == true;
+        var target = PortalEndpoints.FromToggle(useLocalDev);
+
+        _authOptions.UseTarget(target);
+        _viewModel.ConnectionTarget = PortalEndpoints.Describe(target);
+
+        var settings = PortalSettings.Current;
+        if (settings.UseLocalDevelopmentServer != useLocalDev)
+        {
+            settings.UseLocalDevelopmentServer = useLocalDev;
+            settings.Save();
+        }
+    }
+
+    /// <summary>
+    /// Handles the "Use Local Development Server" checkbox.
+    ///
+    /// The toggle only chooses which server Portal will connect to; it never
+    /// changes gameplay and never changes what Keystone sends. Changing it
+    /// while a session is live takes effect on the NEXT connection — the live
+    /// socket is never torn down or repointed underneath an active session.
+    /// </summary>
+    private void LocalDevServerCheck_Changed(object sender, RoutedEventArgs e)
+    {
+        ApplySelectedEndpoint();
+
+        // The tooltip carries the developer detail (the actual endpoint), so
+        // ordinary players are never shown a raw URL or a port number.
+        LocalDevServerCheck.ToolTip = PortalEndpoints.Resolve(CurrentEndpointTarget()).ToString();
+    }
+
+    // ─── Authentication trigger ───────────────────────────────────────
+
+    /// <summary>
+    /// Handles the login bar's Login button click.
+    ///
+    /// This is the single entry point into the Portal connection and
+    /// authentication flow: no WebSocket connection is opened and no
+    /// authentication request is sent until the user has entered credentials
+    /// and submitted them here.
+    ///
+    /// Portal never creates an account and never creates or selects a
+    /// character.  Keystone authenticates the account, resolves that
+    /// account's existing website-created character, binds it to the Portal
+    /// session, and pushes the initial gameplay snapshots.
+    /// </summary>
+    private async void LoginButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_authService.State == AuthenticationState.SessionActive)
+        {
+            _viewModel.ConnectionStatus = "Already connected";
+            return;
+        }
+
+        var username = UsernameEntry.Text?.Trim() ?? string.Empty;
+        var password = PasswordEntry.Password ?? string.Empty;
+
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        {
+            _viewModel.ConnectionStatus = "Username and password are required";
+            return;
+        }
+
+        LoginButton.IsEnabled = false;
+        _viewModel.ConnectionStatus = "Connecting...";
+
+        try
+        {
+            await ConnectAndAuthenticateAsync(username, password);
+        }
+        finally
+        {
+            LoginButton.IsEnabled = true;
+        }
+    }
+
+    /// <summary>
+    /// Initiates the full Portal authentication flow and, on success,
+    /// automatically starts the background event receive loop.
+    ///
+    /// On failure the connection is left non-authenticated (no SessionActive
+    /// state) so the event loop is never started, and the short authoritative
+    /// failure message is surfaced in the login status text.
+    /// </summary>
+    public async Task ConnectAndAuthenticateAsync(
+        string username, string password)
+    {
+        // Re-resolve the endpoint from the CURRENT toggle selection immediately
+        // before connecting. This is what makes both a first login and a
+        // reconnect after a disconnect honour the selection, with no automatic
+        // fallback to the other server.
+        ApplySelectedEndpoint();
+
+        var result = await _authService.AuthenticateAsync(username, password);
+
+        if (result.IsFailure)
+        {
+            // AuthenticationService has already returned to a non-SessionActive
+            // state — no session, no gameplay snapshots, no event loop.
+            _viewModel.ConnectionStatus = result.Errors.Count > 0
+                ? result.Errors[0].Message
+                : "Login failed";
+            return;
+        }
+
+        _viewModel.SessionId = result.Value.SessionId;
+        _viewModel.ConnectionStatus = "Connected";
+        PasswordEntry.Clear();
+
+        // A real ROP session now exists, so logout becomes available.
+        LogoutButton.IsEnabled = true;
+    }
+
+    // ─── Auth state change → start event loop ─────────────────────────
+
+    private void OnAuthenticationStateChanged(
+        object? sender, AuthenticationStateChangedEventArgs e)
+    {
+        // Keep the bottom status bar's session text in sync with the real
+        // authentication state, independent of the transient login-bar
+        // messages carried by ConnectionStatus.
+        _viewModel.SessionStatus = GetSessionStatusText(e.NewState);
+
+        if (e.NewState == AuthenticationState.SessionActive)
+        {
+            // Authentication has fully completed and consumed its responses.
+            // Now start the single background event receive loop.
+            _sessionCts?.Cancel();
+            _sessionCts?.Dispose();
+            _sessionCts = new CancellationTokenSource();
+
+            _eventService.Start(_sessionCts.Token);
+        }
+        else if (e.OldState == AuthenticationState.SessionActive
+                 && e.NewState != AuthenticationState.SessionActive)
+        {
+            // Session is no longer active — stop event loop.
+            //
+            // The map is also cleared here so a logout, disconnect or reconnect
+            // can never leave rooms or frontier stubs from the previous session
+            // on screen. Keystone re-sends a complete map.snapshot on reconnect,
+            // so the map always rebuilds from the server's truth.
+            _viewModel.Map.ClearMap();
+            ClearServiceContext();
+            _ = StopEventLoopAsync();
+        }
+    }
+
+    /// <summary>
+    /// Clears every room-service panel when a session ends.
+    /// </summary>
+    /// <remarks>
+    /// Without this, a logout or disconnect would leave the previous
+    /// character's room, wares, bank balances and WHO list on screen.
+    /// Keystone re-sends a complete room.state, shop/bank snapshot and WHO
+    /// list on reconnect, so all of it rebuilds from the server's truth.
+    /// </remarks>
+    private void ClearServiceContext()
+    {
+        _viewModel.Shop.IsOpen = false;
+        _viewModel.Shop.ClearForRoomChange();
+        _viewModel.Bank.IsOpen = false;
+        _viewModel.Who.IsOpen = false;
+        _viewModel.Who.Clear();
+        _serviceSink.Reset();
+    }
+
+    // ─── Logout ───────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Handles the login bar's Logout button click.
+    ///
+    /// Delegates to the single existing <see cref="LogoutAsync"/> path and
+    /// restores the button's enabled state from the real authentication
+    /// state afterwards.
+    /// </summary>
+    private async void LogoutButton_Click(object sender, RoutedEventArgs e)
+    {
+        // Defensive guard: there is nothing to log out of when no ROP
+        // session is active.
+        if (_authService.State != AuthenticationState.SessionActive)
+            return;
+
+        LogoutButton.IsEnabled = false;
+
+        try
+        {
+            await LogoutAsync();
+        }
+        finally
+        {
+            // Only a session that is still active (i.e. a failed logout)
+            // keeps the button available.
+            LogoutButton.IsEnabled = _authService.State == AuthenticationState.SessionActive;
+        }
+    }
+
+    /// <summary>
+    /// Logs out of the current ROP session, stops the event loop, and
+    /// disconnects the WebSocket.
+    ///
+    /// Uses existing mechanisms only: the session cancellation token plus
+    /// <see cref="GameEventService.StopAsync"/> stop the single receive
+    /// loop, and <see cref="AuthenticationService.LogoutAsync"/> sends the
+    /// logout request, closes the connection, and returns the authentication
+    /// state to Unauthenticated.  No additional connection is created, so a
+    /// later login reuses the same services.
+    /// </summary>
+    public async Task LogoutAsync()
+    {
+        await StopEventLoopAsync();
+
+        var logoutResult = await _authService.LogoutAsync();
+
+        // The password is never retained across a logout attempt, so a new
+        // login always starts from a cleared field.
+        PasswordEntry.Clear();
+
+        if (logoutResult.IsSuccess)
+        {
+            // Session is gone: clear the session id (bottom bar shows
+            // "Session: --") and return the login/status area to Disconnected.
+            _viewModel.SessionId = "--";
+            _viewModel.ConnectionStatus = "Disconnected";
+        }
+        else
+        {
+            // The session is still active — report the reason in the login
+            // bar and leave the connection state untouched.
+            _viewModel.ConnectionStatus = logoutResult.Errors.Count > 0
+                ? logoutResult.Errors[0].Message
+                : "Logout failed";
+        }
+    }
+
+    /// <summary>
+    /// Maps the authoritative authentication state onto the short session
+    /// text shown by the bottom status bar.  Any state that does not
+    /// represent an established session reads as Disconnected.
+    /// </summary>
+    private static string GetSessionStatusText(AuthenticationState state)
+    {
+        return state switch
+        {
+            AuthenticationState.Authenticating => "Connecting...",
+            AuthenticationState.Authenticated => "Authenticating...",
+            AuthenticationState.EstablishingSession => "Authenticating...",
+            AuthenticationState.SessionActive => "Connected",
+            AuthenticationState.Reconnecting => "Reconnecting...",
+            _ => "Disconnected",
+        };
+    }
+
+    private async Task StopEventLoopAsync()
+    {
+        _sessionCts?.Cancel();
+        await _eventService.StopAsync();
+    }
+
+    // ─── Authoritative feedback line ────────────────────────────────
+    //
+    // Portal Protocol V1 has no free-text channel, so this is NOT a
+    // transcript of server prose.  It is a short, explicit notice that a
+    // concrete protocol event happened (an authoritative refusal, a
+    // connection change).  Every string shown here originates from a
+    // server event or from a local request result — never from invented
+    // or demo content.
+
+    /// <summary>
+    /// Shows one authoritative feedback line in the communication panel.
+    /// A blank or whitespace message is ignored so an empty payload can
+    /// never blank out the panel.
+    /// </summary>
+    private void ShowFeedback(string? message)
+    {
+        if (string.IsNullOrWhiteSpace(message)) return;
+        TerminalOutput.Text = message;
+    }
+
+    /// ─── Attack button ───────────────────────────────────────────
+
+    /// <summary>
+    /// Sends a combat.attack.request to Keystone when a valid target is
+    /// selected.  If no target is selected the button click is silently
+    /// ignored — no invalid request is sent.
+    /// </summary>
+    private async void AttackButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (!_viewModel.Target.HasTarget || string.IsNullOrEmpty(_viewModel.Target.TargetId))
+            return;
+
+        var result = await _combatService.SendAttackAsync(_viewModel.Target.TargetId);
+        // Fire-and-forget.  Resulting combat state arrives through the
+        // existing GameEventService event stream.
+    }
+
+    /// <summary>
+    /// Sends a combat.skill.request to Keystone when the player clicks an
+    /// active unlocked skill button in the Spells and Abilities panel.
+    /// Guards passive skills, empty SkillId, and missing required target.
+    /// </summary>
+    private async void SkillButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button)
+            return;
+
+        if (button.Tag is not SkillRecord skill)
+            return;
+
+        if (skill.IsPassive || string.IsNullOrEmpty(skill.SkillId))
+            return;
+
+        if (skill.TargetRequired)
+        {
+            if (!_viewModel.Target.HasTarget || string.IsNullOrEmpty(_viewModel.Target.TargetId))
+                return;
+        }
+
+        var targetId = skill.TargetRequired ? _viewModel.Target.TargetId : null;
+        _ = await _combatService.SendSkillAsync(skill.SkillId, targetId);
+        // Fire-and-forget.  Resulting combat state arrives through the
+        // existing GameEventService event stream.
+    }
+
+    // ─── Room Entities ComboBox selection ─────────────────────────
+
+    /// <summary>
+    /// Sends a target.select.request to Keystone when the player selects
+    /// a live RoomEntity from the ComboBox.
+    ///
+    /// Does NOT update TargetStats locally — the authoritative target state
+    /// arrives via the existing target.changed event stream.
+    /// </summary>
+    private async void RoomEntitiesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var selected = _viewModel.SelectedRoomEntity;
+
+        // Defensive guard: no entity selected or dead entity
+        if (selected is null || selected.IsDead)
+            return;
+
+        // Fire-and-forget send.  Resulting target state arrives through the
+        // existing GameEventService event stream as a target.changed event.
+        _ = await _combatService.SendTargetSelectAsync(selected.TargetId);
+    }
+
+    // --- Movement direction controls -------------------------------------
+
+    /// <summary>
+    /// Sends a movement.direction.request to Keystone when the player clicks
+    /// a directional control in the Navigation panel.
+    ///
+    /// The canonical direction is carried on the button's Tag; no movement
+    /// logic lives here.  Keystone resolves the real exit and authoritative
+    /// traversal; resulting state returns via the existing event stream.
+    /// </summary>
+    private async void DirectionButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button)
+            return;
+
+        if (button.Tag is not string direction || string.IsNullOrWhiteSpace(direction))
+            return;
+
+        // Clear any previous movement failure message before sending the
+        // new request. If the move succeeds the message stays cleared;
+        // if the move fails, movement.failed will populate it again.
+        _viewModel.MovementMessage = string.Empty;
+
+        _ = await _movementService.SendDirectionAsync(direction);
+        // Fire-and-forget.  Resulting room/target state arrives through the
+        // existing GameEventService event stream.
+    }
+
+    // ─── Shop / Bank / Door / WHO ──────────────────────────────────────
+    //
+    // Every handler here is a thin, fire-and-forget call into
+    // ServiceInteractionService. None of them sends a price, a balance, a
+    // stock level or an expected outcome: it sends only what the player
+    // asked for, and every resulting value, refusal and state change comes
+    // back through the existing GameEventService event stream.
+
+    /// <summary>Opens the shop panel and asks the server what is on offer.</summary>
+    private async void OpenShopButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (!_viewModel.Room.HasShops)
+            return;
+
+        _viewModel.Shop.IsOpen = true;
+
+        // Ask the server to advertise this room's shops, then open the only
+        // one automatically when there is exactly one, so the common
+        // single-shop room costs a single click rather than two.
+        await _serviceService.RequestShopAsync();
+
+        if (_viewModel.Shop.Shops.Count == 1)
+            await _serviceService.RequestShopAsync(_viewModel.Shop.Shops[0].ShopId);
+    }
+
+    /// <summary>Loads one room-linked shop's authoritative wares.</summary>
+    private async void ShopSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.Source != ShopCombo)
+            return;
+
+        if (ShopCombo.SelectedItem is not ShopSummaryRecord shop)
+            return;
+
+        await _serviceService.RequestShopAsync(shop.ShopId);
+    }
+
+    /// <summary>Buys one unit of the ware whose Buy button was clicked.</summary>
+    private async void ShopBuy_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: ShopWareRecord ware })
+            return;
+
+        if (_viewModel.Shop.SelectedShop is not { } shop)
+            return;
+
+        // One unit per click by design: quantity is deliberate server-side
+        // validation, and repeated single-unit buys stay unambiguous. Stock
+        // and funds are re-checked authoritatively on every one of them.
+        _ = await _serviceService.BuyAsync(shop.ShopId, ware.ItemId, 1);
+    }
+
+    /// <summary>Sells one unit of the ware whose Sell button was clicked.</summary>
+    private async void ShopSell_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: ShopWareRecord ware })
+            return;
+
+        if (_viewModel.Shop.SelectedShop is not { } shop)
+            return;
+
+        _ = await _serviceService.SellAsync(shop.ShopId, ware.ItemId, 1);
+    }
+
+    /// <summary>Closes the shop panel.</summary>
+    private void CloseShop_Click(object sender, RoutedEventArgs e) =>
+        _viewModel.Shop.IsOpen = false;
+
+    // ─── Quest log ───────────────────────────────────────────────────
+    // Each handler sends INTENT ONLY. It never marks a quest accepted,
+    // completed or ready locally: the button's enablement came from the
+    // server's own flag, and the authoritative answer arrives back as a
+    // quest.result event (followed by a refreshed quest.snapshot).
+
+    /// <summary>
+    /// Opens the quest log.
+    /// </summary>
+    /// <remarks>
+    /// The server already pushes <c>quest.snapshot</c> on every successful
+    /// authentication, so the panel normally opens onto live state with no
+    /// request at all. The explicit request here is only a refresh, which
+    /// keeps the panel honest if it was left open across a session change.
+    /// </remarks>
+    private async void OpenQuestButton_Click(object sender, RoutedEventArgs e)
+    {
+        _viewModel.Quests.IsOpen = true;
+        _ = await _questService.RequestSnapshotAsync();
+    }
+
+    /// <summary>Closes the quest log.</summary>
+    private void CloseQuestButton_Click(object sender, RoutedEventArgs e) =>
+        _viewModel.Quests.IsOpen = false;
+
+    /// <summary>
+    /// Sends an accept request for the clicked quest.
+    /// </summary>
+    private async void QuestAccept_Click(object sender, RoutedEventArgs e)
+    {
+        var questId = QuestIdFromSender(sender);
+        if (questId is null)
+            return;
+
+        _ = await _questService.SendAcceptAsync(questId);
+    }
+
+    /// <summary>
+    /// Sends an abandon request for the clicked quest.
+    /// </summary>
+    /// <remarks>
+    /// Abandoning discards recorded progress. The button is only enabled when
+    /// the server says the quest is active, and the server re-validates that
+    /// on arrival, so a stale click cannot destroy a finished quest.
+    /// </remarks>
+    private async void QuestAbandon_Click(object sender, RoutedEventArgs e)
+    {
+        var questId = QuestIdFromSender(sender);
+        if (questId is null)
+            return;
+
+        _ = await _questService.SendAbandonAsync(questId);
+    }
+
+    /// <summary>
+    /// Sends a completion request for the clicked quest.
+    /// </summary>
+    /// <remarks>
+    /// The button is enabled only when the server reports the quest ready.
+    /// Completion is never automatic, and the server re-checks readiness and
+    /// rejects a duplicate, so rewards are granted exactly once.
+    /// </remarks>
+    private async void QuestComplete_Click(object sender, RoutedEventArgs e)
+    {
+        var questId = QuestIdFromSender(sender);
+        if (questId is null)
+            return;
+
+        _ = await _questService.SendCompleteAsync(questId);
+    }
+
+    /// <summary>
+    /// Reads the quest id a button carries in its Tag.
+    /// </summary>
+    /// <remarks>
+    /// The Tag is a plain string rather than a view-model reference, so no
+    /// button click needs any client-side selection state to be in sync.
+    /// </remarks>
+    private static string? QuestIdFromSender(object sender) =>
+        sender is Button { Tag: string questId } && !string.IsNullOrWhiteSpace(questId)
+            ? questId
+            : null;
+
+    /// <summary>Opens the bank panel and asks for the authoritative balances.</summary>
+    private async void OpenBankButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (!_viewModel.Room.HasBank)
+            return;
+
+        _viewModel.Bank.IsOpen = true;
+        await _serviceService.RequestBankAsync();
+    }
+
+    /// <summary>Closes the bank panel.</summary>
+    private void CloseBank_Click(object sender, RoutedEventArgs e) =>
+        _viewModel.Bank.IsOpen = false;
+
+    /// <summary>Asks the server to move copper from the pack into the bank.</summary>
+    private async void BankDeposit_Click(object sender, RoutedEventArgs e)
+    {
+        if (!TryParseBankAmount(out var amount))
+            return;
+
+        _ = await _serviceService.DepositAsync(amount);
+    }
+
+    /// <summary>Asks the server to move copper from the bank into the pack.</summary>
+    private async void BankWithdraw_Click(object sender, RoutedEventArgs e)
+    {
+        if (!TryParseBankAmount(out var amount))
+            return;
+
+        _ = await _serviceService.WithdrawAsync(amount);
+    }
+
+    /// <summary>
+    /// Parses the bank amount field, reporting a local parse failure without
+    /// spending a round trip.
+    /// </summary>
+    /// <remarks>
+    /// This is a usability shortcut only. The server re-validates every
+    /// amount regardless, so a value that passes here can still legitimately
+    /// be refused server-side.
+    /// </remarks>
+    private bool TryParseBankAmount(out int amount)
+    {
+        var text = (_viewModel.Bank.AmountText ?? string.Empty).Trim();
+
+        if (!int.TryParse(text, out amount) || amount <= 0)
+        {
+            _viewModel.Bank.ApplyBankResult(new BankResultPayload
+            {
+                Action = "amount",
+                Success = false,
+                Message = "Enter a positive whole number of copper pieces.",
+            });
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Asks the server to open, close, lock or unlock one door.
+    /// </summary>
+    /// <remarks>
+    /// The button's Tag carries the door's canonical direction and the action
+    /// as "direction|action", because each door row is its own set of buttons
+    /// and needs no selection state. Every rule — including key possession —
+    /// is decided by the server, and a fresh room.state follows the result so
+    /// the mirrored door flags are always the server's.
+    /// </remarks>
+    private async void DoorAction_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: string tag } button)
+            return;
+
+        var separator = tag.IndexOf('|');
+        if (separator <= 0)
+            return;
+
+        var direction = tag[..separator];
+        var action = tag[(separator + 1)..];
+
+        if (string.IsNullOrWhiteSpace(direction) || string.IsNullOrWhiteSpace(action))
+            return;
+
+        _ = await _serviceService.DoorActionAsync(direction, action);
+    }
+
+    /// <summary>Opens the WHO panel and asks the server for the online list.</summary>
+    private async void OpenWhoButton_Click(object sender, RoutedEventArgs e)
+    {
+        _viewModel.Who.IsOpen = true;
+        await _serviceService.RequestWhoAsync();
+    }
+
+    /// <summary>Closes the WHO panel.</summary>
+    private void CloseWho_Click(object sender, RoutedEventArgs e) =>
+        _viewModel.Who.IsOpen = false;
+
+    // ─── Realm map panel ────────────────────────────────────────────────
+    //
+    // Every handler here is a thin call into MapViewModel. None of them reads
+    // world data locally and none of them computes topology: the map only ever
+    // reflects what Keystone has already sent.
+
+    /// <summary>Zooms the map in one step.</summary>
+    private void MapZoomIn_Click(object sender, RoutedEventArgs e) =>
+        _viewModel.Map.Viewport.ZoomIn();
+
+    /// <summary>Zooms the map out one step.</summary>
+    private void MapZoomOut_Click(object sender, RoutedEventArgs e) =>
+        _viewModel.Map.Viewport.ZoomOut();
+
+    /// <summary>Re-centres the map on the player's current room.</summary>
+    private void MapCenterOnPlayer_Click(object sender, RoutedEventArgs e) =>
+        _viewModel.Map.CenterOnPlayer();
+
+    /// <summary>Fits every currently shown room into view.</summary>
+    private void MapFit_Click(object sender, RoutedEventArgs e) =>
+        _viewModel.Map.FitToVisibleRooms();
+
+    /// <summary>Moves to the next higher floor that actually exists.</summary>
+    private void MapFloorUp_Click(object sender, RoutedEventArgs e) =>
+        _viewModel.Map.SelectFloorUp();
+
+    /// <summary>Moves to the next lower floor that actually exists.</summary>
+    private void MapFloorDown_Click(object sender, RoutedEventArgs e) =>
+        _viewModel.Map.SelectFloorDown();
+
+    /// <summary>
+    /// Applies an explicit area choice made in the area filter.
+    /// </summary>
+    /// <remarks>
+    /// Choosing an area by hand pins the filter, so walking into a new area no
+    /// longer yanks the view away from the region the player chose to study.
+    /// </remarks>
+    private void MapAreaCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is ComboBox combo && combo.SelectedItem is MapAreaOption option)
+        {
+            _viewModel.Map.SelectedArea = option;
+        }
+    }
+
+    /// <summary>Applies an explicit floor choice made in the floor selector.</summary>
+    private void MapFloorCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is ComboBox combo && combo.SelectedItem is MapFloorOption option)
+        {
+            _viewModel.Map.SelectedFloor = option;
+        }
+    }
+
+    /// <summary>
+    /// Steps the character one room into the inspected room.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This is navigation assistance, not pathfinding. It only fires when the
+    /// inspected room is DIRECTLY adjacent to the player's current room by one
+    /// real Keystone-reported edge, and it reuses the ordinary
+    /// <c>movement.direction.request</c> path with the exact direction the server
+    /// supplied. There is no multi-room route finding, no teleport, and no
+    /// client-side exit resolution — if the edge is ambiguous or the room is not
+    /// adjacent, the button stays disabled.
+    /// </para>
+    /// </remarks>
+    private async void MapGoToSelected_Click(object sender, RoutedEventArgs e)
+    {
+        var map = _viewModel.Map;
+
+        if (map.PendingMoveDirection is not { } direction) return;
+
+        _viewModel.MovementMessage = string.Empty;
+        _ = await _movementService.SendDirectionAsync(MapDirections.ToWireValue(direction));
+    }
+
+    // ─── Local settings: restore / autosave ───────────────────────────
+
+    /// <summary>
+    /// Applies the locally saved client preferences at startup: the window's
+    /// normal size/position, its maximized state, and the login bar's username
+    /// convenience value.
+    ///
+    /// Only values Portal itself owns are restored.  Every piece of
+    /// authoritative gameplay state (HP, XP, level, inventory, equipment,
+    /// current target, skills, currency, room state) keeps coming from
+    /// Keystone, and the password box is deliberately left empty because no
+    /// password is ever stored locally.
+    /// </summary>
+    private void RestoreLocalSettings(Rect workArea)
+    {
+        var settings = PortalSettings.Current;
+
+        // ─── Size ───
+        // A saved size below the minimum is ignored rather than clamped, so a
+        // damaged settings file cannot produce an unusable window.
+        if (settings.WindowWidth >= MinWidth && settings.WindowHeight >= MinHeight)
+        {
+            Width = Math.Min(settings.WindowWidth, workArea.Width);
+            Height = Math.Min(settings.WindowHeight, workArea.Height);
+        }
+
+        // ─── Position ───
+        // Only restore a position that still leaves part of the title bar on
+        // the current virtual desktop, because monitor layouts can change
+        // between sessions.  Otherwise the XAML default (CenterScreen) stays.
+        if (settings.WindowLeft is double savedLeft &&
+            settings.WindowTop is double savedTop)
+        {
+            var virtualScreen = new Rect(
+                SystemParameters.VirtualScreenLeft,
+                SystemParameters.VirtualScreenTop,
+                SystemParameters.VirtualScreenWidth,
+                SystemParameters.VirtualScreenHeight);
+
+            var visibleTitleBarWidth = Math.Min(savedLeft + Width, virtualScreen.Right)
+                                       - Math.Max(savedLeft, virtualScreen.Left);
+            var visibleTitleBarHeight = Math.Min(savedTop + TitleBarProbeHeight, virtualScreen.Bottom)
+                                        - Math.Max(savedTop, virtualScreen.Top);
+
+            if (visibleTitleBarWidth >= MinimumTitleBarVisibleWidth &&
+                visibleTitleBarHeight >= TitleBarProbeHeight)
+            {
+                WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
+                Left = savedLeft;
+                Top = savedTop;
+            }
+        }
+
+        // ─── Maximized state ───
+        if (settings.WindowMaximized)
+        {
+            WindowState = System.Windows.WindowState.Maximized;
+        }
+
+        // ─── Username convenience value ───
+        // Set after InitializeComponent so the login bar starts with the last
+        // used account name.  The password field is never populated.
+        UsernameEntry.Text = settings.Username;
+
+        // ─── Connection target selection ───
+        // Restored after InitializeComponent so the checkbox reflects the last
+        // saved choice. Assigning IsChecked raises the change handler, which
+        // applies the selection to the live connection, the indicator, and (no
+        // change needed) the settings file.
+        LocalDevServerCheck.IsChecked = settings.UseLocalDevelopmentServer;
+
+        // Guard the case where the persisted value equals the XAML default, so
+        // no change event fires and the indicator would otherwise be stale.
+        ApplySelectedEndpoint();
+    }
+
+    /// <summary>
+    /// Persists the locally owned window preferences and the username
+    /// convenience value.  Called automatically when the window closes; no
+    /// gameplay state is written, so nothing here can conflict with Keystone.
+    /// </summary>
+    private void PersistLocalSettings()
+    {
+        var settings = PortalSettings.Current;
+
+        // RestoreBounds holds the normal-state rectangle, so a maximized
+        // window still remembers where and at what size it was un-maximized.
+        var normalBounds = WindowState == System.Windows.WindowState.Normal
+            ? new Rect(Left, Top, Width, Height)
+            : RestoreBounds;
+
+        if (!normalBounds.IsEmpty &&
+            normalBounds.Width >= MinWidth &&
+            normalBounds.Height >= MinHeight)
+        {
+            settings.WindowLeft = normalBounds.Left;
+            settings.WindowTop = normalBounds.Top;
+            settings.WindowWidth = normalBounds.Width;
+            settings.WindowHeight = normalBounds.Height;
+        }
+
+        settings.WindowMaximized = WindowState == System.Windows.WindowState.Maximized;
+
+        // Username only — the password is never stored in any form.
+        settings.Username = UsernameEntry.Text?.Trim() ?? string.Empty;
+
+        settings.Save();
+    }
+
+    /// <summary>
+    /// Marks the username convenience field as changed and (re)starts the
+    /// short debounce that autosaves it.  There is no manual save action.
+    /// </summary>
+    private void UsernameEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        _settingsSaveTimer.Stop();
+        _settingsSaveTimer.Start();
+    }
+
+    /// <summary>
+    /// Autosaves the username convenience field once typing has stopped for
+    /// the debounce interval.  Writes only when the stored value differs.
+    /// </summary>
+    private void OnSettingsSaveTimerTick(object? sender, EventArgs e)
+    {
+        _settingsSaveTimer.Stop();
+
+        var settings = PortalSettings.Current;
+        var username = UsernameEntry.Text?.Trim() ?? string.Empty;
+        if (settings.Username == username)
+        {
+            return;
+        }
+
+        settings.Username = username;
+        settings.Save();
+    }
+
+    // ─── Window close cleanup ─────────────────────────────────────────
+
+    /// <summary>
+    /// Persists the locally owned settings one final time, while the window
+    /// still reports a valid state and size.
+    /// </summary>
+    private void OnMainWindowClosing(object? sender, CancelEventArgs e)
+    {
+        Closing -= OnMainWindowClosing;
+        LocalDevServerCheck.Checked -= LocalDevServerCheck_Changed;
+        LocalDevServerCheck.Unchecked -= LocalDevServerCheck_Changed;
+        _settingsSaveTimer.Stop();
+
+        PersistLocalSettings();
+    }
+
+    private async void OnMainWindowClosed(object? sender, EventArgs e)
+    {
+        Closed -= OnMainWindowClosed;
+        _authService.StateChanged -= OnAuthenticationStateChanged;
+
+        await StopEventLoopAsync();
+
+        try { _sessionCts?.Dispose(); } catch { /* Best-effort */ }
+        _sessionCts = null;
+
+        await _connection.DisposeAsync();
+    }
+
+    // ─── Equipment / Inventory item inspection ──────────────────────
+
+    /// <summary>
+    /// Handles clicks on occupied equipment silhouette layer images.
+    /// Resolves the clicked slot to an EquippedItemRecord, opens the item
+    /// information card, and sends a real equipment.unequip.request for
+    /// that slot to Keystone (fire-and-forget).
+    ///
+    /// No local optimistic state is applied — Keystone resolves the slot
+    /// authoritatively and the refreshed inventory.snapshot /
+    /// equipment.snapshot events update the UI.
+    /// </summary>
+    private async void EquipmentImage_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.Image image)
+            return;
+
+        if (image.Tag is not string slot || string.IsNullOrEmpty(slot))
+            return;
+
+        var equipped = _viewModel.EquippedItems
+            .FirstOrDefault(eq => eq.Slot == slot);
+
+        // Only an occupied slot can be unequipped.
+        if (equipped is null)
+            return;
+
+        ShowItemCard(equipped);
+
+        _ = await _equipmentService.SendUnequipAsync(slot);
+        // Fire-and-forget.  Refreshed inventory/equipment state arrives
+        // through the existing GameEventService event stream.
+    }
+
+    /// <summary>
+    /// Handles clicks on an equipped item in the "no artwork" fallback list
+    /// (e.g. a cloak in Keystone's <c>back</c> slot).
+    /// </summary>
+    /// <remarks>
+    /// Identical contract to <see cref="EquipmentImage_Click"/>: show the
+    /// item card, then send the real <c>equipment.unequip.request</c> to
+    /// Keystone. No local optimistic state is applied — the authoritative
+    /// equipment.snapshot refreshes the panel.
+    /// </remarks>
+    private async void EquipmentFallbackItem_Click(
+        object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (sender is not FrameworkElement { DataContext: EquippedItemRecord item })
+            return;
+
+        if (string.IsNullOrEmpty(item.Slot))
+            return;
+
+        ShowItemCard(item);
+        _ = await _equipmentService.SendUnequipAsync(item.Slot);
+    }
+
+    /// <summary>
+    /// Handles clicks on inventory item entries.
+    /// Opens the item information card for the clicked item, and for a
+    /// carried item that declares an equipment slot, sends a real
+    /// equipment.equip.request to Keystone (fire-and-forget).
+    ///
+    /// No local optimistic state is applied — Keystone resolves the slot
+    /// authoritatively from the item definition and the refreshed
+    /// inventory.snapshot / equipment.snapshot events update the UI.
+    /// </summary>
+    private async void InventoryItem_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.Border border)
+            return;
+
+        if (border.Tag is not InventoryItemRecord item)
+            return;
+
+        ShowItemCard(item);
+
+        // Only items that declare an equipment slot are equippable.
+        // Keystone remains fully authoritative: it re-resolves the slot
+        // from the item definition and runs its existing equip validation.
+        if (string.IsNullOrWhiteSpace(item.Slot))
+            return;
+
+        _ = await _equipmentService.SendEquipAsync(item.ItemId);
+        // Fire-and-forget.  Refreshed inventory/equipment state arrives
+        // through the existing GameEventService event stream.
+    }
+
+    /// <summary>
+    /// Opens the item information card popup with the metadata from an
+    /// inventory or equipped item record.
+    /// </summary>
+    private void ShowItemCard(InventoryItemRecord item)
+    {
+        _viewModel.SelectedCardItem = new EquipmentCardItem
+        {
+            Name = item.Name,
+            Slot = item.Slot,
+            Category = item.Category,
+            Description = item.Description,
+            DamageType = item.DamageType,
+            BaseDamage = item.BaseDamage,
+            DamageMin = item.DamageMin,
+            DamageMax = item.DamageMax,
+            ArmorClass = item.ArmorClass,
+            Level = item.Level,
+            Strength = item.Strength,
+            Speed = item.Speed,
+            Encumbrance = item.Encumbrance,
+        };
+
+        ItemCardPopup.IsOpen = true;
+    }
+
+    /// <summary>
+    /// Opens the item information card popup with the metadata from an
+    /// equipped item record.
+    /// </summary>
+    private void ShowItemCard(EquippedItemRecord item)
+    {
+        _viewModel.SelectedCardItem = new EquipmentCardItem
+        {
+            Name = item.Name,
+            Slot = item.Slot,
+            Category = item.Category,
+            Description = item.Description,
+            DamageType = item.DamageType,
+            BaseDamage = item.BaseDamage,
+            DamageMin = item.DamageMin,
+            DamageMax = item.DamageMax,
+            ArmorClass = item.ArmorClass,
+            Level = item.Level,
+            Strength = item.Strength,
+            Speed = item.Speed,
+            Encumbrance = item.Encumbrance,
+        };
+
+        ItemCardPopup.IsOpen = true;
+    }
+
+    /// <summary>
+    /// Cleans up SelectedCardItem state when the popup is dismissed (e.g.
+    /// by clicking outside with StaysOpen=False).
+    /// </summary>
+    private void ItemCardPopup_Closed(object? sender, EventArgs e)
+    {
+        _viewModel.SelectedCardItem = null;
+    }
+
+    /// <summary>
+    /// Dismisses the item information card when the card background is clicked.
+    /// </summary>
+    private void ItemCardBackground_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        ItemCardPopup.IsOpen = false;
+        _viewModel.SelectedCardItem = null;
+    }
+
+    // ── Character Point allocation dialog ──────────────────────────────────
+    //
+    // The dialog edits only UNSAVED choices. A committed allocation happens
+    // solely through Apply -> Keystone -> character.points.snapshot, so the
+    // character panel, resource displays, and remaining-point count all
+    // refresh from authoritative server state rather than local optimism.
+
+    /// <summary>
+    /// Opens the allocation dialog, seeded from the current authoritative
+    /// Character Point state.
+    /// </summary>
+    private void AllocateButton_Click(object sender, RoutedEventArgs e)
+    {
+        _viewModel.OpenStatAllocation();
+        AllocationOverlay.Visibility = Visibility.Visible;
+    }
+
+    /// <summary>
+    /// Stages one more point for a stat.  Stays entirely inside the dialog —
+    /// nothing is sent to the server until Apply.
+    /// </summary>
+    private void AllocationPlus_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement { Tag: StatAllocationRowViewModel row })
+            _viewModel.StatAllocation?.Plus(row);
+    }
+
+    /// <summary>
+    /// Removes one staged point.  Only the current unsaved allocation can be
+    /// reduced — an already-earned permanent stat is never touched.
+    /// </summary>
+    private void AllocationMinus_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is FrameworkElement { Tag: StatAllocationRowViewModel row })
+            _viewModel.StatAllocation?.Minus(row);
+    }
+
+    /// <summary>
+    /// Clears the dialog's unsaved choices.  Refunds nothing that was already
+    /// committed to Keystone.
+    /// </summary>
+    private void AllocationReset_Click(object sender, RoutedEventArgs e)
+    {
+        _viewModel.StatAllocation?.Reset();
+    }
+
+    /// <summary>Closes the dialog, discarding any unsaved choices.</summary>
+    private void AllocationCancel_Click(object sender, RoutedEventArgs e)
+    {
+        CloseAllocationDialog();
+    }
+
+    /// <summary>
+    /// Sends the COMPLETE proposed allocation to Keystone as one request.
+    ///
+    /// Keystone validates it atomically. The dialog is closed optimistically
+    /// and the authoritative outcome arrives as a character.points.snapshot:
+    /// on success that snapshot carries the new balance and stat values; on
+    /// failure it carries Keystone's error message plus the unchanged state,
+    /// which is what the character panel then displays. Nothing is partially
+    /// applied locally either way.
+    /// </summary>
+    private async void AllocationApply_Click(object sender, RoutedEventArgs e)
+    {
+        var allocation = _viewModel.StatAllocation;
+        if (allocation is null) return;
+
+        var entries = allocation.BuildAllocation();
+        if (entries.Count == 0)
+        {
+            CloseAllocationDialog();
+            return;
+        }
+
+        CloseAllocationDialog();
+
+        // Fire-and-forget: the result returns through the existing event
+        // stream as a character.points.snapshot.
+        _ = await _characterPointsService.SendAllocationAsync(entries);
+    }
+
+    private void CloseAllocationDialog()
+    {
+        AllocationOverlay.Visibility = Visibility.Collapsed;
+        _viewModel.CloseStatAllocation();
     }
 }

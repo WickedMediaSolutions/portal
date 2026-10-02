@@ -1,0 +1,102 @@
+
+==========================================================================
+SECTION 1 - CONNECTION (Portal 'Use Local Development Server' = ON)
+==========================================================================
+         toggle_local_development           True
+         resolved_target                    Local Development
+         resolved_endpoint                  ws://localhost:4013/
+         plaintext_transport                True
+         account                            testuser
+
+==========================================================================
+SECTION 2 - INVALID LOGIN (authoritative rejection, no crash)
+==========================================================================
+         websocket                          ws://localhost:4013/ state=Open
+  [PASS] handshake accepted :: accepted=true
+  [PASS] auth.request is rejected :: AUTH_REJECTED: Username and/or password is incorrect.
+  [PASS] invalid password is refused and the socket closes cleanly
+
+==========================================================================
+SECTION 3 - LOGIN / BOOTSTRAP
+==========================================================================
+         websocket                          ws://localhost:4013/ state=Open
+  [PASS] handshake accepted :: accepted=true
+  [PASS] auth.request succeeds :: session=cfc50d2df7b54d0ea16237277913a9b1 character=__testchar__ id=1123
+  [bootstrap] 12 events received
+     auth.response x1
+     character.points.snapshot x1
+     character.skills.snapshot x1
+     character.snapshot x1
+     character.status.snapshot x1
+     equipment.snapshot x1
+     handshake.response x1
+     inventory.snapshot x1
+     map.snapshot x1
+     quest.snapshot x1
+     room.entity.snapshot x1
+     room.state x1
+  [PASS] bootstrap contains character.snapshot
+  [PASS] bootstrap contains character.status.snapshot
+  [PASS] bootstrap contains inventory.snapshot
+  [PASS] bootstrap contains equipment.snapshot
+  [PASS] bootstrap contains character.skills.snapshot
+  [PASS] bootstrap contains character.points.snapshot
+  [PASS] bootstrap contains room.state
+  [PASS] bootstrap contains room.entity.snapshot
+  [PASS] bootstrap contains map.snapshot
+  [PASS] resources: carried copper in inventory.snapshot :: 475c
+  [PASS] resources: HP/mana/stamina snapshot present
+  [PASS] skills/spells snapshot present
+  [PASS] character points snapshot present
+  [PASS] map.position / current room present :: val_cr_wheel_store
+  [PASS] every inbound payload parsed by Portal's own deserializer :: 0 failure(s)
+  [PASS] every inbound payload accepted by Portal's own models :: 0 rejected: 
+
+==========================================================================
+SECTION 4 - AUTHORITATIVE ROOM STATE
+==========================================================================
+         room.state worldRoomId             val_cr_wheel_store
+         room.name                          The Wheel Store
+         room.description (first 150)       The road smells of dust, horse sweat and the cold green smell of a river that is not yet in view. A cellar under the old forge holding spare wheels, f...
+         description length                 422
+         exits                              up
+         doors                              (none in this room)
+         services.shopIds                   
+         services.bank                      False
+         services.healingRoom               False
+         map currentRoomId                  val_cr_wheel_store
+         map rooms discovered               40
+         room entities                      0
+  [PASS] room name present
+  [PASS] room description present
+  [PASS] map current room and room.state agree on world room :: map=val_cr_wheel_store room.state=val_cr_wheel_store
+  [PASS] door rows are a subset of real exits :: 0 doors / 1 exits
+
+==========================================================================
+SECTION 5 - WHO (Players Online control)
+==========================================================================
+  [PASS] who.request returns who.snapshot :: 1 row(s)
+         summary: 1 character is online.
+         Name                    Lv  Race           Profession       Faction    Guild      Sect
+         __testchar__             5  Atomie         Alchemist        -          -          -
+  [PASS] WhoViewModel count matches visible rows :: 1 / 1
+  [PASS] QA character appears in who.snapshot :: __testchar__ L5 Atomie/Alchemist
+  [PASS] every row publishes a real level
+  [PASS] who.snapshot carries no fabricated title column
+
+==========================================================================
+SECTION 6 - REAL GENERATED SHOP (walked to normally)
+==========================================================================
+         target area                        valroian_capital
+         target world_room_id               val_lm_crownprov_floor
+         target room                        Crownprovision Store Floor
+         route                              southeast -> south -> east -> northwest -> north -> east -> up -> north -> east -> northeast -> up
+  [FAIL] walk to shop hop southeast :: expected to be in val_cw_muster_gallery, actually val_cr_wheel_store ('The Wheel Store')
+  [FAIL] reached the shop room
+
+==========================================================================
+SUMMARY
+==========================================================================
+  PASS = 30
+  FAIL = 2
+  SKIP = 0

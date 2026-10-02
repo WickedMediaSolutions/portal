@@ -102,3 +102,6 @@ C:\Users\mcdor\portal\Portal.Protocol.Tests\obj\Debug\net8.0\refint\Portal.Proto
 C:\Users\mcdor\portal\Portal.Protocol.Tests\obj\Debug\net8.0\Portal.Protocol.Tests.pdb
 C:\Users\mcdor\portal\Portal.Protocol.Tests\obj\Debug\net8.0\Portal.Protocol.Tests.genruntimeconfig.cache
 C:\Users\mcdor\portal\Portal.Protocol.Tests\obj\Debug\net8.0\ref\Portal.Protocol.Tests.dll
+C:\Users\mcdor\Portal\Portal.Protocol.Tests\bin\Debug\net8.0\Portal.State.dll
+C:\Users\mcdor\Portal\Portal.Protocol.Tests\bin\Debug\net8.0\Portal.State.pdb
+C:\Users\mcdor\Portal\Portal.Protocol.Tests\bin\Debug\net8.0\quest_envelopes.json

@@ -1,0 +1,13 @@
+C:\Users\mcdor\Portal\Portal.Networking\bin\Release\net8.0\Portal.Networking.deps.json
+C:\Users\mcdor\Portal\Portal.Networking\bin\Release\net8.0\Portal.Networking.dll
+C:\Users\mcdor\Portal\Portal.Networking\bin\Release\net8.0\Portal.Core.dll
+C:\Users\mcdor\Portal\Portal.Networking\bin\Release\net8.0\Portal.Protocol.dll
+C:\Users\mcdor\Portal\Portal.Networking\obj\Release\net8.0\Portal.Networking.csproj.AssemblyReference.cache
+C:\Users\mcdor\Portal\Portal.Networking\obj\Release\net8.0\Portal.Networking.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mcdor\Portal\Portal.Networking\obj\Release\net8.0\Portal.Networking.AssemblyInfoInputs.cache
+C:\Users\mcdor\Portal\Portal.Networking\obj\Release\net8.0\Portal.Networking.AssemblyInfo.cs
+C:\Users\mcdor\Portal\Portal.Networking\obj\Release\net8.0\Portal.Networking.csproj.CoreCompileInputs.cache
+C:\Users\mcdor\Portal\Portal.Networking\obj\Release\net8.0\Portal.N.78FADD9F.Up2Date
+C:\Users\mcdor\Portal\Portal.Networking\obj\Release\net8.0\Portal.Networking.dll
+C:\Users\mcdor\Portal\Portal.Networking\obj\Release\net8.0\refint\Portal.Networking.dll
+C:\Users\mcdor\Portal\Portal.Networking\obj\Release\net8.0\ref\Portal.Networking.dll

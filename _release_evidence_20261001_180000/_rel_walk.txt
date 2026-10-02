@@ -1,0 +1,14 @@
+
+==========================================================================
+REL-VERIFY (QA-only helper)
+==========================================================================
+         endpoint                           ws://localhost:4013/
+         websocket                          ws://localhost:4013/ state=Open
+  [PASS] handshake accepted :: accepted=true
+  [PASS] auth.request succeeds :: session=b595bd63679844339a67b847833b0dcf character=__testchar__ id=1123
+         start room                         val_cr_wheel_store ('The Wheel Store')
+  [PASS] walk up :: [val_cr_wheel_store] The Wheel Store -> [val_cr_old_forge] The Old Forge
+  [PASS] walk southwest :: [val_cr_old_forge] The Old Forge -> [val_cr_waystation] The Waystation
+  [PASS] walk south :: [val_cr_waystation] The Waystation -> [val_cr_mail_yard] The Mail Yard
+         room after route                   val_cr_mail_yard ('The Mail Yard')
+         who                                0

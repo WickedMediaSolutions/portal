@@ -10,13 +10,15 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("Portal.UI")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Wicked Media Solutions")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+858450e0c1fda58e456d401c00eea2ac7a812373")]
-[assembly: System.Reflection.AssemblyProductAttribute("Portal.UI")]
-[assembly: System.Reflection.AssemblyTitleAttribute("Portal.UI")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
+[assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright © 2026 Wicked Media Solutions")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("0.1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.1.0-beta+8f43fd002f0513eb4b0157d9145c353b236736f6")]
+[assembly: System.Reflection.AssemblyProductAttribute("Rites of Passage: The Portal")]
+[assembly: System.Reflection.AssemblyTitleAttribute("Rites of Passage: The Portal")]
+[assembly: System.Reflection.AssemblyVersionAttribute("0.1.0.0")]
+[assembly: System.Resources.NeutralResourcesLanguageAttribute("en")]
 [assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]
 

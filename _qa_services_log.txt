@@ -1,0 +1,11 @@
+
+==========================================================================
+REL-VERIFY (QA-only helper)
+==========================================================================
+         endpoint                           ws://localhost:4013/
+         websocket                          ws://localhost:4013/ state=Open
+  [PASS] handshake accepted :: accepted=true
+  [PASS] auth.request succeeds :: session=cb1592f35910498288f27fde55ab6c61 character=__testchar__ id=1123
+         start room                         valroian_capital_start ('Crownward Plaza')
+         room after route                   valroian_capital_start ('Crownward Plaza')
+         who                                0

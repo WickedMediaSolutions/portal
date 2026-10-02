@@ -1,0 +1,1723 @@
+<Window x:Class="Portal.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Portal.UI"
+        mc:Ignorable="d"
+        Title="Portal"
+        Height="900" Width="1400"
+        MinHeight="700" MinWidth="1024"
+        Background="#151515"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="BackgroundBrush"      Color="#151515" />
+        <SolidColorBrush x:Key="PanelBrush"            Color="#1C1C1C" />
+        <SolidColorBrush x:Key="PanelAltBrush"         Color="#222222" />
+        <SolidColorBrush x:Key="BorderBrush"           Color="#7A6B50" />
+        <SolidColorBrush x:Key="BorderDimBrush"        Color="#4A4035" />
+        <SolidColorBrush x:Key="HeaderTextBrush"       Color="#C4A96A" />
+        <SolidColorBrush x:Key="BodyTextBrush"         Color="#B0B0B0" />
+        <SolidColorBrush x:Key="DimTextBrush"          Color="#707070" />
+        <SolidColorBrush x:Key="GreenAccentBrush"      Color="#5A8F4A" />
+        <SolidColorBrush x:Key="GreenDimBrush"         Color="#3D6B32" />
+        <SolidColorBrush x:Key="InputBackgroundBrush"  Color="#0D0D0D" />
+        <SolidColorBrush x:Key="InputBorderBrush"      Color="#3A3530" />
+        <SolidColorBrush x:Key="TabActiveBrush"        Color="#2A2A2A" />
+        <SolidColorBrush x:Key="TabInactiveBrush"      Color="#1C1C1C" />
+        <SolidColorBrush x:Key="StatusBarBrush"        Color="#111111" />
+        <SolidColorBrush x:Key="StatusTextBrush"       Color="#888888" />
+        <SolidColorBrush x:Key="HpBarBrush"            Color="#CC4444" />
+        <SolidColorBrush x:Key="MpBarBrush"            Color="#4488CC" />
+        <SolidColorBrush x:Key="SpBarBrush"            Color="#CCAA44" />
+
+        <Style x:Key="PanelBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource PanelBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="3" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="Margin" Value="2" />
+        </Style>
+
+        <Style x:Key="PanelHeaderTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource HeaderTextBrush}" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Margin" Value="0,0,0,2" />
+        </Style>
+
+        <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource HeaderTextBrush}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+        </Style>
+
+        <Style x:Key="DarkTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="{StaticResource InputBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource BodyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource InputBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CaretBrush" Value="{StaticResource GreenAccentBrush}" />
+            <Setter Property="FontFamily" Value="Consolas" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Padding" Value="4,2" />
+            <Setter Property="SelectionBrush" Value="#334422" />
+        </Style>
+
+        <Style x:Key="DarkComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Background" Value="{StaticResource InputBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource BodyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource InputBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="4,2" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="CompactButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PanelAltBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource BodyTextBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderDimBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="6,2" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#333333" />
+                    <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="TabButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource TabInactiveBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource DimTextBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderDimBrush}" />
+            <Setter Property="BorderThickness" Value="0,1,1,1" />
+            <Setter Property="Padding" Value="10,3" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2,2,0,0"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2A2A2A" />
+                    <Setter Property="Foreground" Value="{StaticResource BodyTextBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="StatusDotStyle" TargetType="Ellipse">
+            <Setter Property="Width" Value="6" />
+            <Setter Property="Height" Value="6" />
+            <Setter Property="Fill" Value="{StaticResource GreenAccentBrush}" />
+            <Setter Property="Margin" Value="0,0,4,0" />
+        </Style>
+
+        <!-- Status LED: derives sizing from StatusDotStyle. Dim/off by default;
+             DataTriggers light it from the authoritative
+             character.status.snapshot state only. -->
+        <Style x:Key="StatusLedStyle" TargetType="Ellipse"
+               BasedOn="{StaticResource StatusDotStyle}">
+            <Setter Property="Fill" Value="{StaticResource DimTextBrush}" />
+        </Style>
+
+        <Style x:Key="BodyTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource BodyTextBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+        </Style>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+        <local:RatioBarWidthConverter x:Key="BarWidthConverter" />
+        <local:SlotVisibilityConverter x:Key="SlotVisConverter" />
+        <local:QuantityVisibilityConverter x:Key="QtyVisConverter" />
+        <local:NotNullToVisibilityConverter x:Key="NotNullVisConverter" />
+        <local:MonsterPortraitImageConverter x:Key="MonsterPortraitConverter" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- ========================================================
+             ROW 0 :: TOP AREA
+             ======================================================== -->
+        <Border Grid.Row="0"
+                Background="{StaticResource PanelBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- TOP BAR: Branding + Status -->
+                <Border Grid.Row="0"
+                        Padding="8,4"
+                        Background="{StaticResource BackgroundBrush}"
+                        BorderBrush="{StaticResource BorderDimBrush}"
+                        BorderThickness="0,0,0,1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Ellipse Grid.Column="0"
+                                 Style="{StaticResource StatusDotStyle}"
+                                 VerticalAlignment="Center"
+                                 Margin="4,0,8,0" />
+
+                        <!-- Center: Branding -->
+                        <StackPanel Grid.Column="1"
+                                    HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <TextBlock Text="&#x25C6;"
+                                       Foreground="{StaticResource GreenAccentBrush}"
+                                       FontSize="18"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,6,0" />
+                            <TextBlock Text="PORTAL"
+                                       Style="{StaticResource SectionTitleStyle}"
+                                       FontSize="18"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Text="&#x25C6;"
+                                       Foreground="{StaticResource GreenAccentBrush}"
+                                       FontSize="18"
+                                       VerticalAlignment="Center"
+                                       Margin="6,0,0,0" />
+                        </StackPanel>
+
+                        <!-- Right: Utility / Status -->
+                        <StackPanel Grid.Column="2"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Margin="8,0">
+                                <Ellipse Style="{StaticResource StatusDotStyle}"
+                                         VerticalAlignment="Center" />
+                                <TextBlock Text="Players: --"
+                                           Style="{StaticResource BodyTextStyle}"
+                                           FontSize="11"
+                                           Foreground="{StaticResource DimTextBrush}"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"
+                                       Background="{StaticResource BorderDimBrush}"
+                                       Width="1" Margin="8,4" />
+                            <TextBlock Text="00:00:00"
+                                       Style="{StaticResource BodyTextStyle}"
+                                       FontSize="11"
+                                       Foreground="{StaticResource DimTextBrush}"
+                                       VerticalAlignment="Center"
+                                       Margin="8,0" />
+                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"
+                                       Background="{StaticResource BorderDimBrush}"
+                                       Width="1" Margin="8,4" />
+                            <Button Style="{StaticResource CompactButtonStyle}"
+                                    Content="Settings"
+                                    Margin="2,0" />
+                            <Button Style="{StaticResource CompactButtonStyle}"
+                                    Content="Themes"
+                                    Margin="2,0" />
+                            <Button Style="{StaticResource CompactButtonStyle}"
+                                    Content="Help"
+                                    Margin="2,0" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- TAB STRIP -->
+                <StackPanel Grid.Row="1"
+                            Orientation="Horizontal"
+                            Background="{StaticResource PanelBrush}">
+                    <Button Style="{StaticResource TabButtonStyle}"
+                            Content="Main"
+                            Background="{StaticResource TabActiveBrush}"
+                            Foreground="{StaticResource BodyTextBrush}"
+                            BorderThickness="0,0,1,1" />
+                    <Button Style="{StaticResource TabButtonStyle}"
+                            Content="Combat"
+                            BorderThickness="0,0,1,1" />
+                    <Button Style="{StaticResource TabButtonStyle}"
+                            Content="Chat"
+                            BorderThickness="0,0,1,1" />
+                    <Button Style="{StaticResource TabButtonStyle}"
+                            Content="Notes"
+                            BorderThickness="0,0,1,1" />
+                </StackPanel>
+
+                <!-- LOGIN BAR :: credential entry + short status text -->
+                <!-- Portal establishes no WebSocket connection and sends no
+                     authentication request until the user submits credentials
+                     from this bar.  Keystone resolves the authenticated
+                     account's existing website-created character; Portal
+                     offers no account/character creation or selection. -->
+                <Border Grid.Row="2"
+                        Padding="8,4"
+                        Background="{StaticResource PanelBrush}"
+                        BorderBrush="{StaticResource BorderDimBrush}"
+                        BorderThickness="0,0,0,1">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Username"
+                                   Style="{StaticResource BodyTextStyle}"
+                                   FontSize="11"
+                                   Foreground="{StaticResource DimTextBrush}"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,6,0" />
+                        <TextBox x:Name="UsernameEntry"
+                                 Style="{StaticResource DarkTextBoxStyle}"
+                                 Width="150"
+                                 VerticalAlignment="Center"
+                                 Margin="0,0,12,0" />
+                        <TextBlock Text="Password"
+                                   Style="{StaticResource BodyTextStyle}"
+                                   FontSize="11"
+                                   Foreground="{StaticResource DimTextBrush}"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,6,0" />
+                        <PasswordBox x:Name="PasswordEntry"
+                                     Width="150"
+                                     Background="{StaticResource InputBackgroundBrush}"
+                                     Foreground="{StaticResource BodyTextBrush}"
+                                     BorderBrush="{StaticResource InputBorderBrush}"
+                                     BorderThickness="1"
+                                     CaretBrush="{StaticResource GreenAccentBrush}"
+                                     FontFamily="Consolas"
+                                     FontSize="13"
+                                     Padding="4,2"
+                                     VerticalAlignment="Center"
+                                     Margin="0,0,12,0" />
+                        <Button x:Name="LoginButton"
+                                Style="{StaticResource CompactButtonStyle}"
+                                Content="Login"
+                                Padding="14,3"
+                                VerticalAlignment="Center"
+                                Click="LoginButton_Click" />
+                        <!-- Logout is only meaningful while a real ROP session
+                             exists: MainWindow enables it when authentication
+                             reaches SessionActive and disables it again once
+                             the session is gone. -->
+                        <Button x:Name="LogoutButton"
+                                Style="{StaticResource CompactButtonStyle}"
+                                Content="Logout"
+                                Padding="14,3"
+                                VerticalAlignment="Center"
+                                Margin="6,0,0,0"
+                                IsEnabled="False"
+                                Click="LogoutButton_Click" />
+                        <!-- Connection target selection. OFF (the default) is the
+                             live Production server over a secure wss:// endpoint.
+                             ON points Portal at a developer machine's own Keystone
+                             instance. This is the ONLY way to reach localhost: there
+                             is no automatic fallback from production, and no
+                             production configuration knows this switch exists.
+                             The adjacent indicator names the target in plain words so
+                             ordinary players never have to read a URL or a port;
+                             the raw endpoint stays in the tooltip for debugging. -->
+                        <CheckBox x:Name="LocalDevServerCheck"
+                                  Content="Use Local Development Server"
+                                  FontSize="11"
+                                  Foreground="{StaticResource DimTextBrush}"
+                                  VerticalAlignment="Center"
+                                  Margin="12,0,0,0"
+                                  IsChecked="False"
+                                  ToolTip="Connect to a local development server instead of the live game" />
+                        <TextBlock x:Name="ConnectionTargetText"
+                                   Style="{StaticResource BodyTextStyle}"
+                                   FontSize="11"
+                                   Foreground="{StaticResource GreenAccentBrush}"
+                                   VerticalAlignment="Center"
+                                   Margin="6,0,0,0"
+                                   Text="{Binding ConnectionTarget}" />
+                        <TextBlock x:Name="LoginStatusText"
+                                   Style="{StaticResource BodyTextStyle}"
+                                   FontSize="11"
+                                   Foreground="{StaticResource StatusTextBrush}"
+                                   VerticalAlignment="Center"
+                                   Margin="12,0,0,0"
+                                   Text="{Binding ConnectionStatus}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- ========================================================
+             ROW 1 :: MAIN BODY (3 Columns)
+             ======================================================== -->
+        <Grid Grid.Row="1" Margin="3,3,3,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="1.3*" />
+                <ColumnDefinition Width="1.3*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- COL 0: LEFT / MAIN -->
+            <Grid Grid.Column="0" Margin="0,0,2,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Room / Title -->
+                <Border Grid.Row="0" Style="{StaticResource PanelBorderStyle}" Padding="6,4">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="&#x25B8;"
+                                   Foreground="{StaticResource GreenAccentBrush}"
+                                   FontSize="13" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <TextBlock Grid.Column="1" Text="Room: Unknown"
+                                   Style="{StaticResource PanelHeaderTextStyle}"
+                                   FontSize="12" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" Text="Area: --"
+                                   Style="{StaticResource BodyTextStyle}"
+                                   FontSize="10" Foreground="{StaticResource DimTextBrush}"
+                                   VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+
+                <!-- Terminal Output -->
+                <Border Grid.Row="1" Style="{StaticResource PanelBorderStyle}"
+                        Background="{StaticResource InputBackgroundBrush}" Padding="0">
+                    <ScrollViewer x:Name="TerminalScroll"
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  Background="{StaticResource InputBackgroundBrush}">
+                        <TextBlock x:Name="TerminalOutput"
+                                   Style="{StaticResource BodyTextStyle}"
+                                   FontFamily="Consolas" FontSize="12"
+                                   Foreground="#909090" TextWrapping="Wrap"
+                                   Margin="6,4" Text="" />
+                    </ScrollViewer>
+                </Border>
+
+                <!-- Channel Tabs -->
+                <StackPanel Grid.Row="2" Orientation="Horizontal"
+                            Background="{StaticResource PanelBrush}" Margin="0,1,0,0">
+                    <Button Style="{StaticResource TabButtonStyle}" Content="All"
+                            Background="{StaticResource TabActiveBrush}"
+                            Foreground="{StaticResource BodyTextBrush}"
+                            BorderThickness="0,0,1,1" Padding="8,2" FontSize="10" />
+                    <Button Style="{StaticResource TabButtonStyle}" Content="Say"
+                            BorderThickness="0,0,1,1" Padding="8,2" FontSize="10" />
+                    <Button Style="{StaticResource TabButtonStyle}" Content="Tell"
+                            BorderThickness="0,0,1,1" Padding="8,2" FontSize="10" />
+                    <Button Style="{StaticResource TabButtonStyle}" Content="Group"
+                            BorderThickness="0,0,1,1" Padding="8,2" FontSize="10" />
+                    <Button Style="{StaticResource TabButtonStyle}" Content="Guild"
+                            BorderThickness="0,0,1,1" Padding="8,2" FontSize="10" />
+                    <Button Style="{StaticResource TabButtonStyle}" Content="OOC"
+                            BorderThickness="0,0,1,1" Padding="8,2" FontSize="10" />
+                </StackPanel>
+
+                <!-- Command Input -->
+                <Border Grid.Row="3" Style="{StaticResource PanelBorderStyle}"
+                        Padding="2" Margin="0,2,0,0"
+                        Background="{StaticResource InputBackgroundBrush}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="&gt;"
+                                   Foreground="{StaticResource GreenAccentBrush}"
+                                   FontFamily="Consolas" FontSize="14"
+                                   FontWeight="Bold" VerticalAlignment="Center"
+                                   Margin="4,0,6,0" />
+                        <TextBox Grid.Column="1" x:Name="CommandInput"
+                                 Style="{StaticResource DarkTextBoxStyle}"
+                                 FontSize="13" BorderThickness="0" />
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- COL 1: CENTER -->
+            <Grid Grid.Column="1" Margin="2,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1.7*" />
+                    <RowDefinition Height="0.5*" />
+                    <RowDefinition Height="2.8*" />
+                </Grid.RowDefinitions>
+
+                <!-- Party Panel -->
+                <Border Grid.Row="0" Style="{StaticResource PanelBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#x2605; Party"
+                                   Style="{StaticResource PanelHeaderTextStyle}" />
+                        <Border Grid.Row="1" Background="{StaticResource InputBackgroundBrush}" CornerRadius="2" Padding="4" MinHeight="60">
+                            <TextBlock Text="No party members."
+                                       Style="{StaticResource BodyTextStyle}"
+                                       FontSize="10" Foreground="{StaticResource DimTextBrush}"
+                                       TextWrapping="Wrap" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Status Effects Panel -->
+                <Border Grid.Row="1" Style="{StaticResource PanelBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#x2726; Status Effects"
+                                   Style="{StaticResource PanelHeaderTextStyle}" />
+                        <Border Grid.Row="1" Background="{StaticResource InputBackgroundBrush}" CornerRadius="2" Padding="4" MinHeight="40">
+                            <!-- LEDs driven solely by the authoritative
+                                 character.status.snapshot state. Dim by
+                                 default; inactive indicators stay dim/off. -->
+                            <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                                    <Ellipse VerticalAlignment="Center">
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse" BasedOn="{StaticResource StatusLedStyle}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Character.IsInCombat}" Value="True">
+                                                        <Setter Property="Fill" Value="{StaticResource HpBarBrush}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                    <TextBlock Text="In Combat" FontSize="10" VerticalAlignment="Center"
+                                               Foreground="{StaticResource DimTextBrush}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                                    <Ellipse VerticalAlignment="Center">
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse" BasedOn="{StaticResource StatusLedStyle}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Character.IsDead}" Value="True">
+                                                        <Setter Property="Fill" Value="{StaticResource HpBarBrush}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                    <TextBlock Text="Dead" FontSize="10" VerticalAlignment="Center"
+                                               Foreground="{StaticResource DimTextBrush}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                                    <Ellipse VerticalAlignment="Center">
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse" BasedOn="{StaticResource StatusLedStyle}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Character.IsResting}" Value="True">
+                                                        <Setter Property="Fill" Value="{StaticResource GreenAccentBrush}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                    <TextBlock Text="Resting" FontSize="10" VerticalAlignment="Center"
+                                               Foreground="{StaticResource DimTextBrush}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                                    <Ellipse VerticalAlignment="Center">
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse" BasedOn="{StaticResource StatusLedStyle}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Character.IsMeditating}" Value="True">
+                                                        <Setter Property="Fill" Value="{StaticResource GreenAccentBrush}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                    <TextBlock Text="Meditating" FontSize="10" VerticalAlignment="Center"
+                                               Foreground="{StaticResource DimTextBrush}" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding Character.StatusStateDisplay}"
+                                           Style="{StaticResource BodyTextStyle}"
+                                           FontSize="10" Foreground="{StaticResource StatusTextBrush}"
+                                           VerticalAlignment="Center" />
+                            </WrapPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Equipment Panel -->
+                <Border Grid.Row="2" Style="{StaticResource PanelBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#x2694; Equipment"
+                                   Style="{StaticResource PanelHeaderTextStyle}" />
+                        <Grid Grid.Row="1" Margin="2"
+                              Background="{StaticResource InputBackgroundBrush}">
+                            <!-- Base naked layer — always visible, pass-through clicks -->
+                            <Image Source="/Assets/charpanelimages/eq-naked.png"
+                                   Stretch="Uniform" IsHitTestVisible="False" />
+
+                            <!-- Equipment overlays — visible only when slot is occupied -->
+                            <Image Source="/Assets/charpanelimages/eq-head.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="head"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=head}" />
+                            <Image Source="/Assets/charpanelimages/eq-neck.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="neck"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=neck}" />
+                            <Image Source="/Assets/charpanelimages/eq-earring-left.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="left_ear"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=left_ear}" />
+                            <Image Source="/Assets/charpanelimages/eq-earring-right.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="right_ear"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=right_ear}" />
+                            <Image Source="/Assets/charpanelimages/eq-torso.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="chest"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=chest}" />
+                            <Image Source="/Assets/charpanelimages/eq-wrists.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="wrists"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=wrists}" />
+                            <Image Source="/Assets/charpanelimages/eq-finger-left.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="left_finger"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=left_finger}" />
+                            <Image Source="/Assets/charpanelimages/eq-finger-right.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="right_finger"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=right_finger}" />
+                            <Image Source="/Assets/charpanelimages/eq-waist.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="waist"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=waist}" />
+                            <Image Source="/Assets/charpanelimages/eq-legs.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="legs"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=legs}" />
+                            <Image Source="/Assets/charpanelimages/eq-feet.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="feet"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=feet}" />
+                            <Image Source="/Assets/charpanelimages/eq-hands.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="hands"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=hands}" />
+                            <Image Source="/Assets/charpanelimages/eq-left-hand-item.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="off_hand"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=off_hand}" />
+                            <Image Source="/Assets/charpanelimages/eq-right-hand-item.png"
+                                   Stretch="Uniform" Cursor="Hand"
+                                   Tag="main_hand"
+                                   MouseLeftButtonDown="EquipmentImage_Click"
+                                   Visibility="{Binding EquippedItems, Converter={StaticResource SlotVisConverter}, ConverterParameter=main_hand}" />
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- Inventory / Keys / Coins — real authoritative state -->
+                <Border Grid.Row="3" Style="{StaticResource PanelBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#x25C8; Inventory | Keys | Coins"
+                                   Style="{StaticResource PanelHeaderTextStyle}" />
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.6*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Inventory & Keys list -->
+                            <Border Grid.Column="0" Background="{StaticResource InputBackgroundBrush}"
+                                    Padding="2" Margin="1">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl x:Name="InventoryItemsControl"
+                                                  ItemsSource="{Binding InventoryItems}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Padding="2,1" Margin="0,1"
+                                                        Cursor="Hand"
+                                                        Background="Transparent"
+                                                        MouseLeftButtonDown="InventoryItem_Click"
+                                                        Tag="{Binding}">
+                                                    <!-- A Run is a ContentElement, not a
+                                                         FrameworkElement, so it has no
+                                                         Visibility property. The quantity is
+                                                         therefore a sibling TextBlock inside a
+                                                         horizontal StackPanel, which keeps the
+                                                         same inline "name x2" appearance while
+                                                         remaining valid XAML. -->
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Name, Mode=OneWay}"
+                                                                   Style="{StaticResource BodyTextStyle}"
+                                                                   FontSize="10" />
+                                                        <TextBlock Text="{Binding Quantity, Mode=OneWay, StringFormat=' x{0}'}"
+                                                                   Style="{StaticResource BodyTextStyle}"
+                                                                   FontSize="9"
+                                                                   Foreground="{StaticResource DimTextBrush}"
+                                                                   Visibility="{Binding Quantity, Converter={StaticResource QtyVisConverter}}" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Border>
+
+                            <!-- Currency -->
+                            <Border Grid.Column="1" Background="{StaticResource InputBackgroundBrush}"
+                                    Padding="4" Margin="1">
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="Currency"
+                                               Style="{StaticResource BodyTextStyle}"
+                                               FontSize="9" Foreground="{StaticResource DimTextBrush}" />
+                                    <TextBlock Text="{Binding CurrencyDisplay}"
+                                               Style="{StaticResource BodyTextStyle}"
+                                               FontSize="11" FontWeight="Bold"
+                                               Foreground="{StaticResource HeaderTextBrush}" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- Navigation -->
+                <Border Grid.Row="4" Style="{StaticResource PanelBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#x25B2; Navigation"
+                                   Style="{StaticResource PanelHeaderTextStyle}" />
+                        <Grid Grid.Row="1"
+                              Background="{StaticResource InputBackgroundBrush}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Reused compass artwork (unchanged) -->
+                            <Image Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="3"
+                                   Source="/Assets/compassimages/compasstrans.png"
+                                   Stretch="Uniform"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Margin="8" />
+
+                            <!-- Directional movement controls -->
+                            <Button Grid.Row="0" Grid.Column="1"
+                                    Style="{StaticResource CompactButtonStyle}"
+                                    Content="Up" Tag="up" Click="DirectionButton_Click"
+                                    Margin="1" Padding="0" FontSize="9" />
+                            <Button Grid.Row="1" Grid.Column="0"
+                                    Style="{StaticResource CompactButtonStyle}"
+                                    Content="NW" Tag="northwest" Click="DirectionButton_Click"
+                                    Margin="1" Padding="0" FontSize="9" />
+                            <Button Grid.Row="1" Grid.Column="1"
+                                    Style="{StaticResource CompactButtonStyle}"
+                                    Content="N" Tag="north" Click="DirectionButton_Click"
+                                    Margin="1" Padding="0" FontSize="9" />
+                            <Button Grid.Row="1" Grid.Column="2"
+                                    Style="{StaticResource CompactButtonStyle}"
+                                    Content="NE" Tag="northeast" Click="DirectionButton_Click"
+                                    Margin="1" Padding="0" FontSize="9" />
+                            <Button Grid.Row="2" Grid.Column="0"
+                                    Style="{StaticResource CompactButtonStyle}"
+                                    Content="W" Tag="west" Click="DirectionButton_Click"
+                                    Margin="1" Padding="0" FontSize="9" />
+                            <Button Grid.Row="2" Grid.Column="2"
+                                    Style="{StaticResource CompactButtonStyle}"
+                                    Content="E" Tag="east" Click="DirectionButton_Click"
+                                    Margin="1" Padding="0" FontSize="9" />
+                            <Button Grid.Row="3" Grid.Column="0"
+                                    Style="{StaticResource CompactButtonStyle}"
+                                    Content="SW" Tag="southwest" Click="DirectionButton_Click"
+                                    Margin="1" Padding="0" FontSize="9" />
+                            <Button Grid.Row="3" Grid.Column="1"
+                                    Style="{StaticResource CompactButtonStyle}"
+                                    Content="S" Tag="south" Click="DirectionButton_Click"
+                                    Margin="1" Padding="0" FontSize="9" />
+                            <Button Grid.Row="3" Grid.Column="2"
+                                    Style="{StaticResource CompactButtonStyle}"
+                                    Content="SE" Tag="southeast" Click="DirectionButton_Click"
+                                    Margin="1" Padding="0" FontSize="9" />
+                            <Button Grid.Row="4" Grid.Column="1"
+                                    Style="{StaticResource CompactButtonStyle}"
+                                    Content="Down" Tag="down" Click="DirectionButton_Click"
+                                    Margin="1" Padding="0" FontSize="9" />
+                            <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3"
+                                       Text="{Binding MovementMessage}"
+                                       Style="{StaticResource PanelHeaderTextStyle}"
+                                       FontSize="9"
+                                       FontStyle="Italic"
+                                       Margin="4,3,4,3"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center" />
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- COL 2: RIGHT -->
+            <Grid Grid.Column="2" Margin="2,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.2*" />
+                    <RowDefinition Height="1.2*" />
+                    <RowDefinition Height="2.5*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="0.8*" />
+                </Grid.RowDefinitions>
+
+                <!-- Character Panel -->
+                <Border Grid.Row="0" Style="{StaticResource PanelBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#x2593; Character"
+                                   Style="{StaticResource PanelHeaderTextStyle}" />
+                        <Grid Grid.Row="1" Margin="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <!-- Race Portrait -->
+                            <Border Grid.Column="0"
+                                    Width="90" Height="110"
+                                    Background="{StaticResource InputBackgroundBrush}"
+                                    BorderBrush="{StaticResource BorderDimBrush}"
+                                    BorderThickness="1"
+                                    Margin="0,0,6,0"
+                                    VerticalAlignment="Top">
+                                <Image Source="/Assets/RaceImages/human.jpg"
+                                        Stretch="UniformToFill"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
+                            </Border>
+<!-- Character Info -->
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <!-- Name -->
+                                <TextBlock Grid.Row="0"
+                                            Style="{StaticResource BodyTextStyle}" FontSize="12"
+                                            FontWeight="SemiBold" Margin="0,0,0,2">
+                                    <Run Text="Name: "/>
+                                    <Run Text="{Binding Character.Name, FallbackValue=--}"/>
+                                </TextBlock>
+                                <!-- Race / Class -->
+                                <Grid Grid.Row="1" Margin="0,1,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                                Style="{StaticResource BodyTextStyle}" FontSize="10"
+                                                Foreground="{StaticResource DimTextBrush}">
+                                        <Run Text="Race: "/>
+                                        <Run Text="{Binding Character.RaceName, FallbackValue=--}"/>
+                                    </TextBlock>
+                                    <TextBlock Grid.Column="1"
+                                                Style="{StaticResource BodyTextStyle}" FontSize="10"
+                                                Foreground="{StaticResource DimTextBrush}">
+                                        <Run Text="Class: "/>
+                                        <Run Text="{Binding Character.ProfessionName, FallbackValue=--}"/>
+                                    </TextBlock>
+                                </Grid>
+                                <!-- Level -->
+                                <TextBlock Grid.Row="2"
+                                            Style="{StaticResource BodyTextStyle}" FontSize="10"
+                                            Foreground="{StaticResource DimTextBrush}" Margin="0,2,0,0">
+                                    <Run Text="Level: "/>
+                                    <Run Text="{Binding Character.Level, FallbackValue=--}"/>
+                                </TextBlock>
+                                <!-- Separator -->
+                                <Border Grid.Row="3" Height="1"
+                                        Background="{StaticResource BorderDimBrush}"
+                                        Margin="0,5,0,3" />
+                                <!-- HP Bar -->
+                                <Grid Grid.Row="4" Margin="0,1,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="HP:"
+                                                Style="{StaticResource BodyTextStyle}" FontSize="10"
+                                                Foreground="{StaticResource HpBarBrush}" Width="28"
+                                                VerticalAlignment="Center" />
+                                    <Border Grid.Column="1" Height="10"
+                                            Background="#2A1A1A" Margin="2,1,0,1">
+                                        <Border Background="{StaticResource HpBarBrush}"
+                                                HorizontalAlignment="Left"
+                                                Width="{Binding Character.HpRatio,
+                                                    Converter={StaticResource BarWidthConverter},
+                                                    ConverterParameter=90,
+                                                    FallbackValue=70}" />
+                                    </Border>
+                                </Grid>
+                                <!-- MA Bar (Mana — hidden for non-mana professions) -->
+                                <Grid Grid.Row="5" Margin="0,1,0,0"
+                                        Visibility="{Binding Character.HasMana,
+                                            Converter={StaticResource BoolToVisConverter},
+                                            FallbackValue=Visible}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="MA:"
+                                                Style="{StaticResource BodyTextStyle}" FontSize="10"
+                                                Foreground="{StaticResource MpBarBrush}" Width="28"
+                                                VerticalAlignment="Center" />
+                                    <Border Grid.Column="1" Height="10"
+                                            Background="#1A1A2A" Margin="2,1,0,1">
+                                        <Border Background="{StaticResource MpBarBrush}"
+                                                HorizontalAlignment="Left"
+                                                Width="{Binding Character.ManaRatio,
+                                                    Converter={StaticResource BarWidthConverter},
+                                                    ConverterParameter=90,
+                                                    FallbackValue=50}" />
+                                    </Border>
+                                </Grid>
+                                <!-- MV Bar (Movement Points) -->
+                                <Grid Grid.Row="6" Margin="0,1,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="MV:"
+                                                Style="{StaticResource BodyTextStyle}" FontSize="10"
+                                                Foreground="{StaticResource SpBarBrush}" Width="28"
+                                                VerticalAlignment="Center" />
+                                    <Border Grid.Column="1" Height="10"
+                                            Background="#2A2A1A" Margin="2,1,0,1">
+                                        <Border Background="{StaticResource SpBarBrush}"
+                                                HorizontalAlignment="Left"
+                                                Width="{Binding Character.StaminaRatio,
+                                                    Converter={StaticResource BarWidthConverter},
+                                                    ConverterParameter=90,
+                                                    FallbackValue=60}" />
+                                    </Border>
+                                </Grid>
+                                <!-- EXP -->
+                                <TextBlock Grid.Row="7"
+                                            Style="{StaticResource BodyTextStyle}" FontSize="10"
+                                            Foreground="{StaticResource DimTextBrush}" Margin="0,3,0,0">
+                                    <Run Text="EXP: "/>
+                                    <Run Text="{Binding Character.XpDisplay, Mode=OneWay, FallbackValue=--}"/>
+                                </TextBlock>
+
+                                <!-- Character Points ─────────────────────────────────
+                                     Always visible. When the balance is zero the row
+                                     stays present but is subdued (dim text, muted
+                                     button) rather than disappearing, so the control
+                                     never causes panel reflow. -->
+                                <StackPanel Grid.Row="8" Margin="0,4,0,0">
+                                    <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0"
+                                                       VerticalAlignment="Center">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock" BasedOn="{StaticResource BodyTextStyle}">
+                                                        <Setter Property="FontSize" Value="10" />
+                                                        <Setter Property="Foreground" Value="{StaticResource DimTextBrush}" />
+                                                        <Style.Triggers>
+                                                            <!-- Obvious but not intrusive when points are available. -->
+                                                            <DataTrigger Binding="{Binding Character.HasUnspentCharacterPoints}" Value="True">
+                                                                <Setter Property="Foreground" Value="{StaticResource HeaderTextBrush}" />
+                                                                <Setter Property="FontWeight" Value="SemiBold" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                                <Run Text="Character Points: " />
+                                                <Run Text="{Binding Character.CharacterPointsDisplay, Mode=OneWay, FallbackValue=0}" />
+                                            </TextBlock>
+                                            <Button Grid.Column="1"
+                                                    x:Name="AllocateButton"
+                                                    Content="Allocate"
+                                                    FontSize="10"
+                                                    Padding="6,1"
+                                                    Margin="4,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Cursor="Hand"
+                                                    Click="AllocateButton_Click"
+                                                    IsEnabled="{Binding Character.CanAllocateCharacterPoints}">
+                                                <Button.Style>
+                                                    <Style TargetType="Button" BasedOn="{StaticResource CompactButtonStyle}">
+                                                        <Style.Triggers>
+                                                            <!-- Subdued when there is nothing to spend. -->
+                                                            <DataTrigger Binding="{Binding Character.HasUnspentCharacterPoints}" Value="False">
+                                                                <Setter Property="Opacity" Value="0.5" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                        </Grid>
+                                        <!-- Keystone's rejection message for the last allocation. -->
+                                        <TextBlock Text="{Binding Character.CharacterPointsError, Mode=OneWay}"
+                                                   Style="{StaticResource BodyTextStyle}"
+                                                   FontSize="9"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0,2,0,0"
+                                                   Foreground="#CC6666"
+                                                   Visibility="{Binding Character.HasCharacterPointsError, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}" />
+
+                                </StackPanel>
+
+                            </Grid>
+
+
+                        </Grid>
+                    </Grid>
+                </Border>
+                <!-- Current Target -->
+                <Border Grid.Row="1" Style="{StaticResource PanelBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#x260D; Current Target"
+                                   Style="{StaticResource PanelHeaderTextStyle}" />
+                        <Grid Grid.Row="1" Margin="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <!-- Target Portrait: resolved from the authoritative Keystone monster type -->
+                            <Border Grid.Column="0"
+                                    Width="90" Height="110"
+                                    Background="{StaticResource InputBackgroundBrush}"
+                                    BorderBrush="{StaticResource BorderDimBrush}"
+                                    BorderThickness="1"
+                                    Margin="0,0,6,0"
+                                    VerticalAlignment="Top">
+                                <Image Source="{Binding Target.PortraitImagePath, Mode=OneWay,
+                                                   Converter={StaticResource MonsterPortraitConverter}}"
+                                           Stretch="Uniform"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+                            </Border>
+                            <!-- Target Info -->
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0"
+                                            Style="{StaticResource BodyTextStyle}" FontSize="12"
+                                            FontWeight="SemiBold" Margin="0,0,0,2">
+                                    <Run Text="Name: "/>
+                                    <Run Text="{Binding Target.NameDisplay, Mode=OneWay}"/>
+                                </TextBlock>
+                                <TextBlock Grid.Row="1"
+                                            Style="{StaticResource BodyTextStyle}" FontSize="10"
+                                            Foreground="{StaticResource DimTextBrush}" Margin="0,0,0,2">
+                                    <Run Text="Level: "/>
+                                    <Run Text="{Binding Target.LevelDisplay, Mode=OneWay}"/>
+                                </TextBlock>
+                                <Border Grid.Row="2" Height="1"
+                                        Background="{StaticResource BorderDimBrush}"
+                                        Margin="0,4,0,4" />
+                                <!-- Target HP Bar -->
+                                <Grid Grid.Row="3" Margin="0,1,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="HP"
+                                                Style="{StaticResource BodyTextStyle}" FontSize="10"
+                                                Foreground="{StaticResource HpBarBrush}" Width="28"
+                                                VerticalAlignment="Center" />
+                                    <Border Grid.Column="1" Height="12"
+                                            Background="#2A1A1A" Margin="2,1,0,1">
+                                        <Border Background="{StaticResource HpBarBrush}"
+                                                HorizontalAlignment="Left"
+                                                Width="{Binding Target.HpRatio,
+                                                    Converter={StaticResource BarWidthConverter},
+                                                    ConverterParameter=90,
+                                                    FallbackValue=0}" />
+                                    </Border>
+                                </Grid>
+                                <StackPanel Grid.Row="4" Margin="0,3,0,0"
+                                            Visibility="{Binding Target.HasNoTarget,
+                                                Converter={StaticResource BoolToVisConverter},
+                                                FallbackValue=Visible}">
+                                    <TextBlock Text="No target selected."
+                                                Style="{StaticResource BodyTextStyle}" FontSize="10"
+                                                Foreground="{StaticResource DimTextBrush}" />
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- Realm Map (fog-of-war navigation) -->
+                <Border Grid.Row="2" Style="{StaticResource PanelBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#x25EB; Realm Map"
+                                   Style="{StaticResource PanelHeaderTextStyle}" />
+
+                        <!-- Controls: area filter, floor selector, zoom, recentre.
+                             Kept compact so the map itself keeps the space. -->
+                        <WrapPanel Grid.Row="2" Margin="0,3,0,0" Orientation="Horizontal">
+                            <TextBlock Text="Area" Margin="2,0,4,0"
+                                       Style="{StaticResource BodyTextStyle}" FontSize="9"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource DimTextBrush}" />
+                            <ComboBox x:Name="MapAreaCombo" Width="120" FontSize="9"
+                                      Style="{StaticResource DarkComboBoxStyle}"
+                                      ItemsSource="{Binding Map.AvailableAreas}"
+                                      SelectedItem="{Binding Map.SelectedArea, Mode=TwoWay}"
+                                      DisplayMemberPath="DisplayName"
+                                      SelectionChanged="MapAreaCombo_SelectionChanged"
+                                      ToolTip="Show only discovered rooms of one area" />
+                            <TextBlock Text="Floor" Margin="8,0,4,0"
+                                       Style="{StaticResource BodyTextStyle}" FontSize="9"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource DimTextBrush}" />
+                            <Button Style="{StaticResource CompactButtonStyle}" Content="&#x25B2;"
+                                    FontSize="9" Padding="5,1" Margin="0,0,2,0"
+                                    Click="MapFloorUp_Click"
+                                    ToolTip="Previous higher floor that actually exists" />
+                            <ComboBox x:Name="MapFloorCombo" Width="58" FontSize="9"
+                                      Style="{StaticResource DarkComboBoxStyle}"
+                                      ItemsSource="{Binding Map.AvailableFloors}"
+                                      SelectedItem="{Binding Map.SelectedFloor, Mode=TwoWay}"
+                                      DisplayMemberPath="DisplayName"
+                                      SelectionChanged="MapFloorCombo_SelectionChanged"
+                                      ToolTip="Select a floor (Z level)" />
+                            <Button Style="{StaticResource CompactButtonStyle}" Content="&#x25BC;"
+                                    FontSize="9" Padding="5,1" Margin="2,0,0,0"
+                                    Click="MapFloorDown_Click"
+                                    ToolTip="Next lower floor that actually exists" />
+                            <Button Style="{StaticResource CompactButtonStyle}" Content="-"
+                                    FontSize="10" Padding="6,1" Margin="8,0,0,0"
+                                    Click="MapZoomOut_Click" ToolTip="Zoom out" />
+                            <Button Style="{StaticResource CompactButtonStyle}" Content="+"
+                                    FontSize="10" Padding="6,1" Margin="2,0,0,0"
+                                    Click="MapZoomIn_Click" ToolTip="Zoom in" />
+                            <Button Style="{StaticResource CompactButtonStyle}" Content="Centre"
+                                    FontSize="9" Padding="6,1" Margin="4,0,0,0"
+                                    Click="MapCenterOnPlayer_Click"
+                                    ToolTip="Centre the map on your character" />
+                            <Button Style="{StaticResource CompactButtonStyle}" Content="Fit"
+                                    FontSize="9" Padding="6,1" Margin="2,0,0,0"
+                                    Click="MapFit_Click" ToolTip="Fit all shown rooms" />
+                        </WrapPanel>
+
+                        <!-- The map surface. The empty-state text is bound rather
+                             than overlaid so the two can never fight for space. -->
+                        <Grid Grid.Row="1" Margin="0,3,0,0">
+                            <Border Background="#0A0A0A" BorderBrush="{StaticResource InputBorderBrush}"
+                                    BorderThickness="1" CornerRadius="1">
+                                <local:MapCanvas x:Name="MapSurface"
+                                                 ViewModel="{Binding Map}" />
+                            </Border>
+                            <TextBlock Text="{Binding Map.StatusText}"
+                                       FontSize="10"
+                                       Foreground="{StaticResource DimTextBrush}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       IsHitTestVisible="False">
+                                <!-- Only shown while the map has nothing to draw, so
+                                     it never sits on top of a live map. -->
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock"
+                                           BasedOn="{StaticResource BodyTextStyle}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Map.IsMapEmpty}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+
+                        <!-- Room inspection. Everything here comes straight from
+                             the payload Keystone sent for a DISCOVERED room. -->
+                        <Border Grid.Row="3" Margin="0,3,0,0"
+                                Background="{StaticResource InputBackgroundBrush}"
+                                BorderBrush="{StaticResource InputBorderBrush}"
+                                BorderThickness="1" CornerRadius="1" Padding="5,3">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Map.SelectedRoomTitle}"
+                                           Style="{StaticResource BodyTextStyle}"
+                                           FontSize="11" FontWeight="Bold"
+                                           Foreground="{StaticResource HeaderTextBrush}"
+                                           TextTrimming="CharacterEllipsis" />
+                                <TextBlock Text="{Binding Map.SelectedRoomDetails}"
+                                           Style="{StaticResource BodyTextStyle}"
+                                           FontSize="9"
+                                           Foreground="{StaticResource BodyTextBrush}"
+                                           TextWrapping="Wrap" />
+                                <WrapPanel Orientation="Horizontal" Margin="0,3,0,0">
+                                    <CheckBox x:Name="MapAutoFollowCheck"
+                                              Content="Follow me"
+                                              FontSize="9" Foreground="{StaticResource BodyTextBrush}"
+                                              IsChecked="{Binding Map.AutoFollow, Mode=TwoWay}"
+                                              VerticalAlignment="Center"
+                                              Margin="0,0,8,0"
+                                              ToolTip="Re-centre the map when your character moves" />
+                                    <TextBlock Text="{Binding Map.DiscoverySummary}"
+                                               Style="{StaticResource BodyTextStyle}" FontSize="9"
+                                               Foreground="{StaticResource DimTextBrush}"
+                                               VerticalAlignment="Center" />
+                                    <Button Style="{StaticResource CompactButtonStyle}"
+                                            Content="Go"
+                                            FontSize="9" Padding="8,1" Margin="8,0,0,0"
+                                            Click="MapGoToSelected_Click"
+                                            IsEnabled="{Binding Map.CanMoveToSelectedRoom}"
+                                            ToolTip="Step one room into the selected adjacent room" />
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Combat Actions -->
+                <Border Grid.Row="3" Style="{StaticResource PanelBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#x26A1; Combat Actions"
+                                   Style="{StaticResource PanelHeaderTextStyle}" />
+                        <!-- Room Entities Selector -->
+                        <ComboBox Grid.Row="1"
+                                  Style="{StaticResource DarkComboBoxStyle}"
+                                  ItemsSource="{Binding RoomEntities}"
+                                  SelectedItem="{Binding SelectedRoomEntity}"
+                                  DisplayMemberPath="Name"
+                                  IsEditable="False"
+                                  IsReadOnly="True"
+                                  Margin="0,3,0,0"
+                                  SelectionChanged="RoomEntitiesComboBox_SelectionChanged">
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="Foreground" Value="{StaticResource BodyTextBrush}" />
+                                    <Setter Property="Background" Value="{StaticResource InputBackgroundBrush}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsDead}" Value="True">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                            <Setter Property="Foreground" Value="{StaticResource DimTextBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
+                        <WrapPanel Grid.Row="2" Margin="0,4,0,0">
+                            <Button Style="{StaticResource CompactButtonStyle}"
+                                    x:Name="AttackButton"
+                                    Content="Attack" Margin="1" Padding="8,3" FontSize="10"
+                                    Click="AttackButton_Click" />
+                            <Button Style="{StaticResource CompactButtonStyle}"
+                                    Content="Defend" Margin="1" Padding="8,3" FontSize="10" />
+                            <Button Style="{StaticResource CompactButtonStyle}"
+                                    Content="Flee" Margin="1" Padding="8,3" FontSize="10" />
+                            <Button Style="{StaticResource CompactButtonStyle}"
+                                    Content="Kick" Margin="1" Padding="8,3" FontSize="10" />
+                            <Button Style="{StaticResource CompactButtonStyle}"
+                                    Content="Bash" Margin="1" Padding="8,3" FontSize="10" />
+                            <Button Style="{StaticResource CompactButtonStyle}"
+                                    Content="Disarm" Margin="1" Padding="8,3" FontSize="10" />
+                            <Button Style="{StaticResource CompactButtonStyle}"
+                                    Content="Rescue" Margin="1" Padding="8,3" FontSize="10" />
+                            <Button Style="{StaticResource CompactButtonStyle}"
+                                    Content="Backstab" Margin="1" Padding="8,3" FontSize="10" />
+                        </WrapPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Spells and Abilities -->
+                <Border Grid.Row="4" Style="{StaticResource PanelBorderStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="&#x2726; Spells and Abilities"
+                                   Style="{StaticResource PanelHeaderTextStyle}" />
+                        <ScrollViewer Grid.Row="1"
+                                      VerticalScrollBarVisibility="Auto"
+                                      Background="{StaticResource InputBackgroundBrush}">
+                            <ItemsControl ItemsSource="{Binding ActiveSkills}" Margin="2">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding Name}"
+                                                Tag="{Binding}"
+                                                Click="SkillButton_Click"
+                                                Margin="1"
+                                                Padding="4,3"
+                                                Background="{StaticResource PanelAltBrush}"
+                                                Foreground="{StaticResource BodyTextBrush}"
+                                                BorderBrush="{StaticResource BorderDimBrush}"
+                                                BorderThickness="1"
+                                                FontSize="10"
+                                                FontFamily="Segoe UI"
+                                                HorizontalContentAlignment="Left"
+                                                Cursor="Hand">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="border"
+                                                            Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                            Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="border"
+                                                                    Property="Background"
+                                                                    Value="#333333" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" Value="True">
+                                                            <Setter TargetName="border"
+                                                                    Property="Background"
+                                                                    Value="#444444" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- ========================================================
+             ROW 2 :: BOTTOM CONNECTION / STATUS BAR
+             ======================================================== -->
+        <Border Grid.Row="2"
+                Background="{StaticResource StatusBarBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="8,2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Connection status :: bound to the real authentication state -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Ellipse Width="7" Height="7"
+                             Fill="{StaticResource GreenDimBrush}"
+                             Margin="0,0,5,0" />
+                    <TextBlock Text="{Binding SessionStatus}"
+                               Style="{StaticResource BodyTextStyle}"
+                               FontSize="11"
+                               Foreground="{StaticResource StatusTextBrush}" />
+                </StackPanel>
+
+                <Separator Grid.Column="1"
+                           Background="{StaticResource BorderDimBrush}"
+                           Width="1" Margin="10,2" />
+
+                <!-- Latency -->
+                <TextBlock Grid.Column="2"
+                           Text="Latency: -- ms"
+                           Style="{StaticResource BodyTextStyle}"
+                           FontSize="11"
+                           Foreground="{StaticResource StatusTextBrush}"
+                           VerticalAlignment="Center" />
+
+                <!-- Session :: bound to the real session id -->
+                <TextBlock Grid.Column="3"
+                           Text="{Binding SessionId, StringFormat='Session: {0}'}"
+                           Style="{StaticResource BodyTextStyle}"
+                           FontSize="11"
+                           Foreground="{StaticResource StatusTextBrush}"
+                           VerticalAlignment="Center"
+                           Margin="0,0,20,0" />
+
+                <!-- Version -->
+                <TextBlock Grid.Column="4"
+                           Text="Portal v0.1.0"
+                           Style="{StaticResource BodyTextStyle}"
+                           FontSize="11"
+                           Foreground="{StaticResource StatusTextBrush}"
+                           VerticalAlignment="Center" />
+            </Grid>
+        </Border>
+<!-- Item Information Card — overlays main content -->
+        <Popup x:Name="ItemCardPopup"
+               Placement="Center"
+               StaysOpen="False"
+               AllowsTransparency="True"
+               PopupAnimation="Fade"
+               Closed="ItemCardPopup_Closed">
+            <Border x:Name="ItemCardBorder"
+                    Width="320" MinHeight="180"
+                    Background="#1A1A1A"
+                    BorderBrush="{StaticResource BorderBrush}"
+                    BorderThickness="1" CornerRadius="4"
+                    Padding="12"
+                    MouseLeftButtonDown="ItemCardBackground_Click"
+                    Cursor="Arrow">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Text="{Binding SelectedCardItem.Name, FallbackValue=''}"
+                               Style="{StaticResource SectionTitleStyle}"
+                               FontSize="14" />
+                    <Border Grid.Row="1" Height="1"
+                            Background="{StaticResource BorderDimBrush}"
+                            Margin="0,4,0,6" />
+<StackPanel Grid.Row="1" Margin="0,4,0,0">
+                        <TextBlock Style="{StaticResource BodyTextStyle}" FontSize="11"
+                                   Foreground="{StaticResource DimTextBrush}"
+                                   TextWrapping="Wrap">
+                            <Run Text="Type: " />
+                            <Run Text="{Binding SelectedCardItem.Category, Mode=OneWay, FallbackValue=--}" />
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource BodyTextStyle}" FontSize="11"
+                                   Foreground="{StaticResource DimTextBrush}"
+                                   TextWrapping="Wrap">
+                            <Run Text="Slot: " />
+                            <Run Text="{Binding SelectedCardItem.Slot, Mode=OneWay, FallbackValue=--}" />
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource BodyTextStyle}" FontSize="11"
+                                   Foreground="{StaticResource HeaderTextBrush}"
+                                   TextWrapping="Wrap"
+                                   Visibility="{Binding SelectedCardItem.DamageType, Converter={StaticResource NotNullVisConverter}, FallbackValue=Collapsed}">
+                            <Run Text="Damage: " />
+                            <Run Text="{Binding SelectedCardItem.DamageType, Mode=OneWay, FallbackValue=--}" />
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource BodyTextStyle}" FontSize="11"
+                                   Foreground="{StaticResource HeaderTextBrush}"
+                                   TextWrapping="Wrap"
+                                   Visibility="{Binding SelectedCardItem.ArmorClass, Converter={StaticResource NotNullVisConverter}, FallbackValue=Collapsed}">
+                            <Run Text="Armor: " />
+                            <Run Text="{Binding SelectedCardItem.ArmorClass, Mode=OneWay, FallbackValue=--}" />
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource BodyTextStyle}" FontSize="11"
+                                   Foreground="{StaticResource DimTextBrush}"
+                                   TextWrapping="Wrap"
+                                   Visibility="{Binding SelectedCardItem.Level, Converter={StaticResource NotNullVisConverter}, FallbackValue=Collapsed}">
+                            <Run Text="Level: " />
+                            <Run Text="{Binding SelectedCardItem.Level, Mode=OneWay, FallbackValue=--}" />
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource BodyTextStyle}" FontSize="11"
+                                   Foreground="{StaticResource DimTextBrush}"
+                                   TextWrapping="Wrap"
+                                   Visibility="{Binding SelectedCardItem.Strength, Converter={StaticResource NotNullVisConverter}, FallbackValue=Collapsed}">
+                            <Run Text="Strength: " />
+                            <Run Text="{Binding SelectedCardItem.Strength, Mode=OneWay, FallbackValue=--}" />
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource BodyTextStyle}" FontSize="11"
+                                   Foreground="{StaticResource DimTextBrush}"
+                                   TextWrapping="Wrap"
+                                   Visibility="{Binding SelectedCardItem.Speed, Converter={StaticResource NotNullVisConverter}, FallbackValue=Collapsed}">
+                            <Run Text="Speed: " />
+                            <Run Text="{Binding SelectedCardItem.Speed, Mode=OneWay, FallbackValue=--}" />
+                            <Run Text=" ms" />
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource BodyTextStyle}" FontSize="11"
+                                   Foreground="{StaticResource DimTextBrush}"
+                                   TextWrapping="Wrap"
+                                   Visibility="{Binding SelectedCardItem.Encumbrance, Converter={StaticResource NotNullVisConverter}, FallbackValue=Collapsed}">
+                            <Run Text="Weight: " />
+                            <Run Text="{Binding SelectedCardItem.Encumbrance, Mode=OneWay, FallbackValue=--}" />
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource BodyTextStyle}" FontSize="10"
+                                   Foreground="{StaticResource BodyTextBrush}"
+                                   TextWrapping="Wrap"
+                                   Margin="0,6,0,0"
+                                   Visibility="{Binding SelectedCardItem.Description, Converter={StaticResource NotNullVisConverter}, FallbackValue=Collapsed}">
+                            <Run Text="{Binding SelectedCardItem.Description, Mode=OneWay, FallbackValue=''}" />
+                        </TextBlock>
+                    </StackPanel>
+                    <TextBlock Grid.Row="2"
+                               Text="Click anywhere to close"
+                               Style="{StaticResource BodyTextStyle}"
+                               FontSize="9"
+                               Foreground="{StaticResource DimTextBrush}"
+                               HorizontalAlignment="Center"
+                               Margin="0,8,0,0" />
+                </Grid>
+            </Border>
+        </Popup>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             Character Point allocation dialog.
+
+             Seeded entirely from the authoritative character.points.snapshot.
+             Rows edit only this dialog's UNSAVED pending allocation; the real
+             stats change only when Keystone accepts the Apply request and
+             pushes a fresh snapshot.  Minus therefore can never reduce an
+             already-earned permanent stat.
+
+             Plus/Minus enablement is managed in code-behind so it reflects the
+             authoritative cap and the live remaining-point count exactly.
+             ══════════════════════════════════════════════════════════════ -->
+        <Border x:Name="AllocationOverlay"
+                Background="#CC000000"
+                Visibility="Collapsed">
+            <Border Background="{StaticResource PanelBrush}"
+                    BorderBrush="{StaticResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Padding="16"
+                    Width="430"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+                <Grid DataContext="{Binding StatAllocation}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="Allocate Character Points"
+                               Style="{StaticResource SectionTitleStyle}"
+                               Margin="0,0,0,2" />
+                    <TextBlock Grid.Row="1"
+                               Text="Permanent stats cannot be refunded once applied."
+                               Style="{StaticResource BodyTextStyle}"
+                               FontSize="10"
+                               Foreground="{StaticResource DimTextBrush}"
+                               Margin="0,0,0,10" />
+
+                    <!-- Points Remaining: prominent -->
+                    <Border Grid.Row="2"
+                            Background="{StaticResource PanelAltBrush}"
+                            BorderBrush="{StaticResource BorderDimBrush}"
+                            BorderThickness="1"
+                            CornerRadius="2"
+                            Padding="8,5"
+                            Margin="0,0,0,10">
+                        <TextBlock Text="{Binding PointsRemainingDisplay, Mode=OneWay}"
+                                   Style="{StaticResource BodyTextStyle}"
+                                   FontSize="13"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource HeaderTextBrush}"
+                                   HorizontalAlignment="Center" />
+                    </Border>
+
+                    <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto"
+                                  MaxHeight="210">
+                        <ItemsControl ItemsSource="{Binding Rows}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0"
+                                                   Text="{Binding Name, Mode=OneWay}"
+                                                   Style="{StaticResource BodyTextStyle}"
+                                                   FontSize="12"
+                                                   VerticalAlignment="Center" />
+
+                                        <!-- Minus: enabled only while this row has a
+                                             staged change, so it can never reduce an
+                                             already-earned permanent stat. -->
+                                        <Button Grid.Column="1"
+                                                Content="&#x2212;"
+                                                Width="24" Height="22"
+                                                FontSize="12"
+                                                Margin="3,0,0,0"
+                                                Cursor="Hand"
+                                                Tag="{Binding}"
+                                                Click="AllocationMinus_Click"
+                                                IsEnabled="{Binding CanDecrement}"
+                                                Style="{StaticResource CompactButtonStyle}" />
+
+                                        <!-- Current authoritative value -->
+                                        <TextBlock Grid.Column="2"
+                                                   Text="{Binding Value, Mode=OneWay}"
+                                                   Style="{StaticResource BodyTextStyle}"
+                                                   FontSize="12"
+                                                   Width="28"
+                                                   TextAlignment="Center"
+                                                   VerticalAlignment="Center" />
+
+                                        <!-- Plus -->
+                                        <Button Grid.Column="3"
+                                                Content="+"
+                                                Width="24" Height="22"
+                                                FontSize="12"
+                                                Margin="3,0,0,0"
+                                                Cursor="Hand"
+                                                Tag="{Binding}"
+                                                Click="AllocationPlus_Click"
+                                                Style="{StaticResource CompactButtonStyle}" />
+
+                                        <!-- Resulting value after Apply -->
+                                        <TextBlock Grid.Column="4"
+                                                   Text="{Binding Resulting, Mode=OneWay}"
+                                                   Style="{StaticResource BodyTextStyle}"
+                                                   FontSize="12"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{StaticResource GreenAccentBrush}"
+                                                   Width="34"
+                                                   TextAlignment="Right"
+                                                   VerticalAlignment="Center" />
+
+                                        <!-- Authoritative cap -->
+                                        <TextBlock Grid.Column="5"
+                                                   Style="{StaticResource BodyTextStyle}"
+                                                   FontSize="10"
+                                                   Foreground="{StaticResource DimTextBrush}"
+                                                   Margin="4,0,0,0"
+                                                   VerticalAlignment="Center">
+                                            <Run Text="/ " />
+                                            <Run Text="{Binding Cap, Mode=OneWay}" />
+                                        </TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <StackPanel Grid.Row="4"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Margin="0,12,0,0">
+                        <Button x:Name="AllocationApplyButton"
+                                Content="Apply"
+                                Width="70" Height="26"
+                                Margin="0,0,8,0"
+                                Cursor="Hand"
+                                Click="AllocationApply_Click"
+                                Style="{StaticResource CompactButtonStyle}" />
+                        <Button Content="Reset"
+                                Width="70" Height="26"
+                                Margin="0,0,8,0"
+                                Cursor="Hand"
+                                Click="AllocationReset_Click"
+                                Style="{StaticResource CompactButtonStyle}" />
+                        <Button Content="Cancel"
+                                Width="70" Height="26"
+                                Cursor="Hand"
+                                Click="AllocationCancel_Click"
+                                Style="{StaticResource CompactButtonStyle}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,28 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Portal.Core -> C:\Users\mcdor\Portal\Portal.Core\bin\Release\net8.0\Portal.Core.dll
+  Portal.Protocol -> C:\Users\mcdor\Portal\Portal.Protocol\bin\Release\net8.0\Portal.Protocol.dll
+  Portal.State -> C:\Users\mcdor\Portal\Portal.State\bin\Release\net8.0\Portal.State.dll
+  Portal.Networking -> C:\Users\mcdor\Portal\Portal.Networking\bin\Release\net8.0\Portal.Networking.dll
+  Portal.Services -> C:\Users\mcdor\Portal\Portal.Services\bin\Release\net8.0\Portal.Services.dll
+C:\Users\mcdor\Portal\Portal.LiveQa\ServiceQa.cs(460,16): warning CS8603: Possible null reference return. [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+C:\Users\mcdor\Portal\Portal.LiveQa\QuestQa.cs(65,16): warning CS8603: Possible null reference return. [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+C:\Users\mcdor\Portal\Portal.LiveQa\ServiceQa.cs(756,101): error CS1061: 'CharacterSnapshotPayload' does not contain a definition for 'State' and no accessible extension method 'State' accepting a first argument of type 'CharacterSnapshotPayload' could be found (are you missing a using directive or an assembly reference?) [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+C:\Users\mcdor\Portal\Portal.LiveQa\ServiceQa.cs(766,76): error CS0023: Operator '?' cannot be applied to operand of type 'JsonElement' [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+C:\Users\mcdor\Portal\Portal.LiveQa\ServiceQa.cs(769,104): error CS1061: 'CharacterSnapshotPayload' does not contain a definition for 'State' and no accessible extension method 'State' accepting a first argument of type 'CharacterSnapshotPayload' could be found (are you missing a using directive or an assembly reference?) [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+C:\Users\mcdor\Portal\Portal.LiveQa\ServiceQa.cs(756,34): warning CS8602: Dereference of a possibly null reference. [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+C:\Users\mcdor\Portal\Portal.LiveQa\QuestQa.cs(586,90): warning CS8602: Dereference of a possibly null reference. [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+
+Build FAILED.
+
+C:\Users\mcdor\Portal\Portal.LiveQa\ServiceQa.cs(460,16): warning CS8603: Possible null reference return. [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+C:\Users\mcdor\Portal\Portal.LiveQa\QuestQa.cs(65,16): warning CS8603: Possible null reference return. [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+C:\Users\mcdor\Portal\Portal.LiveQa\ServiceQa.cs(756,34): warning CS8602: Dereference of a possibly null reference. [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+C:\Users\mcdor\Portal\Portal.LiveQa\QuestQa.cs(586,90): warning CS8602: Dereference of a possibly null reference. [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+C:\Users\mcdor\Portal\Portal.LiveQa\ServiceQa.cs(756,101): error CS1061: 'CharacterSnapshotPayload' does not contain a definition for 'State' and no accessible extension method 'State' accepting a first argument of type 'CharacterSnapshotPayload' could be found (are you missing a using directive or an assembly reference?) [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+C:\Users\mcdor\Portal\Portal.LiveQa\ServiceQa.cs(766,76): error CS0023: Operator '?' cannot be applied to operand of type 'JsonElement' [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+C:\Users\mcdor\Portal\Portal.LiveQa\ServiceQa.cs(769,104): error CS1061: 'CharacterSnapshotPayload' does not contain a definition for 'State' and no accessible extension method 'State' accepting a first argument of type 'CharacterSnapshotPayload' could be found (are you missing a using directive or an assembly reference?) [C:\Users\mcdor\Portal\Portal.LiveQa\Portal.LiveQa.csproj]
+    4 Warning(s)
+    3 Error(s)
+
+Time Elapsed 00:00:05.77

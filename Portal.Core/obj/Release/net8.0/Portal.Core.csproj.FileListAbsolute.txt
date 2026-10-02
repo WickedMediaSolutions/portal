@@ -1,0 +1,9 @@
+C:\Users\mcdor\Portal\Portal.Core\bin\Release\net8.0\Portal.Core.deps.json
+C:\Users\mcdor\Portal\Portal.Core\bin\Release\net8.0\Portal.Core.dll
+C:\Users\mcdor\Portal\Portal.Core\obj\Release\net8.0\Portal.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mcdor\Portal\Portal.Core\obj\Release\net8.0\Portal.Core.AssemblyInfoInputs.cache
+C:\Users\mcdor\Portal\Portal.Core\obj\Release\net8.0\Portal.Core.AssemblyInfo.cs
+C:\Users\mcdor\Portal\Portal.Core\obj\Release\net8.0\Portal.Core.csproj.CoreCompileInputs.cache
+C:\Users\mcdor\Portal\Portal.Core\obj\Release\net8.0\Portal.Core.dll
+C:\Users\mcdor\Portal\Portal.Core\obj\Release\net8.0\refint\Portal.Core.dll
+C:\Users\mcdor\Portal\Portal.Core\obj\Release\net8.0\ref\Portal.Core.dll

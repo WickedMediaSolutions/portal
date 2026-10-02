@@ -1,0 +1,127 @@
+=== Portal live localhost QA ===
+toggle_local_development = True
+resolved_target          = Local Development
+resolved_endpoint        = ws://localhost:4013/
+plaintext_transport      = True
+user                     = testuser
+
+[OK] websocket established to ws://localhost:4013/ (state=Open)
+
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"handshake.request","correlationId":"867960c9802548c3aab7f8f4f1c54d1b","sequenceNumber":null,"payload":{"clientName":"Portal","clientVersion":"1.0.0","protocolVersion":{"major":1,"minor":0},"capabilities":[{"feature":"combat.skill","version":"1.0"},{"feature":"combat.attack","version":"1.0"},{"feature":"target.select","version":"1.0"},{"feature":"character.skills.snapshot","version":"1.0"},{"feature":"movement.direction","version":"1.0"},{"feature":"movement.failed","version":"1.0"}]}}
+[OK] handshake.response received
+     payload: {"accepted": true, "capabilities": [{"feature": "authentication", "version": "1.0"}, {"feature": "character.snapshot", "version": "1.0"}, {"feature": "character.skills.snapshot", "version": "1.0"}, {"feature": "inventory.snapshot", "version...
+
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"auth.request","correlationId":"6bb89225f41447a88f434cd0cc6bb55b","sequenceNumber":null,"payload":{"username":"testuser","password":"qaportal2026"}}
+[OK] auth.response success
+     session  = 161eaeeb71524396bc86f3204e84a516
+     character= __testchar__ (id=1123)
+
+[bootstrap] received 9 events
+     character.points.snapshot x1
+     character.skills.snapshot x1
+     character.snapshot x1
+     character.status.snapshot x1
+     equipment.snapshot x1
+     inventory.snapshot x1
+     map.room.discovered x1
+     map.snapshot x1
+     room.entity.snapshot x1
+
+--- map state [initial] ---
+     rooms=1 edges=0 discoveredCount=1
+     currentRoom=mor_nk_great_hall currentArea=mordrath_capital currentZ=0
+     areas=[mordrath_capital] floors=[-1, 0, 1, 2, 3, 4]
+     marker room: id=mor_nk_great_hall name=The Great Hall pos=0,75,0
+     frontier stubs=8
+
+=== movement / discovery sweep (live socket) ===
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"8153653a4372447ab2ebb8ee5fb6467f","sequenceNumber":null,"payload":{"direction":"north"}}
+  north: mor_nk_great_hall      -> mor_nk_training_yard   z=0   evts= 5 frontier=8->7 new=[mor_nk_training_yard]
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"35cd2eada009451198276b44ecf45a32","sequenceNumber":null,"payload":{"direction":"south"}}
+  south: mor_nk_training_yard   -> mor_nk_great_hall      z=0   evts= 4 frontier=7->7 new=[]
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"a81e86f3e8734fed8b65ecc7a12f3403","sequenceNumber":null,"payload":{"direction":"east"}}
+  east : mor_nk_great_hall      -> mor_nk_chapel          z=0   evts= 5 frontier=7->6 new=[mor_nk_chapel]
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"e3208bcd59af42fc8ad581a460fcb48c","sequenceNumber":null,"payload":{"direction":"west"}}
+  west : mor_nk_chapel          -> mor_nk_great_hall      z=0   evts= 4 frontier=6->6 new=[]
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"9b224fa441f84e32ad813169e0e6b742","sequenceNumber":null,"payload":{"direction":"up"}}
+  up   : mor_nk_great_hall      -> mor_nk_great_hall      z=0   evts= 1 frontier=6->6 new=[] MOVEMENT_FAILED
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"d2f565e973be45b88035bd11150c4cfd","sequenceNumber":null,"payload":{"direction":"down"}}
+  down : mor_nk_great_hall      -> mor_nk_great_hall      z=0   evts= 1 frontier=6->6 new=[] MOVEMENT_FAILED
+
+--- map state [after-movement] ---
+     rooms=3 edges=0 discoveredCount=3
+     currentRoom=mor_nk_great_hall currentArea=mordrath_capital currentZ=0
+     areas=[mordrath_capital] floors=[-1, 0, 1, 2, 3, 4]
+     marker room: id=mor_nk_great_hall name=The Great Hall pos=0,75,0
+     frontier stubs=6
+
+=== adjacent Go directions (real Keystone edges) ===
+     outgoing edges from mor_nk_great_hall: 0
+     frontier stubs at mor_nk_great_hall: 6
+     frontier: north    state=unexplored (no destination field)
+     frontier: northeast state=unexplored (no destination field)
+     frontier: south    state=unexplored (no destination field)
+     frontier: southeast state=unexplored (no destination field)
+     frontier: southwest state=unexplored (no destination field)
+     frontier: west     state=unexplored (no destination field)
+
+=== area / floor selectors (Keystone data only) ===
+     areas                : [mordrath_capital]
+     floors               : [-1, 0, 1, 2, 3, 4]
+     area filter follows  : True
+     selected area        : mordrath_capital
+     effective floor      : 0
+     visible rooms        : 3
+
+=== map viewport interaction on live data ===
+     zoom in x2 : 1.00 -> 1.56
+     zoom out   : 1.25
+     centre on player (mor_nk_great_hall @ 0,75) -> origin 450.0,3487.5
+     fit all    : zoom 6.00
+     centre-on-player + follow-me: AutoFollow=True
+=== locked-door fog security (live socket) ===
+     rooms before attempt   : 3
+     frontier stubs before  : 6
+     attempting west (real generated door, starts CLOSED)
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"movement.direction.request","correlationId":"f8a8aebc203f4cb6b3b29a15e919d9c7","sequenceNumber":null,"payload":{"direction":"west"}}
+     movement.failed events : 0
+     map.room.discovered    : 0   (must be 0)
+     rooms after attempt    : 3
+     still at great hall    : True
+     frontier stubs after   : 6
+     'gallery_stair' known  : False   (must be False)
+     room set unchanged     : True
+     west frontier survives : True state=unexplored
+
+=== reconnect ===
+     disconnected; map cleared (had 3 rooms, 0 edges)
+     empty after clear: rooms=0 hasSnapshot=False
+[OK] websocket re-established
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"handshake.request","correlationId":"59afd563cfd9408da910cbe815666019","sequenceNumber":null,"payload":{"clientName":"Portal","clientVersion":"1.0.0","protocolVersion":{"major":1,"minor":0},"capabilities":[{"feature":"combat.skill","version":"1.0"},{"feature":"combat.attack","version":"1.0"},{"feature":"target.select","version":"1.0"},{"feature":"character.skills.snapshot","version":"1.0"},{"feature":"movement.direction","version":"1.0"},{"feature":"movement.failed","version":"1.0"}]}}
+[OK] re-handshake: ok
+  >> {"version":{"major":1,"minor":0},"category":"request","messageType":"auth.request","correlationId":"d13d814cd94a4cbe83c375579426925b","sequenceNumber":null,"payload":{"username":"testuser","password":"qaportal2026"}}
+[OK] re-authenticated: success=True
+     bootstrap events after reconnect: 8
+--- map state [after-reconnect] ---
+     rooms=3 edges=4 discoveredCount=3
+     currentRoom=mor_nk_great_hall currentArea=mordrath_capital currentZ=0
+     areas=[mordrath_capital] floors=[-1, 0, 1, 2, 3, 4]
+     marker room: id=mor_nk_great_hall name=The Great Hall pos=0,75,0
+     frontier stubs=9
+
+     rooms   before/after : 3 / 3
+     edges   before/after : 0 / 4
+     current room  before/after : mor_nk_great_hall / mor_nk_great_hall
+     current area  before/after : mordrath_capital / mordrath_capital
+     floors      before/after : -1,0,1,2,3,4 / -1,0,1,2,3,4
+     duplicate rooms : 0
+     duplicate edges : 0
+     frontier stubs : 9
+
+=== fog security audit (live payloads only) ===
+     frontier records examined : 9
+     frontier record has a destination field : False  (must be False)
+     frontier records with known direction     : 9
+     discovered rooms reported by Keystone     : 3
+     total generated rooms in realm (server)   : 0
+     full realm map loaded client-side?          : False  (must be False)
